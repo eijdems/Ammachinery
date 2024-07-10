@@ -45,7 +45,7 @@ class Delete extends Action
     }
 
     protected function deleteHexonProduct($sku) {
-        $url = 'https://api.hexon.nl/spi/api/v4/rest/vehicle/'.$sku;
+        $url = 'https://api.hexon.nl/spi/api/v4/rest/vehicle/'.urlencode($sku);
 
         $curl = curl_init();
         curl_setopt_array($curl, [
