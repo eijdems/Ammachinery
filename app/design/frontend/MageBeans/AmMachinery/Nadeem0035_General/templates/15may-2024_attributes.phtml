@@ -1,0 +1,27 @@
+<?php 
+$product = $block->getProduct();
+?>
+<div class="product attribute overview">
+        <div class="value" itemprop="description"><?php echo $product->getDescription(); ?></div>
+</div>
+<?php
+if ($product['hideonwebshop'] == "0") 
+{ 
+    ?> 
+        <div class="products_attributes replaces_oem">
+            <?php
+                if ( !empty($product['eancode']) && !empty($product['replacedproductcodes']) ) {
+                    echo '<span class="replaces_oem_text">'.__("Replaces OEM : ").'</span><span class="replaces_oem_value">'.$product->getEancode()." , ".$product->getReplacedproductcodes()." , ".$product->getSku().'</span>';
+                }elseif ( !empty($product['eancode']) ) {
+                    echo '<span class="replaces_oem_text">'.__("Replaces OEM : ").'</span><span class="replaces_oem_value">'.$product->getEancode()." , ".$product->getSku().'</span>'; 
+                }elseif(!empty($product['replacedproductcodes']) ) {
+                    echo '<span class="replaces_oem_text">'.__("Replaces OEM : ").'</span><span class="replaces_oem_value">'.$product->getReplacedproductcodes()." , ".$product->getSku().'</span>';
+                }else{
+                    echo '<span class="replaces_oem_text">'.__("Replaces OEM : ").'</span><span class="replaces_oem_value">'.$product->getSku().'</span>';
+                }
+            ?>
+        </div> 
+    <?php
+}
+
+

@@ -1,0 +1,23 @@
+{
+  "name": "nadeem0035/importdata",
+  "description": "Wrapper for Magento 2 Import Export functionality",
+  "homepage": "https://github.com/nadeem0035/importdata",
+  "type": "magento2-module",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Nadeem",
+      "email": "nadeem0035@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Nadeem0035\\ImportData\\": ""
+    }
+  }
+}
+

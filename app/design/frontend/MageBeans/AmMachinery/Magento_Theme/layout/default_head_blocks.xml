@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+	<meta name="viewport" content="width=device-width"/>
+    <link rel="preconnect" src="https://fonts.gstatic.com" src_type="url"/>
+    <link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css2?family=Archivo+Black" src_type="url" />
+    <link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700" src_type="url" />
+    <link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900" src_type="url" />
+    <link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;500;700" src_type="url" />
+    <link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500;700" src_type="url" />
+    <link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700" src_type="url" />
+
+
+    <!-- <link src="js/bootstrap.min.js"/> -->
+
+    <css src="css/header.css" media="all" />
+    <css src="css/footer.css" media="all" />
+	<css src="css/homepage.css" media="all" />
+    <css src="css/custom.css" media="all" />
+	<css src="css/bootstrap.min.css" />
+    <css src="Magento_Theme::css/owl.carousel.css"/>
+    <css src="fontawesome/font-awesome.css" media="all" />
+	<!-- <script src="Magento_Theme::js/owl.carousel.js"/>     -->
+	<!-- <css src="Magento_Theme::css/responsive.css" media="all" /> -->
+	<script src="js/customtheme.js"/>
+	</head>
+</page>

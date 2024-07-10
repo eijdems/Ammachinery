@@ -1,0 +1,18 @@
+<?php
+$product = $block->getProduct();
+$inspection=($product->getResource()->getAttribute('inspection_report')->getFrontend()->getValue($product)) ?: '';
+$file1 = basename($inspection, ".pdf");
+?>
+
+<?php
+if ($inspection != '') { ?>
+	<?php 
+    echo "<ul class='download_sections_inspection'>";
+    ?>
+    <li>
+        	<a href="pub/media/wysiwyg/download/<?php echo $inspection; ?>" 
+                download="<?= $inspection ?>"><img src="<?php echo $this->getViewFileUrl('images/doc-icon.png'); ?>" /><?= $block->escapeHtml(__($file1)) ?></a>
+    </li>
+    <?php 
+    echo "</ul>";
+}

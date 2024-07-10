@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+  <menu>
+       <add id="Aktiv_Satisfiedcustomer::menuform"
+           title="Satisfied Customer" module="Aktiv_Satisfiedcustomer"
+           sortOrder="20"
+           resource="Aktiv_Satisfiedcustomer::content1"
+        />
+        <add id="Aktiv_Satisfiedcustomer::menu_item2"
+           title="Manage" 
+           module="Aktiv_Satisfiedcustomer"
+           sortOrder="21" 
+           parent="Aktiv_Satisfiedcustomer::menuform"
+           action="aktivsatisfiedcustomer/contact/index"
+           resource="Aktiv_Satisfiedcustomer::menu_item2"
+        />
+  </menu>
+</config>

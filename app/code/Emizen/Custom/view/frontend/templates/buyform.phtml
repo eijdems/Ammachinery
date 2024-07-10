@@ -1,0 +1,202 @@
+
+<div class="custom_buyform">
+
+	<div class="container">
+		<?php echo $this->getLayout()
+          ->createBlock('Magento\Cms\Block\Block')
+          ->setBlockId('we-buy')
+          ->toHtml(); ?>
+          <br><br>
+		<div class="row">
+		    <div class="col-md-8 col-12">
+		        <form name="addData" method="post" id="addData" class="form"
+		              action="<?php echo $block->getFormAction(); ?>"
+		              data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+		              data-mage-init='{"validation":{}}' enctype="multipart/form-data">
+		            <fieldset>
+		                <fieldset class="row" style="">
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('First name')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="f_name" id="f_name" title="First name" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div> 
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Last name')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="l_name" id="l_name" title="Last name" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div>
+		                        <div class="field a_email required col-md-6">
+								   <label class="label" for="a_email">
+								       <span><?= $block->escapeHtml(__('Email')) ?></span>
+								       <span style="color:red"> * </span>
+								   </label>
+								   <div class="control">
+								       <input type="email" name="a_email" id="a_email" value="" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" class="input-text" data-validate="{required:true}">
+								   </div>
+								</div>
+								<div class="field ph_number required col-md-6">
+								   <label class="label" for="phone_number">
+								       <span><?= $block->escapeHtml(__('Telephone')) ?></span>
+								       <span style="color:red"> * </span>
+								   </label>
+								   <div class="control">
+								       <input type="text" name="ph_number" id="ph_number" value="" title="<?= $block->escapeHtmlAttr(__('Telephone')) ?>" class="input-text validate-number" data-validate="{required:true}">
+								   </div>
+								</div>
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Address')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="address_name" id="address_name" title="Address" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div> 
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Zipcode')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="zipcode_name" id="zipcode_name" title="Zipcode" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div>
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Place')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="place_name" id="place_name" title="Place" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div> 
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Country')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="country_name" id="country_name" title="Country" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div>
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Machine brand')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="brand_name" id="brand_name" title="Machine brand" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div> 
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Machine type')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="type_name" id="type_name" title="Machine type" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div>
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Serialnumber')) ?></span></label>
+		                            <div class="control">
+		                                <input name="serialnumber_name" id="serialnumber_name" title="Serialnumber" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div> 
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Year of manufacturing')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="manufacturing_name" id="manufacturing_name" title="Year of manufacturing" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div>
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Engine hours')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="ehours_name" id="ehours_name" title="Address" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div> 
+		                        <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Drum hours')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="dhours_name" id="dhours_name" title="Drum hours" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div>
+		                        <div class="field name col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Attachments')) ?></span></label>
+		                            <div class="control">
+		                                <input name="attachments_name" id="attachments_name" title="Attachments" value="" class="input-text" type="text"
+		                                       >
+		                            </div>
+		                        </div>  <div class="field name col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Options')) ?></span></label>
+		                            <div class="control">
+		                                <input name="options_name" id="options_name" title="Options" value="" class="input-text" type="text"
+		                                       >
+		                            </div>
+		                        </div>  <div class="field name required col-md-6">
+		                            <label class="label" for="title"><span><?= $block->
+		                                escapeHtmlAttr(__('Price')) ?></span><span style="color:red"> *
+</span></label>
+		                            <div class="control">
+		                                <input name="price_name" id="price_name" title="Price" value="" class="input-text" type="text"
+		                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+		                            </div>
+		                        </div>                    
+		                </fieldset>
+		            </fieldset>
+		            <div class="after-add-more">
+                        <div class="attached_file">
+                              <input type="file" name="attach_file[]">
+                        </div>
+                    </div> 
+		            <div class="bottom-attached">
+                        <div class="form-group change">
+				            <a class="add-more">Add More</a>
+				        </div>
+			            <div class="actions-toolbar">
+			                <div class="primary">
+			                    <button type="submit" class="action submit primary" name ='btnsubmit' title="Save">
+			                    	<span><?= $block->
+			                        escapeHtmlAttr(__('Send')) ?>
+			                        </span>
+			                    </button>
+			                </div>
+			            </div>
+		        	</div>
+		        </form>
+		    </div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	require(['jquery', 'jquery/ui'], function($){ 
+	    $(".add-more").click(function(){ 
+	    	var data = $('.attached_file').html();
+	       $(".after-add-more").append('<div class="after-add">'+data+'<input type="button" class="remove-more" value="Remove"/> </div>');
+	    });
+	     $(document).on('click','.remove-more',function(){
+		    $(this).parent('.after-add').remove();
+		  });
+	});    
+</script>

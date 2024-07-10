@@ -1,0 +1,95 @@
+<?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $helperObj = $this->helper('MageBeans\Pageimage\Helper\Data'); 
+    $starAttributeData = $helperObj->getConfig('magebeans_section/starattributes/starattributecode');
+    $starAttributeArray = explode(',', $starAttributeData);
+?>
+<div class="intro">
+    <p>
+        <p><?php echo __("Dear sir/madame,"); ?></p>
+        <p><?php echo __("Thank you for your interest in our"); ?> <b><?php echo $this->getProduct()->getName(); ?></b> <?php echo __("built in"); ?> <b><?php echo $this->getProduct()->getResource()->getAttribute('build_year')->getFrontend()->getValue($this->getProduct()); ?></b> <?php echo __(",with our internal stock number"); ?> <b><?php echo $this->getProduct()->getSku(); ?></b><?php echo __(".We are a dedicated SPFH specialist, we work professional and transparent, all our equipment is cleaned and run trough our 300 points inspection report. Use this link to get below information:"); ?> <b><?php echo $this->getProduct()->getProductUrl(); ?></b></p>
+    </p>
+</div>
+<br/>
+<div class="section section-attributes attribute-options">
+    <?php
+        $arrayFirstGroup = ['Levels', 'Options'];
+        ?>
+        <?php
+            $getblock = $objectManager->get('MageBeans\Common\Block\Specification');
+            $_product = $getblock->getProduct();
+            $groupid=$getblock->getAttributeGroupId($_product->getAttributeSetId());
+            $attributesgroups=$getblock->getAttributeGroups($_product->getAttributeSetId());
+            $productAttributes=$_product->getAttributes();
+            $countAttributes=$getblock->getCountAttributes($_product,$attributesgroups,$productAttributes); 
+        ?>
+        <?php
+            foreach ($attributesgroups as $attributesgroup):
+                //echo $attributesgroup->getAttributeGroupName();
+            if ($attributesgroup->getAttributeGroupName() == 'Technical specifications' || $attributesgroup->getAttributeGroupName() == 'Options' || $attributesgroup->getAttributeGroupName() == 'Knive drum' || $attributesgroup->getAttributeGroupName() == 'Kernal processor') {
+                $attributes = $getblock->getGroupAttributes($_product, $attributesgroup->getAttributeGroupId(), $productAttributes);
+                if ($attributesgroup->getAttributeGroupName() == 'Knive drum' || $attributesgroup->getAttributeGroupName() == 'Kernal processor') { //echo 'sdsds1111111';
+                        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/testlog.log');
+                            $logger = new \Zend_Log();
+                            $logger->addWriter($writer); ?>
+                            <?php $i=0; ?>
+                            <table>                                
+                            
+                            <?php
+                                foreach ($attributes as $attribute){
+                                    $i++; 
+                                    ?>
+                                    <tr>
+                                    <?php 
+                                    $storelabel = $block->escapeHtml(__($attribute->getStoreLabel()));
+                                    $attributeCode = $attribute->getAttributeCode();
+                                    $logger->info('testt'); // Print string type data
+                                    if (trim($storelabel) == 'Type knife drum' || trim($storelabel) == 'Knife drum' || trim($storelabel) == 'Amount of knives installed' || trim($storelabel) == 'Kernel processor type') { 
+                                        ?>
+                                        
+                                        <td width="180px">
+                                        <?= $block->escapeHtml(__($attribute->getStoreLabel())) ?>
+                                        </td>
+                                        <td>
+                                        <?= $attribute->getFrontend()->getValue($_product) ?>                                            
+                                        </td>
+                                          
+                                    <?php } ?> </tr><?php
+                                } ?>
+                                    
+                                </table>
+                                <?php
+                }
+                else{
+                  ?>
+                    <br/><b><?php echo __($attributesgroup->getAttributeGroupName()); ?></b>
+                    <table autosize="1" class="product-options" style="width:100%;">
+                        <?php $i=0;
+                        foreach ($attributes as $attribute){
+                            $i++; 
+                            ?>
+                            <?php if($i%2==1): ?>
+                                <tr>
+                            <?php endif; ?>
+                                    <td style="width:25%;">
+                                    <?php //echo $attribute->getFrontendLabel() ?>
+                                    <?= $block->escapeHtml(__($attribute->getStoreLabel())) ?>
+                                    </td>
+                                    <td style="width:25%;">
+                                    <?php
+                                        echo $attribute->getFrontend()->getValue($_product);
+                                    ?>
+                                    </td>
+                            <?php if($i%2==1): ?>
+                                </tr>
+                            <?php endif; ?>
+                        <?php   
+                        }
+                        ?>
+                    </table>
+                    <?php
+                }
+            }
+            endforeach;
+        ?>
+</div>

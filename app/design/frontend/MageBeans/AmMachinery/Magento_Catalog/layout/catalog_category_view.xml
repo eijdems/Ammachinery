@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="category.product.addto.compare" remove="true"/>
+        <referenceBlock name="catalog.compare.sidebar" remove="true" />
+        <referenceBlock name="wishlist_sidebar" remove="true" />
+        <referenceBlock name="category.product.addto.wishlist" remove="true" />
+        <move element="page.main.title" destination="category.view.container" before="category.image" />
+        <move element="columns.top" destination="content" before="category.products" />
+        <move element="category.cms" destination="content" after="category.products" />
+        <!-- <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Product\ListProduct" name="category.products.list" as="product_list" template="Magento_Catalog::product/list.phtml" cacheable="false"/>
+        </referenceContainer> -->
+        <!-- <move element="category.products.list" destination="content" before="category.cms" /> -->
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="satisfied.customer" as="satisfied.customer" template="Magento_Catalog::product/satisfied_customer.phtml"/>
+        </referenceContainer>
+        <move element="satisfied.customer" destination="sidebar.additional" before="-" />
+        <referenceContainer name="columns">
+            <container name="category.view.container.mobile" htmlTag="div" htmlClass="category-view-mobile" before="-">
+                    <block class="Magento\Catalog\Block\Category\View" name="category.title.mobile" template="Magento_Catalog::CategoryName.phtml"/>
+                    <!-- <block class="Magento\Catalog\Block\Category\View" name="category.image.mobile" template="Magento_Catalog::category/image.phtml"/> -->
+                    <block class="Magento\Catalog\Block\Category\View" name="category.description.mobile" template="Magento_Catalog::category/description.phtml"/>
+                    <!-- <block class="Magento\Catalog\Block\Category\View" name="category.cms.mobile" template="Magento_Catalog::category/cms.phtml"/> -->
+            </container>
+        </referenceContainer>
+    </body>
+</page>

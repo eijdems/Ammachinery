@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="\Nadeem0035\ImportData\Model\Adapters\ImportAdapterFactoryInterface"
+                type="Nadeem0035\ImportData\Model\Adapters\ArrayAdapterFactory"/>
+    <preference for="Magento\ImportExport\Model\ResourceModel\Import\Data"
+                type="Nadeem0035\ImportData\ResourceModel\ImportData"/>
+
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="import_product" xsi:type="object">
+                    Nadeem0035\ImportData\Console\Command\Product\ImportProduct
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="import_product_am" xsi:type="object">
+                    Nadeem0035\ImportData\Console\Command\Product\ImportProductAm
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="import_product_am_spare" xsi:type="object">
+                    Nadeem0035\ImportData\Console\Command\Product\ImportProductAmSpareParts
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

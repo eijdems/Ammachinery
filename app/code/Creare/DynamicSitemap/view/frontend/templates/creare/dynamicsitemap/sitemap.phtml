@@ -1,0 +1,56 @@
+<div class="ones-column">
+	<div class="sitempan">
+	<?php if($this->helper('Creare\DynamicSitemap\Helper\Data')->showCMS() || $this->helper('Creare\DynamicSitemap\Helper\Data')->showXMLSitemap()): ?>
+	<h2 class="smh2">Our Main Site Pages</h2>
+		<ul class="siteul">
+			<?php if($this->helper('Creare\DynamicSitemap\Helper\Data')->showCMS()): ?>
+				<?php echo $this->getCreareCMSPages(); // prints out our cms page ?>
+			<?php endif; ?>
+		</ul>
+	<?php endif; ?>
+
+	<?php if($this->helper('Creare\DynamicSitemap\Helper\Data')->showAccount() || $this->helper('Creare\DynamicSitemap\Helper\Data')->showContact()): ?>
+		<ul class="siteul">
+			<?php if($this->helper('Creare\DynamicSitemap\Helper\Data')->showContact()): ?>
+				<li><a href="<?php echo $block->getBaseUrl(); ?>contact" title="Contact">Contact</a></li>
+			<?php endif; ?>
+			<?php if($this->helper('Creare\DynamicSitemap\Helper\Data')->showAccount()): ?>
+			<?php 
+				
+				$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+				$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+				if($customerSession->isLoggedIn()) {
+				   	echo '<li><a href="'.$block->getBaseUrl().'customer/account/index/" title="Account">Account</a></li>';
+                   	echo '<li><a href="'.$block->getBaseUrl().'customer/account/logout/" title="Log Out">Log Out</a></li>';
+				}else{
+					echo '<li><a href="'.$block->getBaseUrl().'customer/account/" title="Register/Log In">Register/Log In</a></li>'; 
+				}
+                ?>
+                <li><a href="<?php echo $block->getBaseUrl(); ?>catalogsearch/advanced" title="Advanced Search">Advanced Search</a></li>
+			<?php endif; ?>
+		</ul>
+	<?php endif; ?>
+	</div>
+	<?php if($this->helper('Creare\DynamicSitemap\Helper\Data')->showCategories()): ?>
+	<div class="sitempan">
+		<h2 class="smh2">Our Categories</h2>
+		
+		<!--  Below Working code for getting category collection from block  -->
+
+		 <?php
+         $categories = $this->getStoreCategories(true,true,true);
+         if(!empty($categories)) {
+             echo '<ul class="siteul">';
+             foreach ($categories as $category) {
+                 echo "<li><a href='" . $category->getUrl() . "'>" . $category->getName() . "</a></li>";
+             }
+             echo "</ul>";
+         }
+		 $categoryHelper = $this->getCategoryHelper();
+		?>
+        <ul class="categories-list">
+		<?php //echo $this->getHtml() ?>
+        </ul>
+		</div>
+	<?php endif; ?>
+</div>

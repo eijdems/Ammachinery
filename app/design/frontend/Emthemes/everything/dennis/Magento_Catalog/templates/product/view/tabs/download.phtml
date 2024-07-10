@@ -1,0 +1,15 @@
+<?php
+$product = $block->getProduct();
+$downloads = array('Ag Direct Application.pdf', 'Global Approved Contract.pdf', 'Global Equipment Banking Information.pdf', 'Global Equipment Premium Warranty Contract.pdf', 'Global Equipment Iowa Sales Tax Exemption.pdf');
+
+if (!empty($downloads)) {
+
+    echo "<ul class='download_sections'>";
+    foreach ($downloads as $download) {
+        $file = basename($download, ".pdf");
+        ?>
+        <li><a href="media/wysiwyg/download/<?php echo $download; ?>"
+               download="<?= $download ?>"><?= $block->escapeHtml(__($file)) ?></a></li>
+    <?php }
+    echo "</ul>";
+}

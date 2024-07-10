@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <head>
+        <action method="setTitle">
+            <argument translate="true" name="title" xsi:type="string">Sitemap</argument>
+        </action>
+        <css src="Creare_DynamicSitemap::creare/css/dynamicsitemap.css"/>
+    </head>
+    <body>
+        <!-- <reference name="root">
+            <action method="unsetChild">
+                <argument name="alias" xsi:type="string">breadcrumbs</argument>
+            </action>
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Creare_DynamicSitemap::page/1column.phtml</argument>
+            </action>
+        </reference> -->
+        <referenceContainer name="content">
+            <block template="Creare_DynamicSitemap::creare/dynamicsitemap/sitemap.phtml" class="Creare\DynamicSitemap\Block\Dynamicsitemap" name="creare.dynamicsitemap.dynamicsitemap"/>
+        </referenceContainer>
+    </body>
+</page>

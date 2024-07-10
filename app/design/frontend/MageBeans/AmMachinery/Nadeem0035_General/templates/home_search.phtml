@@ -1,0 +1,60 @@
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+
+// get categories sorted by category name
+$categories = $block->getCategoryCollection(true, 2, 'name', false, 2, 91);
+$manufacturers = $block->getProductAttributeByCode('manufacturer');
+
+$cat_Val = "";
+$manufacturer_Val = "";
+$model_Val = "";
+
+if (!empty($_REQUEST["cat"])) {
+    $cat_Val = $_REQUEST["cat"];
+}
+if (!empty($_REQUEST["manufacturer"])) {
+    $manufacturer_Val = $_REQUEST["manufacturer"];
+}
+if (!empty($_REQUEST["type"])) {
+    $model_Val = $_REQUEST["type"];
+}
+?>
+<form class="form home-search" id="home_search_form" action="<?php echo $block->getResultUrl() ?>" method="get">
+    <div class="row bottom">
+        <div class="col-md-20 looking">
+            <p><?php echo __('Search Your Equipment') ?></p>
+        </div>
+         <div class="col-md-5">
+            <select id="cat" name="cat">
+                 <option value=""><?php echo __('Category') ?></option>
+                <option value="108">Stock</option>
+                 <option value="103">Spare parts</option>
+                <option value="121">Upgrades</option>
+                <option value="120">OEM Brochures</option> 
+            </select>
+        </div>
+        <div class="col-md-5">
+            <select id="manufacturer" name="manufacturer">
+                <option value=""><?php echo __('Manufacturer') ?></option>
+                <?php
+                if (!empty($manufacturers)) {
+                    foreach ($manufacturers as $manf_key => $manufacturer) {
+                        if($manufacturer == 'Krohne'){
+                            $manufacturer = 'Krone';
+                            $manf_key = 308;
+                        }
+                        echo "<option value=" . $manf_key . " " . (($manf_key == $manufacturer_Val) ? 'selected' : '') . ">" . $manufacturer . "</option>";
+                    }
+                }
+                ?>
+            </select>
+        </div>
+        <div class="col-md-5">
+            <input type="text" name="type" id="type" placeholder="<?php echo __('Model / Stocknumber') ?>"/>
+        </div>
+        <div class="col-md-5">
+            <input class="search_machine" type="submit" value="<?php echo __('Search') ?>">
+        </div>
+    </div>
+</form>

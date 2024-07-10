@@ -1,0 +1,146 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog recent posts widget
+ *
+ * @var $block \Magefan\Blog\Block\Widget\Recent
+ */
+?>
+
+<?php
+    $_postCollection = $block->getPostCollection();
+?>
+<?php if ($_postCollection->count()) { ?>
+
+     <div id="blog-slider" class="owl-theme owl-carousel blog-slider">
+        <?php foreach ($_postCollection as $_post) { ?>
+            <?php
+                $_postUrl = $block->escapeUrl($_post->getPostUrl());
+                $_postName = $block->escapeHtml($_post->getTitle());
+            ?>
+           
+            <div class="post-holder-<?= (int)$_post->getId() ?>">
+                <div class="post-content image">
+                    <div class="post-description clearfix">
+                        <?php $featuredImage = $_post->getFeaturedListImage() ?: $_post->getFeaturedImage(); ?>
+                        <?php if ($featuredImage) { ?>
+                            <?php
+                                $featuredImgAlt = $_post->getData('featured_list_img_alt') ?: $_post->getData('featured_img_alt');
+                            if (!$featuredImgAlt) {
+                                $featuredImgAlt = $_postName;
+                            }
+                            ?>
+                            <div class="post-ftimg-hld">
+                                <a href="<?= /*@noEscape*/ $_postUrl ?>" title="<?= /*@noEscape*/ $_postName ?>">
+                                    <img src="<?= $block->escapeHtml($featuredImage) ?>"
+                                         alt="<?= $block->escapeHtml($featuredImgAlt) ?>" />
+                                </a>
+                            </div>
+                        <?php } ?>
+                        
+                    </div>
+                </div>
+                <div class="title">
+                <div class="post-header">
+
+                    <div class="post-title-holder clearfix">
+                        <div class="post-title">
+                           <h3> <a class="post-item-link"
+                               href="<?= /*@noEscape*/ $_postUrl ?>">
+                                <?= /*@noEscape*/ $_postName ?>
+                            </a></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-text-hld clearfix">
+                            <?= /*@noEscape*/ $block->getShorContent($_post) ?>
+                </div>
+                <a class="post-read-more"
+                   href="<?= /*@noEscape*/ $_postUrl ?>"
+                   title="<?= /*@noEscape*/ $_postName ?>"
+                   >
+                   <?= $block->escapeHtml(__('More Information')) ?>
+                </a>
+                <div class="post-footer">
+
+                </div>
+            </div>
+    </div>
+
+        <?php } ?>
+    </div>
+            <div class="product-prgogressbar white-progressbar">
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+               
+            </div>
+             <span class="slider__label"></span>
+         </div>
+<?php } ?>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'owlcarousel'
+
+    ], function($){
+        $(document).ready(function() {
+            $('#blog-slider').owlCarousel({
+                loop:false,
+                nav:false,
+                dots:false,
+                autoplay:false,
+                autoplayTimeout:3000,
+                autoplayHoverPause: true,
+                items: 3,
+                autoWidth:false,
+                // scrollbarType: "scroll",
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    480: {
+                        items: 1
+                    },
+                    768: {
+                        items: 2
+                    },
+                    991: {
+                        items: 2
+                    },
+                    1024: {
+                        items: 3
+                    },
+                    1366: {
+                        items: 3
+                    }
+                }
+            })
+
+            var $blogslider = $('.blog-slider');
+              var $blogprogressBar = $('.howto .progress');
+              var $blogprogressBarLabel = $( '.howto .slider__label' );
+              
+              $blogslider.on('changed.owl.carousel', function(event) {
+                console.log(event);
+                console.log(event.item.index, event.item.count);
+                var blogcalc = ( (event.item.index+event.page.size) / (event.item.count) ) * 100;
+                console.log(blogcalc);
+                
+                $blogprogressBar
+                  
+                  .attr('aria-valuenow', blogcalc );
+                
+                $blogprogressBarLabel.css('background-size', blogcalc + '% 100%');
+              });
+
+              $blogslider.trigger('refresh.owl.carousel');
+        });
+    });
+</script>

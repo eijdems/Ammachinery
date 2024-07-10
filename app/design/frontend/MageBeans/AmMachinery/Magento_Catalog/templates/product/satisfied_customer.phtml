@@ -1,0 +1,131 @@
+<?php
+    $data = $this->helper('Aktiv\Satisfiedcustomer\Helper\Data');
+    $Collection = $data->getCollectiondata();
+?>
+    <h4 class="customtitle">Our satisfied customers</h4>
+    <div id="owlslider" class="owl-theme owl-carousel">
+        <?php
+        foreach($Collection as $data) {
+            $customer = $data->getData('customer');
+            $main_field = $data->getData('main_field');
+            $countryname = $data->getData('country');
+            $manufecture = $data->getData('manufecture');
+            $year = $data->getData('year');
+            $videolink = $data->getData('video');
+            $image = $data->getData('image');
+            $sourceimage = $data->getData('sourceimage');
+            $text = $data->getData('text');
+            $video = substr($videolink, strpos($videolink, "=") + 1);
+            $video = strtok($video, '&');
+            ?>
+            <div class="video-item">
+                <?php if($main_field == 0):?>
+                    <?php if($videolink) : ?>
+                        <div class="video">
+                            <a href="javascript:void(0);" class="click-vlink1" data-id="<?=$data->getId()?>">
+                                <img src="/media/sourceimage/sourceimage/<?php echo $sourceimage; ?>">
+                                <img src="/media/play.png" class="video-button-iframe">
+                            </a>
+                            <div class="video-modal1 video-modal-<?=$data->getId()?>" style="display:none;" data-id="<?=$data->getId()?>">
+                                <div class="videoWrapper">
+                                    <iframe class="youtube1 youtube-<?=$data->getId()?>" width="560" height="315" src="https://www.youtube.com/embed/<?php echo $video; ?>?autoplay=0" frameborder="0" allowfullscreen  allow="autoplay"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php elseif($main_field == 1):?>
+                    <?php if($image) : ?>
+                    <div class="customimage">
+                        <img src="/media/image/image/<?php echo $image; ?>">
+                    </div>
+                    <?php endif; ?>
+                <?php elseif($main_field == 2): ?>
+                    <?php if($text) : ?>
+                    <div class="text">
+                        <p class="textinfo"><?php echo $text; ?></p>
+                    </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <div class="info">
+                    <?php if ($manufecture || $year) : ?>
+                        <p class="machineinfo">
+                            <?php echo $manufecture; ?>
+                            <?php 
+                                if ($manufecture) {
+                                    echo "-"; 
+                                } 
+                            ?>
+                            <?php echo "Sold in ".$year; ?>
+                        </p>
+                    <?php endif; ?>
+                    <?php if ($customer || $countryname) : ?>
+                        <p class="personalinfo">
+                            <?php echo $customer; ?>
+                            <?php 
+                                if ($customer) {
+                                    echo ","; 
+                                } 
+                            ?>
+                            <?php echo $countryname; ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+<script type="text/javascript">
+require(['jquery','owlcarousel'],function($){
+    $(document).ready(function(){
+        $("#owlslider").owlCarousel({
+            navigation : true,
+            autoplay: false,
+            autoplayHoverPause: false,
+            autoplaySpeed: 2000,
+            loop: false,
+            smartSpeed: 450,
+            items:1,
+            dots:true,
+        });
+    });
+});
+</script>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                // innerScroll: true,
+                modalClass: 'satisfied-popup',
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'close-modal',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+            // var popup = modal(options, $('.video-modal1'));
+            $(".click-vlink1").on('click',function(){
+                var id = $(this).attr('data-id');
+                var modalId = '.video-modal-'+id;
+                var youtubeSrc = $(modalId).find(".youtube-"+id).attr("src").replace("autoplay=0", "autoplay=1");
+                //$(".youtube1").attr("src", $(".youtube1").attr("src").replace("autoplay=0", "autoplay=1"));
+                $(modalId).find(".youtube-"+id).attr("src", youtubeSrc);
+                $(modalId).modal(options).on('modalclosed', function() {
+                    var _id = $(this).attr('data-id');
+                    var _youtubeSrc = $(modalId).find(".youtube-"+_id).attr("src").replace("autoplay=1", "autoplay=0");
+                    $(this).find(".youtube-"+_id).attr("src", _youtubeSrc);
+                    this.closeModal();
+                }).modal('openModal');
+            });
+        }
+    );
+</script>

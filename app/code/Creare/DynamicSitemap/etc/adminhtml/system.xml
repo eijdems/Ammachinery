@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="crearextend" translate="label" sortOrder="1001">
+            <label>Crearextend</label>
+        </tab>
+        <section id="dynamicsitemap" translate="label" type="text" sortOrder="102" showInDefault="1" showInWebsite="0" showInStore="1">
+            <label>Dynamic Sitemap</label>
+            <tab>crearextend</tab>
+            <resource>Creare_DynamicSitemap::config</resource>
+            <group id="dynamicsitemap" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" >
+                <label>Dynamic Sitemap</label>
+                <field id="showcms" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Show CMS Pages</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="showcategories" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Show Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="showxml" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Show XML Sitemap</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Must have an XML sitemap created through Magento</comment>
+                </field>
+                <field id="showaccount" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Show Account Pages</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="showcontact" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Show Default Contact Link</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,23 @@
+<?php
+$catId = $block->getData('parent_cat_id');  //Parent Category ID
+$start = $block->getData('start');  //start value
+$end = $block->getData('end');  //end value
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$subCategory = $objectManager->create('Magento\Catalog\Model\Category')->load($catId);
+$subCats = $subCategory->getChildrenCategories();
+if (count($subCats) > 0): ?>
+<ul class="ls-link detail-ul">
+    <?php
+    foreach ($subCats as $subcat) {
+        $url = $subcat->getUrl();
+        $name = $subcat->getName();
+        if (!$subcat->getIsActive()) {
+            continue;
+        }
+        ?>
+        <li>
+            <a href="<?php echo $url ?>"><?php echo $name; ?></a>
+        </li>
+    <?php } ?>
+</ul>
+<?php endif; ?>

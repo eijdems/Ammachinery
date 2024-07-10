@@ -1,0 +1,243 @@
+& when (@media-common=true){
+	//forgot password//
+ 	.customer-account-forgotpassword {
+ 		.page-main {
+    		padding:0 50px;
+			@media(max-width: 1999px){
+					padding: 0 25px;
+			}
+		}
+		.column.main {
+    		margin-bottom:40px;
+		}
+ 		.page-title-wrapper {
+ 			.page-title {
+ 				margin-top:80px;
+ 				span {
+				    font-size: 35px;
+				    color: #93c13d;
+				    font-family: 'Roboto', serif;
+				    font-weight: 700;
+				}
+ 			}
+ 		}
+ 		.fieldset {
+ 			.field.note {
+			    color: #414141;
+			    letter-spacing: 1px;
+			    font-weight: 300;
+			    font-size: 20px;
+			    line-height: 30px;
+			}
+ 		}
+ 		.form.password.forget {
+ 			.field {
+ 				.label {
+ 					padding: 0 0 5px 0;
+				    text-align: left;
+				    box-sizing: border-box;
+				    float: left;
+				    width: 100% !important;
+				    color: #414141 !important;
+				    font-family: 'Roboto', serif;
+				    line-height: 1.4;
+				    font-size: 16px;
+ 				}
+ 				input[type="email"] {
+				    height: 50px;
+				    color: #414141;
+				    letter-spacing: 1px;
+				    font-weight: 300;
+				    font-size: 20px;
+				    line-height: 30px;
+				    &:focus {
+				    	box-shadow:none;
+				    }
+				}
+ 			}
+ 			.fieldset {
+			    margin:0 0 29px;
+			}
+			.actions-toolbar {
+			    margin-left:0px;
+			    button.submit.primary {
+				    background-image: url(../images/footer-link-arrow.png);
+				    background-position: right;
+				    background-repeat: no-repeat;
+				    color: #4b4b4a;
+				    font-size: 18px;
+				    text-align: left;
+				    letter-spacing: 0;
+				    line-height: 41px;
+				    font-weight: 500;
+				    font-family: 'Roboto', serif;
+				    text-transform: uppercase;
+				    padding-right: 25px;
+				    background-color: transparent;
+				    border: none;
+				    margin-right: 0;
+				    padding-left: 0;
+				    span {
+				    	&:hover {
+				    		text-decoration: underline;
+				    	}
+				    }
+				    &:focus {
+				    	outline:none;
+				    }
+				    &:active {
+				    	box-shadow:none;
+				    }
+				}
+				.secondary {
+					float:left;
+					.action {
+					    margin-top: 16px;
+					    color: #93c13d;
+					    font-size: 16px;
+					    line-height: 1.4;
+					    font-weight: bold;
+					}
+				}
+			}
+ 		}
+ 	}
+ 	//forgot password end//
+ 	//header//
+ 	header.page-header {
+ 		.panel.header {
+			.login_create_link {
+    			padding:12px 0;
+    			a {
+				    font-size: 22px;
+				    letter-spacing: 1px;
+				    color: #0d4b7e;
+				    font-weight: 600;
+				    text-align: center;
+				    text-decoration: none;
+				}
+    		}
+    	}
+	}
+	//header end//
+	//logout//
+	.customer-account-logoutsuccess {
+		.page-main {
+    		padding:0 50px;
+			@media(max-width: 1999px){
+				padding: 0 25px;
+			}
+		}
+		.page-title-wrapper {
+			.page-title {
+    			margin-top:80px;
+    			span {
+				    font-size: 35px;
+				    color: #93c13d;
+				    font-family: 'Roboto', serif;
+				    font-weight: 700;
+				}
+			}
+		}
+		.column.main {
+			p {
+				color: #414141;
+    			letter-spacing: 1px;
+    			font-weight: 300;
+    			font-size: 20px;
+    			line-height: 30px;
+			}
+		}
+	}
+	//logout end//
+}
+@media(min-width:768px) {
+    .customer-account-forgotpassword {
+    	.actions-toolbar {
+    		.primary {
+        		margin-right:30px;
+    		}
+    	}
+    }
+}
+@media(max-width: 1024px) {
+	header.page-header {
+ 		.panel.header {
+			.login_create_link {
+				a {
+					font-size: 16px;
+				}
+			}
+		}
+	}
+}
+@media(max-width: 767px) { 
+	.customer-account-forgotpassword {
+		.page-title-wrapper {
+			.page-title {
+				margin-top:60px;
+			}
+		}
+		.fieldset {
+			.field.note {
+				font-size: 16px;
+        		line-height: 25px;
+			}
+		}
+		.form.password.forget {
+			.field {
+				input[type="email"] {
+					height:40px;
+				}
+			}
+		}
+		.actions-toolbar {
+			button.submit.primary {
+				font-size: 16px;
+        		padding-top: 0;
+        		padding-bottom: 0;
+        		width: auto;
+			}
+			.primary {
+     		   margin-bottom:0px;
+     		   text-align: left;
+    		}
+		}
+	}
+	header.page-header {
+ 		.panel.header {
+ 			div#switcher-currency {
+    			padding-right:0px;
+    		}
+    		.login_create_link {
+    			padding-right: 73px;
+    		}
+ 		}
+ 	}
+ 	.customer-account-logoutsuccess {
+	 	.page-title-wrapper {
+			.page-title {
+	    		margin-top:60px;
+			}
+		}
+		.column.main {
+			margin-bottom:40px;
+			p {
+				font-size: 16px;
+        		line-height: 25px;
+			}
+		}
+	}
+}
+@media(max-width: 350px) {
+	header.page-header {
+ 		span.action.nav-toggle {
+    		right:10px !important;
+    	}
+    	.panel.header { 
+    		.login_create_link {
+    			padding-right: 50px;
+    		}
+    	}
+ 	}
+}

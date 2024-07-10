@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <dynamicsitemap>
+            <dynamicsitemap>
+                <showcms>1</showcms>
+                <showcategories>1</showcategories>
+                <showxml>0</showxml>
+                <showaccount>1</showaccount>
+                <showcontact>1</showcontact>
+            </dynamicsitemap>
+        </dynamicsitemap>
+    </default>
+</config>

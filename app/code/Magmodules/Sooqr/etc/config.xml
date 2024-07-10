@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magmodules.eu. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <magmodules_sooqr>
+            <general>
+                <enable>1</enable>
+                <version>v1.6.1</version>
+            </general>
+            <implementation>
+                <advanced_version>4</advanced_version>
+                <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+            </implementation>
+            <data>
+                <name_attribute>name</name_attribute>
+                <sku_attribute>sku</sku_attribute>
+                <description_attribute>description</description_attribute>
+                <gtin_attribute>sku</gtin_attribute>
+                <brand_attribute>manufacturer</brand_attribute>
+                <color_attribute>color</color_attribute>
+                <size_attribute>size</size_attribute>
+                <gender_attribute>gender</gender_attribute>
+            </data>
+            <types>
+                <configurable>simple</configurable>
+                <configurable_link>1</configurable_link>
+                <configurable_image>2</configurable_image>
+                <configurable_parent_atts>description</configurable_parent_atts>
+                <configurable_nonvisible>1</configurable_nonvisible>
+                <bundle>parent</bundle>
+                <grouped>parent</grouped>
+            </types>
+            <generate>
+                <enable>1</enable>
+                <filename>sooqr.xml</filename>
+            </generate>
+        </magmodules_sooqr>
+    </default>
+</config>

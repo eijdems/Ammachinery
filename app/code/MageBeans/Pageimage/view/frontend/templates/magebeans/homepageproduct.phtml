@@ -1,0 +1,177 @@
+<?php
+
+$helper = $this->helper('MageBeans\Pageimage\Helper\Data');
+$imageHelper  = $this->helper('Magento\Catalog\Helper\Image');
+$productCollection = $helper->getTwoProductCollection();
+
+?>
+
+<div class="product-slider">
+    <div class="container-fluid">
+        <?php $i = 0; ?>
+        <div class="tab-content">
+            <div class="tab-pane <?= ($i == 0 ) ? 'active' : '' ?> <?php echo $i; ?>">
+                <div id="pd-slider" class="owl-theme owl-carousel">
+                    <?php foreach($productCollection as $_product): ?>
+                        <div class="item">
+                            <div class="product">
+                                <div class="image">
+                                    <div class="box-image">
+                                      <a href="<?php /* @escapeNotVerified */
+                                         echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                        <img
+                                          src="<?= $imageHelper->init($_product, 'product_base_image')
+                                              ->constrainOnly(TRUE)
+                                              ->keepAspectRatio(TRUE)
+                                              ->keepTransparency(TRUE)
+                                              ->keepFrame(FALSE)
+                                              ->resize(377,250)
+                                              ->setImageFile($_product->getFile())->getUrl(); ?>"
+                                          alt="<?= $_product->getName(); ?>"
+                                          >
+
+                                      </a>
+                                   </div>
+                                </div>
+                                <div class="title">
+                                   <a class="product-item-link"  href="<?php /* @escapeNotVerified */
+                                      echo $_product->getProductUrl() ?>">
+                                      <h3><?= $_product->getName(); ?></h3>
+                                   </a>
+                                </div>
+                                <p class="sku">
+                                    #<?= $_product->getSku(); ?>
+                                </p>
+                                <div class="price">
+                                    <ul class="products_attributes">
+                                        <?php
+                                        $counter1 = (double) ($_product->getResource()->getAttribute('counter1')->getFrontend()->getValue($_product)) ?: '';
+                                        $build_year = ($_product->getResource()->getAttribute('build_year')->getFrontend()->getValue($_product)) ?: '';
+
+                                        if (isset($build_year) && !empty($build_year)) {
+                                            echo __("<li><i class=\"far fa-calendar\"></i> ". $build_year."</li>");
+                                        }
+                                        if (isset($counter1) && !empty($counter1)) {
+                                            echo __("<li><i class=\"fas fa-tachometer-alt\"></i> ". $counter1."</li>");
+                                        }
+
+                                        ?>
+                                    </ul>
+                                   <?php if ($_product->getPrice() == 0): ?>
+                                        <span class="request-price"><?php echo __("Price On Request"); ?>
+                                    <?php else: ?>
+                                        <h3><?= $_product->getFormattedPrice(); ?></h3>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="more-info">
+                                    <a href="<?= $_product->getProductUrl() ?>">
+                                        <?php /* @escapeNotVerified */ echo __('More information') ?>
+                                    </a>
+                                </div>
+                            </div>
+                        </div >
+                    <?php endforeach; ?>
+                </div>
+                <div class="progress progress-striped active">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+              </div>
+            </div>
+            <?php $i++; ?>
+        </div>
+    </div>
+</div>
+
+<div id="videocontent" style="display:none;">
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function (
+            $,
+            modal
+        ) {
+            'use strict';
+
+            let options = {
+                id: 'video-model',
+                wrapperClass: 'video-modals-wrapper modals-wrapper',
+                overlayClass: 'video-modals-overlay modals-overlay',
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                buttons: [],
+            };
+            let popup = modal(options,$('#videocontent'));
+
+            $("#videolink").on('click', function () {
+                $('body').loader("show");
+                let data = '<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('youtube')->toHtml() ?>';
+                data = data.replace($(data)[0].src, $(data)[0].src+"&autoplay=1&mute=1&enablejsapi=1");
+                $('#videocontent').html(data);
+                $('body').loader("hide");
+                popup.openModal().on('modalclosed', function() {
+                    $('body').removeClass('modal-open');
+                    jQuery("#videocontent iframe").attr("src", jQuery("#videocontent iframe").attr("src"));
+                });
+            });
+
+            $(".video-modals-wrapper .modal-header .action-close").on('click', function() {
+                $('.video-modals-wrapper .video-modals-overlay.modals-overlay').hide();
+            });
+
+            $('body').on('click', ".video-modals-wrapper .modal-header .action-close", function(e){
+                $('body').removeClass('modal-open');
+                jQuery("#videocontent iframe").attr("src", jQuery("#videocontent iframe").attr("src"));
+            });
+        }
+    );
+</script>
+
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'owlcarousel'
+
+    ], function($){
+        $(document).ready(function() {
+            $('#pd-slider').owlCarousel({
+                loop:false,
+                nav:false,
+                dots:false,
+                autoplay:true,
+                autoplayTimeout:3000,
+                autoplayHoverPause: true,
+                items: 2,
+                autoWidth:false,
+                // scrollbarType: "scroll",
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    480: {
+                        items: 1
+                    },
+                    768: {
+                        items: 1
+                    },
+                    991: {
+                        items: 1
+                    },
+                    1024: {
+                        items: 1
+                    },
+                    1366: {
+                        items: 2
+                    }
+                }
+            })
+        });
+    });
+</script>

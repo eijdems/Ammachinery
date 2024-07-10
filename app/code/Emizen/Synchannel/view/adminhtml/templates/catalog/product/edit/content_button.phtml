@@ -1,0 +1,23 @@
+<div class="admin__field custom-button" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible">
+    <div class="admin__field-control" style="padding: 5px 0px;">
+        <?php
+         $currproductName = $block->getCurrentProduct();
+         //echo $block->getButtonHtml();
+        ?>
+    </div>
+</div>
+<?php
+    $currproductName = $block->getCurrentProduct();
+?>
+
+<style type="text/css">
+  fieldset.admin__fieldset {
+     position: relative;
+   }
+  .admin__field.custom-button .admin__field-control {
+    position: absolute;
+    top: 26px;
+    z-index: 1;
+    left: 36%;
+  }
+</style>

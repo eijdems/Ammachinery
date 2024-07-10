@@ -1,0 +1,35 @@
+<?php
+$product = $block->getProduct();
+if(!function_exists('getYoutubeIdFromUrl')) {
+    function getYoutubeIdFromUrl($url) {
+        $parts = parse_url($url);
+        if(isset($parts['query'])){
+            parse_str($parts['query'], $qs);
+            if(isset($qs['v'])){
+                return $qs['v'];
+            }else if(isset($qs['vi'])){
+                return $qs['vi'];
+            }
+        }
+        if(isset($parts['path'])){
+            $path = explode('/', trim($parts['path'], '/'));
+            return $path[count($path)-1];
+        }
+        return false;
+    }
+}
+if (null !== $product->getCustomAttribute('video')) {
+    $videos = $product->getCustomAttribute('video')->getValue();
+
+    $videos = explode(",", $videos);
+
+    if (!empty($videos)) {
+        echo "<ul class='video_sections'>";
+        foreach ($videos as $video) {
+            if ($videoLink = getYoutubeIdFromUrl($video)) {
+                echo "<li><iframe width=\"100%\" height=\"450\" src=\"https://www.youtube.com/embed/" . $videoLink . "\" frameborder=\"0\"></iframe></li>";
+            }
+        }
+        echo "</ul>";
+    }
+}

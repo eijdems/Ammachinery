@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="blog_default"/>
+    <update handle="blog_post_list"/>
+    <body>
+        <container name="custom.image.container" as="custom-image-container" htmlTag="div" htmlClass="custom-image-container">
+            <!-- <block class="Magento\Framework\View\Element\Template" name="blog.side.image" template="Magefan_Blog::post/Image.phtml"/> -->
+        
+        <container name="custom.blog.content.container" as="custom-blog-content-container" htmlTag="div" htmlClass="custom-blog-content-container">
+            <block class="Magento\Cms\Block\Block" name="blog.content">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">blog-content</argument>
+                </arguments>
+            </block>
+        </container>
+        </container> 
+        <move element ="page.main.title" destination="custom.blog.content.container" before = "-"/>
+        <move element ="blog.content" destination="custom.blog.content.container" after = "page.main.title"/>
+        <move element ="blog.posts.list" destination="custom.blog.content.container" after = "blog.content" />
+        <move element ="custom.image.container" destination="main" before = "-" />
+        <move element ="custom.blog.content.container" destination="custom.image.container" before = "-" />
+    </body>
+</page>

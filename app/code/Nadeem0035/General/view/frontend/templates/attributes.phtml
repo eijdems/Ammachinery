@@ -1,0 +1,18 @@
+<ul class="products_attributes">
+    <?php
+
+    $product = $block->getProduct();
+
+    $counter1 = (double) ($product->getResource()->getAttribute('counter1')->getFrontend()->getValue($product)) ?: '';
+    $build_year = ($product->getResource()->getAttribute('build_year')->getFrontend()->getValue($product)) ?: '';
+
+
+    if (isset($build_year) && !empty($build_year)) {
+        echo __("<li><i class=\"far fa-calendar\"></i> ". $build_year."</li>");
+    }
+    if (isset($counter1) && !empty($counter1)) {
+        echo __("<li><i class=\"fas fa-tachometer-alt\"></i> ". $counter1."</li>");
+    }
+
+    ?>
+</ul>

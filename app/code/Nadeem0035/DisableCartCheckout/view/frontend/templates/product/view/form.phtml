@@ -1,0 +1,113 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Product view template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View
+ */
+?>
+<?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+<?php $_product = $block->getProduct(); 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+    $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+
+    $newData = $_product['hideonwebshop'];
+    
+    /*if (empty($newData)) {
+        $newData = 1;
+    }*/
+
+    $categoryIds = $_product->getCategoryIds();
+
+    $categories = array(103,104,105,114,115,113,121,109,116,122,124,126,129,132,133,134,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,130,135,136,137,138,139,140,141,142,143,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,131,144,145,127,128,144,145,146,147,148,149,165,166,150,151,152,153,154,155,156,163,164,161,162,159,160,262,263,264,265,266,267,268,269,270,271,272,273,274,275);
+    $flag = false;
+    foreach ($categoryIds as $categoryId) {
+        if (in_array($categoryId, $categories)) {
+            $flag = true;
+            break;
+        }
+    }
+?>
+
+<div class="product-add-form">
+    <?php if($flag == false) : ?>
+        <div class="cmsblock_inspect"><?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('textblock_recommended')->toHtml(); ?> </div> 
+    <?php endif; ?>
+    <form data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
+          action="<?= /* @NoEscape */ $block->getSubmitUrl($_product) ?>" method="post"
+          id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $_product->getId() ?>" />
+        <input type="hidden" name="selected_configurable_option" value="" />
+        <input type="hidden" name="related_product" id="related-products-field" value="" />
+        <input type="hidden" name="item"  value="<?= /* @noEscape */ $block->getRequest()->getParam('id') ?>" />
+        <?= $block->getBlockHtml('formkey') ?>
+        <?= $block->getChildHtml('form_top') ?>
+        <?php if (!$block->hasOptions()):?>
+            <?= $block->getChildHtml('product_info_form_content') ?>
+        <?php else:?>
+            <?php if ($block->getOptionsContainer() == 'container1'):?>
+                <?= $block->getChildChildHtml('options_container') ?>
+            <?php endif;?>
+        <?php endif; ?>
+
+        <?php if ($block->hasOptions() && $block->getOptionsContainer() == 'container2'):?>
+            <?= $block->getChildChildHtml('options_container') ?>
+        <?php endif;?>
+        <?= $block->getChildHtml('form_bottom') ?>
+    </form>
+</div>
+<?php if($flag == 0): ?>
+    <?php if(!$customerSession->isLoggedIn()) { ?>
+        <script>
+            require(['jquery'], function ($) {
+                $(document).ready(function () {
+                    $('.product-add-form').insertAfter('.product-details-custom.responsive-mobile');
+                });
+            });
+        </script>
+    <?php } else{ ?>
+        <script>
+            require(['jquery'], function ($) {
+                $(document).ready(function () {
+                    $('.product-info-main .product-add-form').insertAfter('.row.inspection-content');
+                });
+            });
+        </script>
+    <?php } ?>
+<?php endif; ?>
+<?php 
+    if ($flag == 0) { ?>
+    <style type="text/css">
+        .catalog-product-view .product-add-form .product-options-bottom{
+            display: none;
+        }
+        .catalog-product-view .product-add-form .box-tocart{
+            display: none;
+        }
+    </style>        
+    <?php } ?>
+
+<script>
+    require([
+        'jquery',
+        'priceBox'
+    ], function($){
+        var dataPriceBoxSelector = '[data-role=priceBox]',
+            dataProductIdSelector = '[data-product-id=<?= $block->escapeHtml($_product->getId()) ?>]',
+            priceBoxes = $(dataPriceBoxSelector + dataProductIdSelector);
+
+        priceBoxes = priceBoxes.filter(function(index, elem){
+            return !$(elem).find('.price-from').length;
+        });
+
+        priceBoxes.priceBox({'priceConfig': <?= /* @escapeNotVerified */ $block->getJsonConfig() ?>});
+        console.log('checking');
+    });
+</script>

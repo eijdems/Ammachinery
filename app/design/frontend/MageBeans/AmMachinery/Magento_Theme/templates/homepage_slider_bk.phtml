@@ -1,0 +1,153 @@
+<?php
+   $helper = $this->helper('MageBeans\Pageimage\Helper\Data');
+   $imageHelper  = $this->helper('Magento\Catalog\Helper\Image');
+   $productCollection = $helper->getProductCollectionByCategories();
+?>
+<div class="product-slider">
+   <div class="container-fluid">
+     <div class="row">
+        <div id="tab_element" data-mage-init='{"mage/tabs":{}}'>
+            <ul role="tablist">
+                <?php foreach ($productCollection as $_key => $_product): ?>
+                    <li data-role="title">
+                      <a role="tab" href="#tabs-<?php echo strtolower(str_replace(' ', '', $_key)) ?>">
+                        <?php echo $_key ?>
+                      </a>
+                  </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php foreach ($productCollection as $_key => $_products): ?>
+                <div role="tabpanel" class="tab-pane active" id="tabs-<?php echo strtolower(str_replace(' ', '', $_key)) ?>">
+                  <div id="tabs-<?php echo strtolower(str_replace(' ', '', $_key)) ?>" data-role="content" class="owl-carousel-<?php echo strtolower(str_replace(' ', '', $_key)) ?> owl-theme">
+                      <?php foreach($_products as $_product): ?>
+                        <div class="item">
+                         <div class="product">
+                            <div class="image">
+                               <div class="box-image">
+                                  <a href="<?php /* @escapeNotVerified */
+                                     echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                    <img 
+                                      src="<?= $imageHelper->init($_product, 'product_base_image')->setImageFile($_product->getFile())->getUrl(); ?>" 
+                                      alt="<?= $_product->getName(); ?>"
+                                      >
+
+                                  </a>
+                               </div>
+                            </div>
+                            <div class="title">
+                               <a class="product-item-link"  href="<?php /* @escapeNotVerified */
+                                  echo $_product->getProductUrl() ?>">
+                                  <h3><?= $_product->getName(); ?></h3>
+                               </a>
+                            </div>
+                            <div class="price">
+                               <p>#<?= $_product->getSku(); ?></p>
+                               <h3>€ <?= $_product->getFinalprice(); ?></h3>
+                            </div>
+                            <div class="more-info"><a href="<?= $_product->getProductUrl(); ?>">MORE INFORMATION</a></div>
+                         </div>
+                      </div>
+                    </div>
+                    <script type="text/javascript">
+                       require([
+                           'jquery',
+                           'owlcarousel'
+                       ], function($){
+                           $(document).ready(function() {
+                               $('.owl-carousel-<?= strtolower(str_replace(' ', '', $_key)) ?>').owlCarousel({
+                                   loop:true,
+                                   nav:true,
+                                   items:4,
+                                   dots:true,
+                                   autoplay:true,
+                                   autoplayTimeout:3000,
+                                   autoplayHoverPause: true,
+                                   margin: 10,
+                                   stagePadding: 0,
+                                   responsive: {
+                                       0: {
+                                                items: 1
+                                            },
+                                            480: {
+                                                items: 2
+                                            },
+                                            768: {
+                                                items: 3
+                                            },
+                                            991: {
+                                                items: 4
+                                            },
+                                            1200: {
+                                                items: 4
+                                            }
+                                   }
+                               })
+                           });
+                       });
+                    </script>
+                    <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+  </div>
+</div>
+<!--
+   <div class="product-slider">
+   <div class="container-fluid">
+   <div class="row">
+   <div class="col-md-3">
+   <div class="product">
+   <div class="image"><img src="{{media url="wysiwyg/product-1.jpg"}}" alt=""></div>
+   <div class="title">
+   <h3>JOHN DEERE 7350</h3>
+   </div>
+   <div class="price">
+   <p>#20229</p>
+   <h3>€ 69.550,00</h3>
+   </div>
+   <div class="more-info"><a href="#">MORE INFORMATION</a></div>
+   </div>
+   </div>
+   <div class="col-md-3">
+   <div class="product">
+   <div class="image"><img src="{{media url="wysiwyg/product-1.jpg"}}" alt=""></div>
+   <div class="title">
+   <h3>JOHN DEERE 7350</h3>
+   </div>
+   <div class="price">
+   <p>#20229</p>
+   <h3>€ 69.550,00</h3>
+   </div>
+   <div class="more-info"><a href="#">MORE INFORMATION</a></div>
+   </div>
+   </div>
+   <div class="col-md-3">
+   <div class="product">
+   <div class="image"><img src="{{media url="wysiwyg/product-1.jpg"}}" alt=""></div>
+   <div class="title">
+   <h3>JOHN DEERE 7350</h3>
+   </div>
+   <div class="price">
+   <p>#20229</p>
+   <h3>€ 69.550,00</h3>
+   </div>
+   <div class="more-info"><a href="#">MORE INFORMATION</a></div>
+   </div>
+   </div>
+   <div class="col-md-3">
+   <div class="product">
+   <div class="image"><img src="{{media url="wysiwyg/product-1.jpg"}}" alt=""></div>
+   <div class="title">
+   <h3>JOHN DEERE 7350</h3>
+   </div>
+   <div class="price">
+   <p>#20229</p>
+   <h3>€ 69.550,00</h3>
+   </div>
+   <div class="more-info"><a href="#">MORE INFORMATION</a></div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div> -->

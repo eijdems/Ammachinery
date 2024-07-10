@@ -1,0 +1,15 @@
+<?php
+$product = $block->getProduct();
+$downloads = array('A_amp_M_Machinery_Bank-Details.pdf', 'Metaalunievoorwaarden_2014_Engels_.pdf');
+
+if (!empty($downloads)) {
+
+    echo "<ul class='download_sections'>";
+    foreach ($downloads as $download) {
+        $file = basename($download, ".pdf");
+        ?>
+        <li><a href="pub/media/wysiwyg/<?php echo $download; ?>"
+               download="<?= $download ?>"><?= $block->escapeHtml(__($file)) ?></a></li>
+    <?php }
+    echo "</ul>";
+}

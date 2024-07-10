@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/pageforee_configuration.xsd">
+      <head>
+        <css src="css/lightbox.min.css" />
+        <script src="js/lightbox-plus-jquery.min.js"/>
+      </head>
+    <body>
+        <referenceBlock name="product.info.review" remove="true"/>
+        <referenceBlock name="reviews.tab" remove="true"/>
+    <referenceBlock name="view.addto.wishlist" remove="true"/>   
+    <referenceBlock name="product.info.sku" remove="true"/> 
+    <referenceBlock name="product.attributes" remove="true" />
+    <referenceBlock name="product.extra" remove="true" />
+    <referenceBlock name="product.info.media.image" remove="true" />
+    <referenceContainer name="product.info.media">
+        <block class="Magento\Catalog\Block\Product\View\Gallery" name="product.info.media.cusimage" template="Magento_Catalog::product/view/gallery.phtml" />
+      </referenceContainer>
+
+      <block class="Nadeem0035\General\Block\Quote" name="page_title_mobile" template="Magento_Catalog::product/view/title.phtml"/>
+    <referenceContainer name="product.info.main">
+
+      <container name="product.wrapper.title" htmlTag="div" htmlClass="product-title-wrapper" before="-">
+        <container name="product.product.titleleft" htmlTag="div" htmlClass="product-title-left" before="product.info.price">
+          <block class="Nadeem0035\General\Block\Quote" name="product.info.attributes"
+                     template="Nadeem0035_General::attributes.phtml"/>
+               </container>
+
+               <container name="product.titleright" htmlTag="div" htmlClass="product-title-right" after="product.product.titleleft">
+                 <container name="product.price.wrapper" htmlTag="div" htmlClass="product-price-wrapper" after="product.titleright">
+                  <block class="Nadeem0035\General\Block\Quote" name="product.info.quote_form"
+                   template="Nadeem0035_General::quote_form.phtml"/>
+
+                  <block class="Magento\Cms\Block\Block" name="product.follow.facebook">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">product_detail_follow_facebook</argument>
+                    </arguments>
+                 </block>
+                </container>
+                </container>
+          </container>
+            <container>
+          <block class="Nadeem0035\General\Block\Quote" name="product.info.attributes"
+                   template="Nadeem0035_General::attributes.phtml"/>
+             </container>
+              <container name="product.detailed.info.wrapper" htmlTag="div" htmlClass="product-detailed-info-wrapper" after="-">
+
+              </container>
+
+            <container name="product.extra" htmlTag="div" htmlClass="product-extra-links" after="-">
+                <block class="Nadeem0035\General\Block\Quote" name="product.info.related_product"
+                       after="product.info.print_icon" template="Nadeem0035_General::related_product_section.phtml"/>
+            </container>
+          <container name="product.inspection" htmlTag="div" htmlClass="inspection-attr" after="product.info.attributes">
+            <block class="Magento\Catalog\Block\Product\View"
+                   template="Magento_Catalog::product/view/tabs/inspection_report.phtml" name="product.info.inspection">
+            </block>
+          </container>
+            <!-- <container name="customsku" htmlTag="div" htmlClass="product-sku-class">  
+                <block class="Magento\Catalog\Block\Product\View" name="skucustom" template="Magento_Catalog::product/view/customsku.phtml">
+                    <block class="Magento\Catalog\Block\Product\Compare\ListCompare" name="catalog.compare.list" template="Magento_Catalog::product/compare/list.phtml" cacheable="false"/>
+                </block> 
+            </container> -->
+        </referenceContainer>
+
+    <referenceContainer name="content">
+           <block class="MageBeans\Common\Block\Specification" name="tehnical.specifications" template="Magento_Catalog::product/view/specifications.phtml"/>
+       </referenceContainer>
+       <referenceContainer name="content">
+         <block class="Magento\Cms\Block\Block" name="product-block-machinery" after='product.info.overview'>
+            <arguments>
+                <argument name="block_id" xsi:type="string">product-block-machinery</argument>
+            </arguments>
+         </block>
+         <block class="MageBeans\Common\Block\Specification" name="inspection.report" template="Magento_Catalog::product/view/inspectionreport.phtml" after="product-block-machinery"/>
+         <block class="Magento\Cms\Block\Block" name="res-product-block-machinery" after='-'>
+            <arguments>
+                <argument name="block_id" xsi:type="string">res-product-block-machinery</argument>
+            </arguments>
+         </block>
+
+         <block class="Magento\Catalog\Block\Product\View"
+                   template="Magento_Catalog::product/view/tabs/download.phtml" name="product.info.download" group="detailed_info">
+                <arguments>
+                    <argument name="title" translate="true" xsi:type="string">Downloads</argument>
+                    <argument name="sort_order" xsi:type="string">40</argument>
+                </arguments>
+            </block>
+            <!-- <block class="Magento\Catalog\Block\Product\View"
+                   template="Magento_Catalog::product/view/tabs/downloadmobile.phtml" name="product.mobile.download" group="detailed_info">
+                <arguments>
+                    <argument name="title" translate="true" xsi:type="string">Downloads</argument>
+                    <argument name="sort_order" xsi:type="string">40</argument>
+                </arguments>
+            </block> -->
+            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.overview" template="product/view/attribute.phtml" group="detailed_info" after="product.info.extrahint">
+                <arguments>
+                    <argument name="at_call" xsi:type="string">getShortDescription</argument>
+                    <argument name="at_code" xsi:type="string">short_description</argument>
+                    <argument name="css_class" xsi:type="string">overview</argument>
+                    <argument name="at_label" translate="true" xsi:type="string">default</argument>
+                    <argument name="title" translate="true" xsi:type="string">Overview</argument>
+                    <argument name="add_attribute" xsi:type="string">itemprop="description"</argument>
+                </arguments>
+            </block>
+            <block class="MageBeans\Common\Block\Specification" name="product.images" template="Magento_Catalog::product/view/images.phtml" after="product-block-machinery"/>
+      </referenceContainer>
+    <move element="page.main.title" destination="product.product.titleleft" before='-'/>
+    <move element="product.info.social" destination="product.titleright" after='-'/>
+    <move element="tehnical.specifications" destination="product.info.main" after='product.wrapper.title'/>
+    <move element="product.info.attributes" destination="product.product.titleleft" after="page.main.title"/>
+    <move element="product.follow.facebook" destination="product.info.main" after="product.info.price"/>
+    <move element="product.info.price" destination="product.price.wrapper" before='-'/>
+    <move element="product.follow.facebook" destination="product.titleright" after="product.price.wrapper"/>
+    <!-- <move element="product.info.extrahint" destination="product.titleright" after="product.price.wrapper"/> -->
+    <move element="product.info.overview" destination="product.product.titleleft" after="page.main.title"/>
+    <move element="product.info.quote_form" destination="product.price.wrapper" after="-"/>
+    <move element="product.info.upsell" destination="content.aside" before='-'/>
+    <move element="product.inspection" destination="product.info.media" before="product.info.download"/>
+    <move element="product.info.download" destination="product.info.media" after="product.inspection"/>
+    <!-- <move element="product.inspection" destination="product.product.titleleft" after="product.info.attributes"/> -->
+    <move element="product.mobile.download" destination="content" after="inspection.report"/>
+        <move element="page_title_mobile" destination="content" before="-"/>
+        <referenceBlock name="product.info.inspection" remove="true" />
+        <referenceBlock name="product.info.details" remove="true" />
+        
+        <move element="customsku" destination="product.inspection" before="-" /> 
+        <move element="tehnical.specifications" destination="product.info.main" after="-" /> 
+        <move element="inspection.report" destination="content" after="product-block-machinery" /> 
+        <move element="product.images" destination="content" before="product-block-machinery" />
+        <referenceBlock name="product.info.overview" remove="true"/>
+
+        <!-- <referenceContainer name="product.wrapper.title">
+            <block class="Magento\Framework\View\Element\Template" name="product.custominfo" template="Magento_Catalog::product/view/custominfo.phtml" after="-"/>
+        </referenceContainer>  -->
+    </body>
+</page>

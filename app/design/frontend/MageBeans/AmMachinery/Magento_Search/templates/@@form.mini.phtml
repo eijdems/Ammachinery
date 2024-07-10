@@ -1,0 +1,102 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+?>
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $escaper \Magento\Framework\Escaper */
+/** @var $configProvider \Magento\Search\ViewModel\ConfigProvider */
+$configProvider = $block->getData('configProvider');
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $configProvider->getSearchHelperData();
+$allowedSuggestion = $configProvider->isSuggestionsAllowed();
+$quickSearchUrl = $allowedSuggestion ? $escaper->escapeUrl($helper->getSuggestUrl()) : '';
+?>
+<div class="block block-search">
+    <div class="block block-title search_click">search</div>
+    <div class="block block-content search_add" id="popup-modal">
+       <form class="form minisearch" id="search_mini_form"
+              action="<?= $escaper->escapeUrl($helper->getResultUrl()) ?>" method="get">
+            <div class="field search">
+                <label class="label" for="search" data-role="minisearch-label">
+                    <span><?= $escaper->escapeHtml(__('Search')) ?></span>
+                </label>
+                <div class="search-inner">
+                  <div class="control">
+                    <input id="search"
+                           data-mage-init='{
+                            "quickSearch": {
+                                "formSelector": "#search_mini_form",
+                                "url": "<?= /* @noEscape */ $quickSearchUrl ?>",
+                                "destinationSelector": "#search_autocomplete",
+                                "minSearchLength": "<?= $escaper->escapeHtml($helper->getMinQueryLength()) ?>"
+                            }
+                        }'
+                           type="text"
+                           name="<?= $escaper->escapeHtmlAttr($helper->getQueryParamName()) ?>"
+                           value="<?= /* @noEscape */ $helper->getEscapedQueryText() ?>"
+                           placeholder="<?= $escaper->escapeHtmlAttr(__('Search entire store here...')) ?>"
+                           class="input-text"
+                           maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>"
+                           role="combobox"
+                           aria-haspopup="false"
+                           aria-autocomplete="both"
+                           autocomplete="off"
+                           aria-expanded="false"/>
+                      <div id="search_autocomplete" class="search-autocomplete"></div>
+                      <?= $block->getChildHtml() ?>
+                  </div>
+                  <div class="actions">
+                    <button type="submit"
+                            title="<?= $escaper->escapeHtml(__('Search')) ?>"
+                            class="action search"
+                            aria-label="Search"
+                    >
+                        <span><?= $escaper->escapeHtml(__('Search')) ?></span>
+                    </button>
+                  </div>
+                </div>
+                  <div class="pop_ques">
+                    <span> Questions? Don't hesitate to contact us </span> 
+                    <span> info@ammachinery.nl <label>line</label> T +31 (0)77 – 2066603 </span> 
+                  </div>
+                </div> 
+        </form>
+    </div>
+</div>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'AMMACHINERY',
+                modalClass: 'search-model',
+                buttons: [{
+                    text: $.mage.__('The AM Concept'),
+                    class: 'popup-search',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+            $(".search_click").on('click',function(){ 
+                $("#popup-modal").modal("openModal");
+            });
+
+        }
+    );
+</script>

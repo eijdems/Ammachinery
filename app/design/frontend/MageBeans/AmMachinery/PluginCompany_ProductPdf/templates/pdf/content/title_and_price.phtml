@@ -1,0 +1,134 @@
+<div>
+    <div class="headerinfo" style="text-align:center;background:#f7f7f7; padding-top: 20px; padding-bottom: 20px;">
+        <p style="margin-bottom: 0; line-height: 24px;">AM Machinery inspection certificate</p>
+        <h3 class="product-title" style="margin: 0;"><?php echo $this->getProduct()->getName(); ?></h3>
+        <span style="margin:0; line-height: 0;"><?php echo "#".$this->getProduct()->getSku(); ?></span>
+    </div>
+    <div class="col-sm-12" style="padding: 15px 0; ">
+        <div class="col-sm-9" style="width:74.9999%">
+            <img class="img-responsive" style="width: 100px;" src="https://www.global-equipment.com/media/wysiwyg/imgpsh_fullsize_anim_new.png" alt="Stamp Logo" />            
+        </div>
+        <?php 
+            $blockObj           = $block->getLayout()->createBlock('Emizen\Restrictcountry\Block\Restrict');
+            $customerSession    = $blockObj->getSession();
+            $storeId            = $blockObj->getStoreId();
+            $countryCode        = $blockObj->getRestrictCountry(); 
+            $helper             = $this->helper('Mageplaza\GeoIP\Helper\Address');
+            $geoipData          = $helper->getGeoIpData($storeId);
+            $countryId          = $geoipData['country_id'];
+            $categories         = $blockObj->getCategorys();
+            $getGroupId         = $blockObj->getGroupId();
+            $flag = 0;
+            //echo $getGroupId;
+            $productId          = $blockObj->getCurrentProduct()->getId();
+            $productData        = $blockObj->getCurrentProduct();
+            $getCatIdsByPid     = $blockObj->getCategoryIds($productId);
+            $peopleContainsCriminal = array_intersect($getCatIdsByPid, $categories);
+            if ($peopleContainsCriminal) {
+                if (in_array($countryId, $countryCode)){
+                    if ($getGroupId != 4) {
+                        //echo "1111111111111";
+                        $flag = 1;
+                    } 
+                }
+            }
+            $objectManager =\Magento\Framework\App\ObjectManager::getInstance();
+            $helperImport = $objectManager->get('\Magento\Catalog\Helper\Image');
+
+            $imageUrl = $helperImport->init($productData, 'product_page_image')
+                            ->setImageFile($productData->getImage()) // image,small_image,thumbnail
+                            ->getUrl();
+        ?>
+        <?php if($flag) : ?>
+            <div class="col-sm-4" style="background: #92c043; padding: 10px 0; text-align: center; font-weight: bold; font-size: 16px; margin-top: 20px;">
+                <?php echo __("Price on request"); ?>
+            </div>
+        <?php else : ?>
+            <div class="col-sm-3">
+                <?php echo $this->getProductPriceHtml(); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="customimage">
+        <!-- <?php 
+        $images = $this->getProduct()->getMediaGalleryImages();
+        $count=1;
+        foreach($images as $child){
+        ?>
+            <?php
+            if($count==1) {
+            ?>
+                <img src="<?php echo $child->getUrl(); ?>" >
+            <?php
+                $count++;
+            }
+            ?>
+        <?php
+        }
+        ?> -->
+        <img src="<?php echo $imageUrl; ?>">
+    </div>
+    <div class="third row" style="display: flex;flex-direction: row;justify-content: space-between; background: #f7f7f7; padding-top:25px; padding-bottom: 25px;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 15%; background:#0d4b7e; padding: 15px;"> 
+                    <div class="logo">
+                        <?php 
+                        //$logo = "https://www.global-equipment.com/media/logo/websites/2/logo-1_1.png";
+                         $logo = "https://www.global-equipment.com/media/logo/websites/2/ammachinery_pdf.png";
+
+                        ?>
+                        <?php if($logo){ ?>
+                                <img class="img-responsive" style="width: 180px;" src="<?php echo $logo ?>" alt="Store Logo" />
+                        <?php } ?>
+                    </div>
+                </td>
+                <td style="width: 25%;">
+                    <div class="storeinfo">
+                        <p style="font-size: 13px; line-height: 30px;">Industriestraat 23<br>
+                        5961 PH Horst<br>
+                        The Netherlands<br>
+                        <a href="tel:+ 31 (0)77 – 2066603" style="line-height: 25px; color: #92c043;">T + 31 (0)77 – 2066603</a> <br> 
+                        <a href="mailto:sales@ammachinery.nl" style="line-height: 25px; color: #92c043;">sales@ammachinery.nl</a><br/>
+                        <a style="color: #92c043; line-height: 25px;" href="<?php echo $this->getUrl(); ?>"><?php echo $this->getUrl(); ?></a>
+                        </p>    
+                    </div>
+                </td>
+                <td style="text-align: right; width: 60%;">
+                    <div class="qrcode">
+                        <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<?php echo $this->getProduct()->getProductUrl(); ?>" title="Link to Google.com" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<style>
+    .content .product-title {
+        font-family: <?php echo $this->getProductTitleFontFamily(); ?>;
+        font-size:<?php echo $this->getConfig('title_fontsize'); ?>;
+        color:#<?php echo $this->getConfig('title_fontcolor'); ?>;
+    }
+
+    .content .product-price {
+        font-family: <?php echo $this->getPriceFontFamily(); ?>;
+        background-color: #<?php echo $this->getConfig('price_background'); ?>;
+    }
+    .content .product-price .price-box {
+        font-family: <?php echo $this->getPriceFontFamily(); ?>;
+        color:#<?php echo $this->getConfig('price_fontcolor'); ?>;
+        font-size:<?php echo $this->getConfig('price_fontsize'); ?>;
+    }
+    .content .tier-price-wrapper {
+        font-family: <?php echo $this->getPriceFontFamily(); ?>;
+        background:#<?php echo $this->getConfig('price_background'); ?>;
+        color:#<?php echo $this->getConfig('price_fontcolor'); ?>;
+    }
+    .storeinfo p {
+        font-size: 14px;
+    }
+    .storeinfo a {
+        color: #92c043;
+    }
+
+</style>

@@ -1,0 +1,83 @@
+<?php
+$productData = $block->getData();
+$cat_id = $productData['cat_id'];
+$_productCollection = $block->getLoadedProductCollection($cat_id);
+$_productSize = @$_productCollection->count();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$blockProduct = $this->getLayout()->createBlock("Magento\Catalog\Block\Product\ListProduct");
+?>
+<?php if (!$_productSize): ?>
+    <div class="message info empty">
+        <div><?php /* @escapeNotVerified */
+            echo __('We can\'t find products matching the selection.') ?></div>
+    </div>
+<?php else: ?>
+
+    <div class="em-custom-grid block widget block-products-list grid">
+        <div class="block-content">
+            <div class="product wrapper products-grid products-grid">
+                <ol class="product-items products list items widget-product-grid">
+                    <?php $iterator = 1; ?>
+                    <?php foreach ($_productCollection as $_product): ?>
+                        <?php /* @escapeNotVerified */
+                        echo ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                        <div class="product-item-info" data-container="product-grid">
+                            <div class="product-shop-top">
+                                <a href="<?php /* @escapeNotVerified */
+                                echo $_product->getProductUrl() ?>" class="product photo product-item-photo"
+                                   tabindex="-1">
+                                    <?php
+                                    $_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+                                    $productAltImage = $_imagehelper->init($_product, 'category_page_grid_thumbnail')->resize(280);
+                                    ?>
+                                    <span class="product-image-wrapper" style="height: auto;">
+                                          <img class="img_responsive "
+                                               src="<?php echo $productAltImage->getUrl() ?>"
+                                               alt="<?php echo $block->stripTags($productAltImage->getLabel(), null, true) ?>"/>
+                                           </span>
+                                </a>
+                            </div>
+                            <?php echo $blockProduct->getProductPrice($_product) ?>
+                            <div class="product-item-details">
+                                <div class="product-item-name">
+                                    <strong class="product name">
+                                        <a class="product-item-link"
+                                           href="<?php /* @escapeNotVerified */
+                                           echo $_product->getProductUrl() ?>">
+                                            <?php /* @escapeNotVerified */
+                                            echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                                        </a>
+                                    </strong>
+                                    <div class="sku_wrap">
+                                        <p><?php echo __('Stock Number:') ?>
+                                            <span><?php echo $_product->getSku() ?></span></p>
+                                    </div>
+                                </div>
+                                <ul class="products_attributes home_page">
+                                    <?php
+                                    $counter1 = (double)($_product->getResource()->getAttribute('counter1')->getFrontend()->getValue($_product)) ?: '';
+                                    $build_year = ($_product->getResource()->getAttribute('build_year')->getFrontend()->getValue($_product)) ?: '';
+
+                                    if (isset($build_year) && !empty($build_year)) {
+                                        echo __("<li><i class=\"far fa-calendar\"></i>" . $build_year . "</li>");
+                                    }
+                                    if (isset($counter1) && !empty($counter1)) {
+                                        echo __("<li><i class=\"fas fa-tachometer-alt\"></i>" . $counter1 . "</li>");
+                                    }
+
+                                    ?>
+                                </ul>
+                                <div class="more_information">
+                                    <a class="action more primary" href="<?php /* @escapeNotVerified */
+                                    echo $_product->getProductUrl() ?>"><?php /* @escapeNotVerified */
+                                        echo __('More information') ?></a>
+                                </div>
+                            </div>
+                        </div>
+                        <?php echo ($iterator == $_productSize + 1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

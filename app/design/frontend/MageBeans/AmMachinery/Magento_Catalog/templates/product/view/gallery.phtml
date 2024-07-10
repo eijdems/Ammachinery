@@ -1,0 +1,109 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+?>
+
+<?php
+$imageHelper = $this->helper(\Magento\Catalog\Helper\Image::class);
+$placeholderImageUrl = $imageHelper->getDefaultPlaceholderUrl('image');
+
+$images = $block->getGalleryImages()->getItems();
+$mainImage = current(array_filter($images, function ($img) use ($block) {
+    return $block->isMainImage($img);
+}));
+
+if (!empty($images) && empty($mainImage)) {
+    $mainImage = $block->getGalleryImages()->getFirstItem();
+}
+
+$helper = $block->getData('imageHelper');
+$mainImageData = $mainImage ?
+    $mainImage->getData('large_image_url') :
+    $placeholderImageUrl;
+    $product = $block->getProduct();
+    $videoss=($product->getResource()->getAttribute('video')->getFrontend()->getValue($product)) ?: '';
+    //$videos = explode(",", $videoss);
+
+?>
+<?php if($videoss == ''): ?>
+
+<div class="gallery-placeholder _block-content-loading" data-gallery-role="gallery-placeholder">
+    <img
+        alt="main product photo"
+        class="gallery-placeholder__image"
+        src="<?= /* @noEscape */ $mainImageData ?>"
+    />
+</div>
+<?php endif; ?>
+<?php if ($product->getData('machine_of_month')): ?>
+    <img class='img-sold-lable' src='/media/Sold-label.png' />
+    <style>
+        .page-layout-1column .product.media {
+            position: relative;
+        }
+        .page-layout-1column .product.media img.img-sold-lable {
+            position: absolute;
+            right: 16px;
+            top: -16px;
+        }
+    </style>
+<?php endif;?>
+<?php if ($product->getAttributeText('machine_status') == "Coming"): ?>
+    <img class='img-sold-lable machin-status' src='/media/coming-in-label.png' />
+    <style>
+        .page-layout-1column .product.media {
+            position: relative;
+        }
+        .page-layout-1column .product.media img.img-sold-lable {
+            position: absolute;
+            right: 16px;
+            top: -16px;
+        }
+    </style>
+<?php endif;?>
+<?php
+if(!function_exists('getYoutubeIdFromUrl')) {
+    function getYoutubeIdFromUrl($url) {
+        $parts = parse_url($url);
+        if(isset($parts['query'])){
+            parse_str($parts['query'], $qs);
+            if(isset($qs['v'])){
+                return $qs['v'];
+            }else if(isset($qs['vi'])){
+                return $qs['vi'];
+            }
+        }
+        if(isset($parts['path'])){
+            $path = explode('/', trim($parts['path'], '/'));
+            return $path[count($path)-1];
+        }
+        return false;
+    }
+}
+if (null !== $product->getCustomAttribute('video')) {
+    $videos = $product->getCustomAttribute('video')->getValue();
+
+    $videos = explode(",", $videos);
+
+    if (!empty($videos)) {
+        echo "<ul class='video_sections'>";
+        foreach ($videos as $video) {
+            $autoload='?autoplay=0&mute=1&enablejsapi=1';
+            if ($videoLink = getYoutubeIdFromUrl($video)) {
+
+                                    echo "<li><iframe width=\"100%\" height=\"450\" src=\"https://www.youtube.com/embed/" . $videoLink . $autoload . "\" frameborder=\"0\" ></iframe></li>";
+            }
+        }
+        echo "</ul>";
+    }
+
+}
+?>

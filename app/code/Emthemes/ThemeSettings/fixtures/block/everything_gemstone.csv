@@ -1,0 +1,143 @@
+title,identifier,content
+"EM0144 Everything - Gemstone - Main Slideshow - Main Content Top",em0144-gemstone-main-slideshow-main-content-top,"<div class=""space-block"">{{widget type=""Emthemes\Slideshow\Block\Widget\Slideshow"" setId=""36""}}</div>"
+"EM0144 Everything - Gemstone - Main Content Area 01 - New Product",em0144-gemstone-main-content-area01-new-product,"<div class=""em-wrapper-new-product-slider  em-line-55 button-show02 space-block em-product-style-55"">
+<div class=""block-title""><strong>NEW PRODUCT</strong>
+<p class=""sub-title"">All styles in the summer</p>
+</div>
+<div class=""em-new-product row"">
+<div class=""col-sm-24"">{{widget type=""Emthemes\FilterProduct\Block\Product\ProductsList"" display_type=""all_products"" show_slider=""1"" slider_item=""4"" products_count=""6"" order_by=""name DESC"" show=""thumb,name,review,price,addtocart,addto"" thumb_width=""280"" thumb_height=""290"" filter_template=""custom"" custom_template=""em_grid_25.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`111, 112`^]^]"" cache_lifetime=""86400""}}</div>
+</div>
+</div>
+<div class=""middle-banner  space-block hidden-xs"">
+<div class=""row banner-box"">
+<div class=""col-sm-8""><img src=""{{media url=""wysiwyg/em0144/layout_gemstone/middle-banner-01.jpg""}}"" alt="""" /></div>
+<div class=""col-sm-16"">
+<p class=""sub-title text-uppercase"">IS COMING SOON ...</p>
+<p class=""title h2"">JEWEL LUXURY SET</p>
+<p>Orci vivamus, vestibulum iaculis egestas primis nullam ultrices neque eros interdum risus sed nunc sapien phasellus nisi nostra pulvinar ultrices cursus taciti aptent ridiculus.</p>
+<a class=""view-more"" href=""{{config path=""web/secure/base_url""}}gemstone.html"">View more <i class=""fa fa-angle-right""></i> </a></div>
+</div>
+</div>"
+"EM0144 Everything - Gemstone Store - Main Content Area 02 - Best Seller",em0144-gemstone-main-content-area02-best-seller,"<div class=""emtabs-ajaxblock-loaded em-wrapper-product-12 em-product-style-55 space-block"">
+<div class=""em-tabs-widget tabs-widget"">
+<div class=""widget-title em-widget-title"">
+<h3><span>Best Seller</span></h3>
+</div>
+<div class=""em-tabs-left"">
+<div class=""em-tabs emtabs product data items"" data-mage-init=""{&quot;tabs&quot;:{&quot;openedState&quot;:&quot;active&quot;}}"">
+<div id=""tab-label-allstyle-tab"" class=""data item title"" data-role=""collapsible""><a id=""tab-label-allstyle-tab-title"" class=""data switch"" tabindex=""-1"" href=""#allstyle-tab"" data-toggle=""switch"">All Styles</a></div>
+<div id=""allstyle-tab"" class=""data item content"" data-role=""content"">{{widget type=""Emthemes\FilterProduct\Block\Product\ProductsList"" display_type=""all_products"" show_slider=""0"" products_count=""5"" order_by=""entity_id ASC"" show=""thumb,name,review,price,addtocart,addto"" thumb_width=""570"" thumb_height=""590"" filter_template=""custom"" custom_template=""em_grid_55.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`110`^]^]""}}</div>
+<div id=""tab-label-pendant-tab"" class=""data item title"" data-role=""collapsible""><a id=""tab-label-pendant-tab-title"" class=""data switch"" tabindex=""-1"" href=""#pendant-tab"" data-toggle=""switch"">Pendant</a></div>
+<div id=""pendant-tab"" class=""data item content"" data-role=""content"">{{widget type=""Emthemes\FilterProduct\Block\Product\ProductsList"" display_type=""all_products"" show_slider=""0"" products_count=""5"" order_by=""name DESC"" show=""thumb,name,review,price,addtocart,addto"" thumb_width=""570"" thumb_height=""590"" filter_template=""custom"" custom_template=""em_grid_55.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`110`^]^]""}}</div>
+<div id=""tab-label-rings-tab"" class=""data item title"" data-role=""collapsible""><a id=""tab-label-rings-tab-title"" class=""data switch"" tabindex=""-1"" href=""#rings-tab"" data-toggle=""switch"">Rings</a></div>
+<div id=""rings-tab"" class=""data item content"" data-role=""content"">{{widget type=""Emthemes\FilterProduct\Block\Product\ProductsList"" display_type=""all_products"" show_slider=""0"" products_count=""5"" order_by=""price ASC"" show=""thumb,name,review,price,addtocart,addto"" thumb_width=""570"" thumb_height=""590"" filter_template=""custom"" custom_template=""em_grid_55.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`112`^]^]""}}</div>
+<div id=""tab-label-accessories-tab"" class=""data item title"" data-role=""collapsible""><a id=""tab-label-accessories-tab-title"" class=""data switch"" tabindex=""-1"" href=""#accessories-tab"" data-toggle=""switch"">Accessories</a></div>
+<div id=""accessories-tab"" class=""data item content"" data-role=""content"">{{widget type=""Emthemes\FilterProduct\Block\Product\ProductsList"" display_type=""all_products"" show_slider=""0"" products_count=""5"" order_by=""entity_id DESC"" show=""thumb,name,review,price,addtocart,addto"" thumb_width=""570"" thumb_height=""590"" filter_template=""custom"" custom_template=""em_grid_55.phtml"" conditions_encoded=""^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`111`^]^]""}}</div>
+</div>
+</div>
+</div>
+</div>"
+"EM0144 Everything - Gemstone Store - Main Content Area 03 - Blog",em0144-gemstone-main-content-area03-blog,"<div class=""row"">
+<div class=""col-sm-24"">
+<div class=""space-block"">
+<div class=""em-block-title"">
+<h2><span>Complete Your Look</span></h2>
+<p class=""sub-title"">All styles in the summer</p>
+</div>
+<div class=""em-slider em-slider-from-our-blog"">{{block class=""Magefan\Blog\Block\Post\PostList\Recent"" name=""blog.style03.recent"" template=""post/list/recent_11.phtml""}}</div>
+</div>
+</div>
+</div>"
+"EM0144 Everything - Gemstone Store - Main Content Area 04 - Social Follow ",em0144-gemstone-main-content-area04-social,"<div class=""instagram-wrap space-block"">
+<div class=""em-block-title"">
+<h2><span>MY STYLE SHOP ON INSTAGRAM</span></h2>
+<p class=""sub-title"">Follow is on instagram</p>
+</div>
+<div class=""em-block-content"">
+<div class=""row"">
+<div class=""col-sm-24"">
+<div class=""col-sm-8 col-left""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-02.jpg""}}"" alt=""instagram"" /></a></div>
+<div class=""col-sm-16 col-right"">
+<ul class=""insta-list"">
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-01.jpg""}}"" alt=""instagram"" /></a></li>
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-03.jpg""}}"" alt=""instagram"" /></a></li>
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-04.jpg""}}"" alt=""instagram"" /></a></li>
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-05.jpg""}}"" alt=""instagram"" /></a></li>
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-06.jpg""}}"" alt=""instagram"" /></a></li>
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-07.jpg""}}"" alt=""instagram"" /></a></li>
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-08.jpg""}}"" alt=""instagram"" /></a></li>
+<li class=""item""><a href=""https://www.instagram.com/""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/insta-09.jpg""}}"" alt=""instagram"" /></a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>"
+"EM0144 Everything - Gemstone Store - Main Content Area 05 - Newsletter",em0144-gemstone-main-content-area05-newsletter,"<div class=""em-block-content em-newsletter space-large-block"">
+<div class=""em-newletter-title"">
+<h1>Newsletter</h1>
+<p class=""sub"">A short sentence desribing what someone will receive by subscribing</p>
+</div>
+{{block class=""Magento\Newsletter\Block\Subscribe"" name=""em.newsletter.style02"" template=""subscribe.phtml""}}
+<div class=""banner""><img class=""img-responsive"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/newsletter-bg.jpg""}}"" alt="""" /></div>
+</div>"
+"EM0144 Everything - Gemstone Store - Footer Area 01 - Information",em0144-gemstone-footer-area01-information,"<div class=""em-footer-info"">
+<div class=""row"">
+<div class=""col-sm-8 first"">
+<div class=""em-block-title"" data-mage-init=""{&quot;emCollapsible&quot;:{&quot;collapseTarget&quot;:&quot;#collapse01&quot;}}"">
+<p class=""h2 em-text-upercase""><span>ABOUT US</span></p>
+</div>
+<div id=""collapse01"" class=""em-links em-block-content block-info"">About 64% of all on-line teens say that do things online that they wouldn’t want their parents to know about.
+<div class=""em-wrapper-social"">
+<p class=""em-social""><a class=""em-social-icon em-facebook f-left"" title=""em-sample-title"" href=""#""><span class=""fa fa-fw""></span></a> <a class=""em-social-icon em-twitter f-left"" title=""em-sample-title"" href=""#""><span class=""fa fa-fw""></span></a> <a class=""em-social-icon em-pinterest  f-left"" title=""em-sample-title"" href=""#""><span class=""fa fa-fw""></span></a> <a class=""em-social-icon em-google f-left"" title=""em-sample-title"" href=""#""><span class=""fa fa-fw""></span></a> <a class=""em-social-icon em-rss  f-left"" title=""em-sample-title"" href=""#""><span class=""fa fa-fw""></span></a></p>
+</div>
+</div>
+</div>
+<div class=""col-sm-4"">
+<div class=""em-block-title""data-mage-init=""{&quot;emCollapsible&quot;:{&quot;collapseTarget&quot;:&quot;#collapse02&quot;}}"">
+<p class=""h2 em-text-upercase""><span>YOUR LINKS</span></p>
+</div>
+<ul id=""collapse02"" class=""em-links em-block-content block-info"">
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><span>Side navigation</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""{{config path=""web/secure/base_url""}}about-us""><span>About us</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""{{config path=""web/secure/base_url""}}contacts""><span>Contact us</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><span>Forum Support</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""{{config path=""web/secure/base_url""}}privacy-policy-cookie-restriction-mode""><span>Privacy policy</span></a></li>
+</ul>
+</div>
+<div class=""col-sm-4"">
+<div class=""em-block-title"" data-mage-init=""{&quot;emCollapsible&quot;:{&quot;collapseTarget&quot;:&quot;#collapse03&quot;}}"">
+<p class=""h2 em-text-upercase""><span>SUPPORT</span></p>
+</div>
+<ul id=""collapse03"" class=""em-links em-block-content block-info"">
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><span>Side navigation</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""{{config path=""web/secure/base_url""}}about-us""><span>About us</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""{{config path=""web/secure/base_url""}}contacts""><span>Contact us</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><span>Forum Support</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""{{config path=""web/secure/base_url""}}privacy-policy-cookie-restriction-mode""><span>Privacy policy</span></a></li>
+</ul>
+</div>
+<div class=""col-sm-7 last"">
+<div class=""em-block-title"" data-mage-init=""{&quot;emCollapsible&quot;:{&quot;collapseTarget&quot;:&quot;#collapse04&quot;}}"">
+<p class=""h2 em-text-upercase""><span>CONTACT US</span></p>
+</div>
+<ul id=""collapse04"" class=""em-links em-block-content block-info"">
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><i class=""fa fa-map-marker""></i> <span>33 New Montgomery, San Francisco, CA, USA</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><i class=""fa fa-phone""></i> <span>Phone: 0123-456-789</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><i class=""fa fa-envelope""></i> <span>Email: support@designmagento.com</span></a></li>
+<li class=""em-links-item""><a title=""em-sample-title"" href=""#""><i class=""fa fa-clock-o""></i> <span>09:00 am - 06:00 pm</span></a></li>
+</ul>
+</div>
+</div>
+</div>"
+"EM0144 Everything - Gemstone Store - Footer Inner - Payment",em0144-gemstone-footer-inner-payment,"<div class=""em-payment f-right"">
+<ul>
+<li><a href=""#""><i class=""fa fa-cc-mastercard""></i></a></li>
+<li><a href=""#""><i class=""fa fa-cc-visa""></i></a></li>
+<li><a href=""#""><i class=""fa fa-cc-paypal""></i></a></li>
+<li><a href=""#""><i class=""fa fa-cc-discover""></i></a></li>
+<li><a href=""#""><i class=""fa fa-cc-visa""></i></a></li>
+</ul>
+</div>"
+"EM0144 Everything - Gemstone - Header Banner Top",em0144-gemstone-header-banner-top,"<p><img src=""{{media url=""wysiwyg/em0144/layout_gemstone/banner-top.jpg""}}"" width=""1920"" height=""50"" /></p>"
+"EM0144 Everything - Gemstone - Header Panel Top 01 - Banner Shop Now",em0144-gemstone-header-panel-top01-banner-shop-now,"<p ><img class=""img-responsive hidden-xs"" src=""{{media url=""wysiwyg/em0144/layout_gemstone/banner-top.jpg""}}"" alt=""banner-top"" /></p>"

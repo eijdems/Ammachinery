@@ -1,0 +1,131 @@
+<style>
+body.blog-category-view .post-list-wrapper .post-list .post-holder {
+    width: 33.33%;
+}
+body.blog-category-view .page-title span {
+    line-height: normal;
+    font-weight: 500;
+    letter-spacing: 2px;
+    font-size: 36px;
+    font-family: 'Roboto', serif;
+    color: #93c13d;
+    border-bottom: 1px solid;
+}
+body.blog-category-view .page-title {
+    margin-bottom:20px;
+}
+body.blog-category-view .post-content .post-ftimg-hld a {
+    padding-bottom: 68%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+body.blog-category-view .post-content .post-ftimg-hld a img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+}
+body.blog-category-view .post-content {
+    width:100%;
+    max-width:100%;
+}
+body.blog-category-view .three-list-item {
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+}
+body.blog-category-view .post-list {
+    display:block;
+}
+@media(max-width:1199px) {
+  body.blog-category-view .page-title span {
+    letter-spacing: 0px;
+    font-size: 24px;
+  } 
+}
+@media(max-width: 1024px) {
+    body.blog-category-view .post-list-wrapper .post-list .post-holder {
+        width: 50%;
+    }
+}
+@media(max-width: 992px) {
+    body.blog-category-view .post-list-wrapper .post-list .post-holder {
+        width: 100%;
+    }
+}
+@media(max-width: 767px) {
+    body.blog-category-view .post-content .post-ftimg-hld a {
+        padding-bottom: 0px;
+    }
+    body.blog-category-view .post-content .post-ftimg-hld a img  {
+        position: static;
+    }
+}
+</style>
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog post list template
+ *
+ * @var $block \Magefan\Blog\Block\Post\PostList
+ */
+?>
+<?php 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
+$_postCollection = $block->getPostCollection();
+?>
+<?php if (!$_postCollection->count()): ?>
+    <div class="message info empty">
+        <div>
+            <?= $block->escapeHtml(__('We can\'t find posts matching the selection.')) ?>
+        </div>
+    </div>
+<?php else: ?>
+    <?= $block->getAdditionalHtml() ?>
+    <div class="post-list-wrapper">
+        <?php $count = count($_postCollection);
+        $counter = 1;?>
+        <?php $iterator = 1; ?>
+        <ol class="post-list">
+            <?php echo "<div class='three-list-item'>";?>
+            <?php foreach ($_postCollection as $_post): ?>                
+                <?= $block->getPostHtml($_post) ?>
+                 <?php
+                     if($counter % 3 == 0 && $count != $counter) {
+                        ?>
+                    </div>
+                    <div class="three-list-item">
+                        <?php
+                    }
+                ?>          
+                <?php $counter++; ?>
+            <?php endforeach; ?>
+            <?php echo "</div>";?>
+            <li class="hidden">
+                <script type="text/javascript">
+                    if (window.addthis) {
+                        addthis.toolbox('.addthis_toolbox');
+                    }
+                </script>
+            </li>
+        </ol>
+    </div>
+   
+   
+
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getChildHtml('addthisJs'); ?>
+<?php endif; ?>

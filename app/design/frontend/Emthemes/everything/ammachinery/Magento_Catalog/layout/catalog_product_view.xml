@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/pageforee_configuration.xsd">
+    <body>
+
+
+        <move element="page.main.title" destination="product.info.main" before="product_view_block_custom"/>
+
+
+<!--        <referenceBlock name="product.info.overview">-->
+<!--            <arguments>-->
+<!--                <argument name="at_label" translate="true" xsi:type="string"></argument>-->
+<!--            </arguments>-->
+<!--        </referenceBlock>-->
+
+        <move element="product.info.stock.sku" destination="product.info.main" after="product_view_block_custom"/>
+        <move element="product.info.sku" destination="product.info.stock.sku" before="product.info.type"/>
+        <move element="product.info.overview" destination="product.info.main" after="product.info.stock.sku"/>
+
+        <referenceBlock name="product.info.social" remove="true"/>
+
+        <container name="skip_gallery_after.wrapper" htmlTag="div" htmlClass="action-skip-wrapper-bottom"/>
+
+
+        <referenceContainer name="product.info.main">
+            <container name="product.extra" htmlTag="div" htmlClass="product-extra-links" after="-">
+<!--                <block class="Nadeem0035\General\Block\Block" name="product.info.print_icon" after="view.addto.wishlist"-->
+<!--                       template="Nadeem0035_General::print.phtml"/>-->
+                <block class="Nadeem0035\General\Block\Quote" name="product.info.related_product"
+                       after="product.info.print_icon" template="Nadeem0035_General::related_product_section.phtml"/>
+            </container>
+            <block class="Nadeem0035\General\Block\Quote" name="product.info.quote_form"
+                   template="Nadeem0035_General::quote_form.phtml"/>
+            <block class="Nadeem0035\General\Block\Quote" name="product.info.attributes"
+                   template="Nadeem0035_General::attributes.phtml"/>
+            <block class="Nadeem0035\General\Block\Quote" name="product.info.check_mark"
+                   template="Nadeem0035_General::check-mark.phtml"/>
+            <block class="Nadeem0035\General\Block\Quote" name="product.info.attach_doc"
+                   template="Nadeem0035_General::attach-doc.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="content.aside">
+            <container name="product.extra.description" htmlTag="div" htmlClass="product-extra-description"
+                       before="catalog.product.related">
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.mailto2"
+                       template="Magento_Catalog::product/view/extra_description.phtml"/>
+            </container>
+        </referenceContainer>
+
+        <referenceBlock name="product.info.details">
+
+            <referenceBlock name="product.attributes">
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Specifications</argument>
+                    <argument name="sort_order" xsi:type="string">10</argument>
+                </arguments>
+            </referenceBlock>
+
+            <referenceBlock name="product.info.description">
+                <arguments>
+                    <argument name="title" translate="true" xsi:type="string">Description</argument>
+                    <argument name="sort_order" xsi:type="string">20</argument>
+                </arguments>
+            </referenceBlock>
+
+            <block class="Magento\Catalog\Block\Product\View"
+                   template="Magento_Catalog::product/view/tabs/video.phtml" name="product.info.video" group="detailed_info">
+                <arguments>
+                    <argument name="title" translate="true" xsi:type="string">Video(s)</argument>
+                    <argument name="sort_order" xsi:type="string">30</argument>
+                </arguments>
+            </block>
+
+            <block class="Magento\Catalog\Block\Product\View"
+                   template="Magento_Catalog::product/view/tabs/download.phtml" name="product.info.download" group="detailed_info">
+                <arguments>
+                    <argument name="title" translate="true" xsi:type="string">Downloads</argument>
+                    <argument name="sort_order" xsi:type="string">40</argument>
+                </arguments>
+            </block>
+
+        </referenceBlock>
+
+
+
+        <referenceContainer name="product.info.media">
+            <container name="product.info.media.gdirect" htmlTag="div" htmlClass="custom_sidebar_content">
+                <block class="Magento\Cms\Block\Block" name="blov_agdirect" after="product.info.media.image">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">504</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <!--<move element="product.extra.description" destination="content.aside" before="catalog.product.related" />-->
+
+        <move element="view.addto.compare" destination="product.extra" after="-"/>
+        <move element="view.addto.wishlist" destination="product.extra" after="view.addto.compare"/>
+        <referenceBlock name="product.info.mailto" remove="true"/>
+        <referenceBlock name="product.info.overview" remove="true" />
+
+        <referenceBlock name="product.info.review" remove="true"/>
+        <referenceBlock name="reviews.tab" remove="true"/>
+
+        <move element="product.extra" destination="product.info.main" after="page.main.title"/>
+
+
+        <move element="product.price.tier" destination="product.info.main" after="product.info"/>
+
+        <move element="product.info.details" destination="product.info.main" after="product.price.tier"/>
+        <move element="product.info.quote_form" destination="product.info.main" before="product.price.tier"/>
+
+        <move element="product.info.print_icon" destination="product.extra" after="view.addto.wishlist"/>
+        <move element="product.info.related_product" destination="product.extra" after="product.info.print_icon"/>
+
+        <move element="product.info.attributes" destination="product.info.stock.sku" after="-"/>
+
+        <move element="product.info.check_mark" destination="product.info.main" after="product.info.stock.sku"/>
+
+        <move element="product.info.attach_doc" destination="product.info.main" after="product.info.price"/>
+
+
+    </body>
+</page>

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="wish-list-link" remove="true" />
+        <referenceBlock name="authorization-link" remove="true" />
+        <!-- <referenceBlock name="register-link" remove="true" /> -->
+        <referenceBlock name="my-account-link" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true" />
+        <referenceBlock name="top.search" remove="false" />
+        <referenceBlock name="store.settings.language" remove="true" />
+        <referenceBlock name="store.settings.currency" remove="true" />
+        <!--referenceBlock name="currency" remove="true" /-->
+        <referenceBlock name="footer_links" remove="true" />
+        <!-- <referenceBlock name="store_language" remove="true" /> -->
+
+
+       <!--  <referenceContainer name="top.links">
+            <block class="Magento\Cms\Block\Block" name="follow.facebook" before="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">follow_facebook</argument>
+                </arguments>
+            </block>
+        </referenceContainer> -->
+
+        <referenceContainer name="header.container">
+            <block class="Magento\Cms\Block\Block" name="hamburgermenu-ammachinery" after="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">hamburgermenu-ammachinery</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="menu_after_hamburg" after="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">menu_after_hamburg</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+             
+        <referenceContainer name="page.top">
+            <referenceBlock name="catalog.topnav" remove="false" />
+        </referenceContainer>
+
+        <!-- <referenceBlock name="catalog.topnav">
+            <block class="Magebees\Navigationmenu\Block\Menucreator" name="menucreator" template="menucreator.phtml">
+                <action method="setGroupId"><argument name="groupid" xsi:type="string">1</argument></action>
+            </block>
+        </referenceBlock> -->
+
+        <referenceContainer name="footer">
+            <block class="Magento\Cms\Block\Block" name="footer_am" before="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_am</argument>
+                </arguments>
+            </block>
+            
+            <container name="chat.block">
+                <block class="Magento\Cms\Block\Block" name="chat_me">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">chat-me</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <move element="logo" destination="header.container" before="-"/>
+        <move element="navigation.sections" destination="header.container" after="logo"/>
+        <move element="top.search" destination="header.container" after="navigation.sections" />
+        <move element="store_language" destination="header.container" before="currency"/>
+        <move element="top.links" destination="header.container" before="hamburgermenu-ammachinery" />
+        <move element="currency" destination="header.container" before="hamburgermenu-ammachinery"/>
+        <move element="hamburgermenu-ammachinery" destination="header.container" after="-"/>
+        <referenceBlock name="header.links" remove="true" />      <!--for Sign In Link  -->
+        <move element="form.subscribe" destination="footer-container" before="-"/>
+        <!-- <move element="header.switchers" destination="header-wrapper" after="navigation.sections"/>
+        <move element="currency" destination="header-wrapper" after="header.switchers"/> -->
+
+        <!-- <move element="navigation.sections" destination="header-wrapper" after="-"/>
+        <move element="top.links" destination="header.panel" before="-" />
+        <move element="header.switchers" destination="header.panel" before="currency"/>
+        <move element="currency" destination="header.panel" after="-"/>
+        <move element="logo" destination="header.container" before="-"/> -->
+        <!-- <move element="catalog.compare.link" destination="header.panel" before="-"/> -->
+        <referenceBlock name="minicart" remove="false" />
+        <referenceContainer name="after.body.start">
+            <block name="custom.body" before="-" template="Magento_Theme::html/custom_body.phtml" />
+        </referenceContainer>
+    </body>
+</page>
+

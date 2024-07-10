@@ -1,0 +1,51 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+		<tab id="magebeans" translate="label" sortOrder="305">
+            <label>MageBeans</label>
+        </tab>
+        <section id="magebeans_section" translate="label" type="text" sortOrder="8888" showInDefault="1"
+                 showInWebsite="0" showInStore="0">
+                <class>separator-top</class>
+                <label>MageBeans Homepage</label>
+                <tab>magebeans</tab>
+                <resource>MageBeans_Pageimage::config</resource>
+                <group id="categories" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0">
+                    <label>Homepage Category Configuration</label>
+                    <field id="categorylist" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Select Categories</label>
+                        <!--source_model>MageBeans\Pageimage\Model\Config\Productlist</source_model-->
+                         <source_model>MageBeans\Pageimage\Model\Config\Attribute</source_model>
+                        <frontend_model>MageBeans\Pageimage\Block\Adminhtml\MultiUiSelect</frontend_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="product" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0">
+                    <label>Homepage Product Configuration</label>
+                    <field id="productlist" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Select Product</label>
+                        <!--source_model>MageBeans\Pageimage\Model\Config\Productlist</source_model-->
+                         <source_model>MageBeans\Pageimage\Model\Config\Productlist</source_model>
+                        <frontend_model>MageBeans\Pageimage\Block\Adminhtml\MultiUiSelect</frontend_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="youtube" translate="label" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Youtube Video</label>
+                    </field>
+                </group>
+                <group id="twoproductright" showInDefault="1" showInWebsite="0" sortOrder="15" translate="label">
+                    <label>Home Page Right section configuration</label>
+                    <field id="twoproduct" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Product SKU </label>
+                        <comment>please enter the Two SKU comma(,) separated.</comment>
+                    </field>
+                </group>
+                <group id="starattributes" showInDefault="1" showInWebsite="0" sortOrder="15" translate="label">
+                    <label>Star attributes</label>
+                    <field id="starattributecode" translate="label" type="textarea" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Attribute code </label>
+                        <comment>please enter attribute code comma(,) separated.</comment>
+                    </field>
+                </group>
+        </section>
+    </system>
+</config>

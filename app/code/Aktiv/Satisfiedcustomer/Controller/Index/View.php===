@@ -1,0 +1,33 @@
+<?php
+
+namespace Aktiv\Satisfiedcustomer\Controller\Index;
+
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+
+class View extends Action {
+
+    public function __construct(
+        Context $context
+    )
+    {
+        parent::__construct($context);
+    }
+    public function execute()
+    {
+        $response = [];
+        echo "<pre>";
+        print_r($this->getRequest()->getParams());
+        $id = $this->getRequest()->getParam('proid');
+        echo 123;
+        echo $id;
+        die;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $product = $objectManager->get('Magento\Catalog\Model\Product')->load($id);
+        $text = $product->getResource()->getAttribute('test')->getFrontend()->getValue($product);
+        $response['text'] = $text;
+        $this->getResponse()->setContent(json_encode($response));
+        // echo 123;
+        // exit;
+    }
+}

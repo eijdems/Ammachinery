@@ -1,0 +1,48 @@
+<?php
+/** @var  \WeltPixel\Newsletter\Helper\Data $_helper */
+$_helper = $this->helper('WeltPixel\Newsletter\Helper\Data');
+?>
+<div class="message-popup" id="message-popup"></div>
+<div class="Subscribe-form-section">
+    <div class="form-heading">
+        <h2><?php echo __("Subscribe for our newsletter")?></h2>
+        <p><?php echo __("And stay updated about the latest news")?></p>
+    </div>
+    <form action="<?= $block->getUrl('newsletterpopup/index/index'); ?>"
+        novalidate
+          method="post"
+          data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+          id="weltpixel_newsletter">
+            <div class="form-group">
+                <input name="fname" type="text" id="popup_newsletter_fname" placeholder="<?php echo $block->escapeHtml(__('First name')) ?>" />
+            </div>
+            <div class="form-group">
+                <input name="lname" type="text" id="popup_newsletter_lname" placeholder="<?php echo $block->escapeHtml(__('Last name')) ?>" />
+            </div>
+            <div class="form-group">
+                <input name="email" type="email" id="popup_newsletter_email" placeholder="<?php echo $block->escapeHtml(__('E-mail')) ?>"
+                   data-validate="{required:true, 'validate-email':true}"/>
+            </div>
+            <div class="form-group">
+                <button class="action subscribe primary" title="<?= $block->escapeHtml(__('Subscribe')) ?>" type="submit">
+                    <span><?= $block->escapeHtml(__('Subscribe')) ?></span>
+                </button>
+            </div>
+            <?php if ($_helper->isTermsConditionsEnabled()) : ?>
+            <div class="terms-condition-container">
+                <?php  if ($_helper->isTermsConditionsCheckboxRequired()) : ?>
+                <input id="terms_conditions_consent" name="terms_conditions_consent" type="checkbox" data-validate="{required:true}" />
+                <?php endif; ?>
+                <label for="terms_conditions_consent" ><?php echo $_helper->getTermsConditionsText(); ?></label>
+            </div>
+            <?php endif; ?>
+        </div>
+    </form>
+</div>
+<!-- SOCIAL ICONS BEGIN -->
+<div class="social-icon-sec">
+    <a class="fb-icon" href="https://www.facebook.com/ammachinery.nl" target="_blank"></a>
+    <a class="insta-icon" href="https://www.instagram.com/am.machinery/" target="_blank"></a>
+    <a class="youtube-icon" href="https://www.youtube.com/channel/UCydFGahb1B9ZWC25LiR_g9Q" target="_blank"></a>
+    <a class="linkdn-icon" href="https://www.linkedin.com/company/am-machinery" target="_blank"></a>
+</div>

@@ -1,0 +1,104 @@
+{
+    "name": "magento/project-community-edition",
+    "description": "eCommerce Platform for Growth (Community Edition)",
+    "type": "project",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "require": {
+        "amasty/module-page-speed-optimizer": "*",
+        "amasty/module-xml-google-sitemap": "*",
+        "amasty/shopby": "*",
+        "avada/module-proofo": "^1.0",
+        "dealer4dealer/xcore-magento2": "^2.9",
+        "experius/module-emailcatcher": "^3.4",
+        "experius/module-wysiwygdownloads": "^1.0",
+        "geoip2/geoip2": "^2.13",
+        "magefan/module-blog": "^2.10.8",
+        "magento/composer-root-update-plugin": "~1.0",
+        "magento/product-community-edition": "2.4.3",
+        "mageplaza/magento-2-chinese-language-pack": "dev-master",
+        "mageplaza/magento-2-dutch-language-pack": "dev-master",
+        "mageplaza/magento-2-french-language-pack": "dev-master",
+        "mageplaza/magento-2-german-language-pack": "dev-master",
+        "mageplaza/magento-2-portuguese-brazilian-language-pack": "dev-master",
+        "mageplaza/magento-2-portuguese-language-pack": "dev-master",
+        "mageplaza/magento-2-russian-language-pack": "dev-master",
+        "mageplaza/magento-2-seo-extension": "^4.0",
+        "mageplaza/magento-2-spanish-language-pack": "dev-master",
+        "mageplaza/module-currency-formatter": "^1.0",
+        "mageplaza/module-google-recaptcha": "^4.0.2",
+        "mageplaza/module-sitemap": "^4.0",
+        "mageplaza/module-smtp": "^4.7.0",
+        "mailchimp/mc-magento2": "^102.3",
+        "maxmind-db/reader": "^1.11",
+        "mpdf/mpdf": "^8.0",
+        "nadeem0035/allow-html-tags": "^1.0",
+        "phpoffice/phpspreadsheet": "^1.12",
+        "rosell-dk/webp-convert": "^2.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.16.0",
+        "lusitanian/oauth": "~0.8.10",
+        "magento/magento2-functional-testing-framework": "^3.0",
+        "pdepend/pdepend": "~2.7.1",
+        "phpmd/phpmd": "@stable",
+        "phpunit/phpunit": "^9",
+        "sebastian/phpcpd": "~5.0.0",
+        "squizlabs/php_codesniffer": "~3.5.4"
+    },
+    "conflict": {
+        "gene/bluefoot": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
+            "Magento\\Setup\\": "setup/src/Magento/Setup/",
+            "Magento\\": "app/code/Magento/",
+            "Zend\\Mvc\\Controller\\": "setup/src/Zend/Mvc/Controller/"
+        },
+        "psr-0": {
+            "": [
+                "app/code/",
+                "generated/code/"
+            ]
+        },
+        "files": [
+            "app/etc/NonComposerComponentRegistration.php"
+        ],
+        "exclude-from-classmap": [
+            "**/dev/**",
+            "**/update/**",
+            "**/Test/**"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
+            "Magento\\Tools\\": "dev/tools/Magento/Tools/",
+            "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/",
+            "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/"
+        }
+    },
+    "version": "2.4.3",
+    "minimum-stability": "stable",
+    "repositories": {
+        "0": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        },
+        "amasty": {
+            "type": "composer",
+            "url": "https://composer.amasty.com/community/"
+        }
+    },
+    "extra": {
+        "magento-force": "override"
+    }
+}

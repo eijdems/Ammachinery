@@ -1,0 +1,533 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+?>
+<?php
+
+
+$objectManager      = \Magento\Framework\App\ObjectManager::getInstance();
+$category           = $objectManager->get('Magento\Framework\Registry')->registry('current_category');//get current category
+//$customerSession    = $objectManager->create('Magento\Customer\Model\Session');
+$blockObj           = $block->getLayout()->createBlock('Emizen\Restrictcountry\Block\Restrict');
+$imageHelper        = $objectManager->get('Magento\Catalog\Helper\Image');
+$customerSession    = $blockObj->getSession();
+$storeId            = $blockObj->getStoreId();
+$countryCode        = $blockObj->getRestrictCountry(); 
+$helper             = $this->helper('Mageplaza\GeoIP\Helper\Address');
+$geoipData          = $helper->getGeoIpData($storeId);
+
+$countryId          = $geoipData['country_id'];
+$getGroupId         = $blockObj->getGroupId();
+$categories         = $blockObj->getCategorys();
+$flag = 0;
+
+
+$routeName = $this->getRequest()->getRouteName();
+$currentCategory = [];
+if ($routeName != "catalogsearch") {
+    $currentCategory    = $category->getId();
+}
+
+/*echo "<pre>";
+print_r($currentCategory);
+print_r($categories);*/
+
+if (in_array($countryId, $countryCode)){
+    if (in_array($currentCategory, $categories)) {
+        if ($getGroupId != 4) {
+            $flag = 1;
+        }       
+    }
+}
+if ($customerSession->isLoggedIn()) {
+    $firstname = $customerSession->getCustomer()->getFirstname();  // get  First Name
+    $lastname = $customerSession->getCustomer()->getLastname();  // get  Last Name
+    $email = $customerSession->getCustomer()->getEmail(); // get Email
+}
+else{
+    $firstname = null;  
+    $lastname = null;
+    $email = null;
+}
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$productArray = iterator_to_array($_productCollection);
+shuffle($productArray);
+
+
+$request = $objectManager->get('\Magento\Framework\App\Request\Http');
+
+$catAction = $request->getControllerName();
+
+/** @var \Magento\Catalog\Helper\Output $_helper */
+$_helper = $block->getData('outputHelper');
+?>
+<?php if (!$_productCollection->count()):?>
+    <div class="message info empty">
+        <div><?= $escaper->escapeHtml(__('We can\'t find products matching the selection.')) ?></div>
+    </div>
+<?php else:?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $imageDisplayArea = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $imageDisplayArea = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    if ($catAction == "category") {
+        $categoryId = $category->getId();
+        $categories = array(103,104,105,114,115,113,121,109,116,122,124,126,129,132,133,134,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,130,135,136,137,138,139,140,141,142,143,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,131,144,145,127,128,144,145,146,147,148,149,165,166,150,151,152,153,154,155,156,163,164,161,162,159,160,262,263,264,265,266,267,268,269,270,271,272,273,274,275,288,289,290,291,292,293,294,296,297);
+        if (in_array($categoryId, $categories)) {
+            $viewMode = 'grid';
+            $showDescription = false;
+            $imageDisplayArea = 'category_page_grid';
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+        }
+    }
+    ?>
+    <div class="products wrapper <?= /* @noEscape */ $viewMode ?> products-<?= /* @noEscape */ $viewMode ?>">
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($productArray as $_product):?>
+            <li class="item product product-item">
+                <div class="product-item-info"
+                     id="product-item-info_<?= /* @noEscape */ $_product->getId() ?>"
+                     data-container="product-<?= /* @noEscape */ $viewMode ?>">
+                    <?php
+                    
+                    
+                    $productImage = $block->getImage($_product, $imageDisplayArea);
+                    if ($pos != null) {
+                        $position = 'left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;';
+                    }
+                    ?>
+                    <?php // Product Image ?>
+
+                    <a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"
+                       class="product photo product-item-photo"
+                       tabindex="-1">
+                        <?php if($viewMode == 'grid'){ 
+                                $productImage = $imageHelper->init($_product, 'category_page_grid')->getUrl();
+                        ?>                            
+                            <img src="<?php echo $productImage; ?>" />
+                        <?php } else { ?>
+                            <?= $productImage->toHtml() ?>
+                        <?php } ?>
+                        
+                    </a>
+                    <div class="product details product-item-details">
+                        <?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link"
+                               href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>">
+                                <?=/* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name')?>
+                            </a>
+                        </strong>
+                        <?php $type = $_product->getTypeId(); ?>
+                        <?php if($type!="downloadable"): ?>
+                        <?php
+                        $year = $_product->getAttributeText('build_year');
+                        $enginehours = $_product->getData('counter1');
+                        $drumhours = $_product->getData('counter2');
+                        if($year || $enginehours || $drumhours){
+                            ?>
+                            <div class="custominfo">
+                                <?php if($year) {
+                                    ?>
+                                    <span>
+                                        <?php echo __("Year ").$year; ?>
+                                    </span>
+                                <?php } ?>
+                                <?php if($enginehours) {
+                                    ?>
+                                    <span>
+                                        <?php echo __("Engine hours ").$enginehours; ?>
+                                    </span>
+                                 <?php } ?>
+                                <?php if($drumhours) {
+                                ?>
+                                    <span>
+                                        <?php echo __("Drum hours ").$drumhours;?>
+                                    </span>
+                                <?php } ?>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                        <?php if ($viewMode == 'grid'): ?> 
+                            <div class="replaces_oem">  
+                                    <?php 
+                                        if ( !empty($_product['replaces_oem']) ) {
+                                            echo '<span>'.__("Replaces OEM : ").'</span>'.$_product['replaces_oem'];
+                                        }
+                                    ?>
+                            </div>
+                            <div class="sku_wrap">
+                                    <p><?php echo __('Partnumber: ')?><span><?php echo $_product->getSku() ?></span></p>
+                            </div>
+                       <?php else: ?>
+                            <div class="sku_wrap">
+                                    <p><?php echo __('#')?><span><?php echo $_product->getSku() ?></span></p>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="greenbatch">
+                            <?php $insepect_attribute = $_product->getResource()->getAttribute('inspected_type')->getFrontend()->getValue($_product); 
+                            ?>
+                            <?php if($insepect_attribute == "Inspected and Tested") {
+                            ?>
+                            <p><img src='/media/Inspected-and-tested.png' /><?php echo $insepect_attribute; ?></p>
+                            <?php
+                            }
+                            ?>
+                            <?php if($insepect_attribute == "Inspected tested and parts") {
+                            ?>
+                            <p><img src='/media/Inspecte-tested-and-parts.png' /><?php echo $insepect_attribute; ?></p>
+                            <?php
+                            }
+                            ?>
+                            <?php if($insepect_attribute == "Inspected tested and repaired") {
+                            ?>
+                            <p><img src='/media/Inspecte-tested-and-repaired.png' /><?php echo $insepect_attribute; ?></p>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                        <?php endif; ?>
+                        <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>        
+                        <?php 
+                        $price = (int)$_product->getPrice();
+                        ?>
+                        <?php if ($flag == 1): ?>
+                            <span class="request-price 1111">
+                                <?php echo __("Price on request"); ?>
+                            </span>
+                        <?php else: ?>
+                            <?php if ($price == 0): ?>
+                                <span class="request-price">
+                                    <?php echo __("Price On Request"); ?>
+                                </span>
+                            <?php else: ?>
+                                <?php if($type!="downloadable"): ?>
+                                    <?= $block->getProductPrice($_product); ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if ($_product->isAvailable()):?>
+                                <?= $block->getProductDetailsHtml($_product) ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+
+                        <?php if ($showDescription):?>
+                                <div class="product description product-item-description">
+                                    <?= /* @noEscape */ $_helper->productAttribute(
+                                        $_product,
+                                        $_product->getShortDescription(),
+                                        'short_description'
+                                    ) ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php if ($viewMode == 'grid'): ?> 
+                            <?php 
+                           /* $newData = $_product['hideonwebshop'];
+                            if (empty($newData)) {
+                                $newData = 1;
+                            }*/
+
+                            if ($_product['hideonwebshop'] == 1): ?> 
+                          
+                            <div class="customcontact">
+                                <div class="moreinformation">
+                                    <a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"><?= $escaper->escapeHtml(__('More Information')) ?></a>
+                                </div>
+                                <!-- <div class="contact_call">
+                                    <div class="quote_form">
+                                        <a href="javascript:void(0)" class="action open-modal-form" id="quote-form" data-id="<?=$_product->getId()?>"><?php echo __('I am interested, contact me') ?></a>
+                                    </div>
+                                </div> -->
+                                <div id="quote-form-modal" style="display:none;" class="customform custompopup-<?=$_product->getId()?>" data-id="<?=$_product->getId()?>">
+                                    <h3>Please contact me about the: <span><?php echo $_product->getName(); ?></span></h3>
+                                    <p class="contact-txt-<?php echo $_product->getID(); ?> fsfs"><?php echo __('Please leave your contactinformation behind. We will contact you as soon as possible.');?></p>
+                                    <form method="post" name="quote_request" id="quote_request" data-id="<?=$_product->getId()?>" class="popupform form-<?=$_product->getId()?>" action="<?php echo $block->getBaseUrl().'quote_request/index/booking'; ?>" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+                                        <div id="form_wrapper" class="formwrapper-<?=$_product->getId()?>">
+                                            <div class="first_row">
+                                                <input type="text" name="first_name"  value="<?php if($firstname){ echo $firstname; }  ?>" placeholder="<?php echo __('First name') ?> * " required="true"/>
+                                                <input type="text" name="last_name"  value="<?php if($lastname){ echo $lastname; } ?>" placeholder="<?php echo __('Last name') ?> * " required="true"/>
+                                            </div>
+                                            <div class="second_row">
+                                                <input type="text" name="phone"  placeholder="<?php echo __('Telephone number') ?> * " required="true"/>
+                                                <input type="email" name="email"  value="<?php if($email){ echo $email; } ?>" placeholder="<?php echo __('Email address') ?> * " required/>
+                                            </div>
+                                            <div class="third_row">
+                                                <textarea type="text" name="question"  placeholder="<?php echo __('Here your question ?') ?> * " required="true"></textarea> 
+                                            </div>
+                                            <div class="term_condition">
+                                                <div class="first_checkbox"><input type="checkbox" required class="required"  value="1" id="contact_me" 
+                                                                                               name="contact_me"  /> <label
+                                                            for="contact_me" required="true"><?php echo __('By sending this form I understand A&M Machinery will contact me.') ?></label>
+                                                </div>
+                                                <div class="second_checkbox"><input type="checkbox" required value="1" class="required" name="term_condition" 
+                                                                                                id="term_condition"/> <label
+                                                            for="term_condition" required="true"><?php echo __('By sending this form I agree with the terms and conditions') ?></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="product_id" value="<?php echo $_product->getID(); ?>"/>
+                                        <input type="hidden" name="product_name" value="<?php echo $_product->getName(); ?>"/>
+                                        <input type="hidden" name="product_sku" value="<?php echo $_product->getSku(); ?>"/>
+                                        <input type="hidden" id="quote_option" name="quote_option" value=""/>
+                                        <input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+                                        <div class="formloader-<?php echo $_product->getID(); ?>"></div>
+                                        <div class="contact-send contact-send-<?php echo $_product->getID(); ?>"><input type="button" class="quote_send-<?php echo $_product->getID(); ?>" data-id="<?php echo $_product->getID(); ?>" name="submit" value="Send"/></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <?php else: ?>
+                                <div class="customcontact">
+                                <div class="moreinformation">
+                                    <a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"><?= $escaper->escapeHtml(__('More Information')) ?></a>
+                                </div>
+                                <div class="contact_call">
+                                    <div class="quote_form">
+                                        <a href="javascript:void(0)" class="action open-modal-form" id="quote-form" data-id="<?=$_product->getId()?>"><?php echo __('I am interested, contact me') ?></a>
+                                    </div>
+                                </div>
+                                <div id="quote-form-modal" style="display:none;" class="customform custompopup-<?=$_product->getId()?>" data-id="<?=$_product->getId()?>">
+                                    <h3>Please contact me about the: <span><?php echo $_product->getName(); ?></span></h3>
+                                    <p class="contact-txt-<?php echo $_product->getID(); ?> fsfs"><?php echo __('Please leave your contactinformation behind. We will contact you as soon as possible.');?></p>
+                                    <form method="post" name="quote_request" id="quote_request" data-id="<?=$_product->getId()?>" class="popupform form-<?=$_product->getId()?>" action="<?php echo $block->getBaseUrl().'quote_request/index/booking'; ?>" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+                                        <div id="form_wrapper" class="formwrapper-<?=$_product->getId()?>">
+                                            <div class="first_row">
+                                                <input type="text" name="first_name"  value="<?php if($firstname){ echo $firstname; }  ?>" placeholder="<?php echo __('First name') ?> * " required="true"/>
+                                                <input type="text" name="last_name"  value="<?php if($lastname){ echo $lastname; } ?>" placeholder="<?php echo __('Last name') ?> * " required="true"/>
+                                            </div>
+                                            <div class="second_row">
+                                                <input type="text" name="phone"  placeholder="<?php echo __('Telephone number') ?> * " required="true"/>
+                                                <input type="email" name="email"  value="<?php if($email){ echo $email; } ?>" placeholder="<?php echo __('Email address') ?> * " required/>
+                                            </div>
+                                            <div class="third_row">
+                                                <textarea type="text" name="question"  placeholder="<?php echo __('Here your question ?') ?> * " required="true"></textarea> 
+                                            </div>
+                                            <div class="term_condition">
+                                                <div class="first_checkbox"><input type="checkbox" required class="required"  value="1" id="contact_me" 
+                                                                                               name="contact_me"  /> <label
+                                                            for="contact_me" required="true"><?php echo __('By sending this form I understand A&M Machinery will contact me.') ?></label>
+                                                </div>
+                                                <div class="second_checkbox"><input type="checkbox" required value="1" class="required" name="term_condition" 
+                                                                                                id="term_condition"/> <label
+                                                            for="term_condition" required="true"><?php echo __('By sending this form I agree with the terms and conditions') ?></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="product_id" value="<?php echo $_product->getID(); ?>"/>
+                                        <input type="hidden" name="product_name" value="<?php echo $_product->getName(); ?>"/>
+                                        <input type="hidden" name="product_sku" value="<?php echo $_product->getSku(); ?>"/>
+                                        <input type="hidden" id="quote_option" name="quote_option" value=""/>
+                                        <input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+                                        <div class="formloader-<?php echo $_product->getID(); ?>"></div>
+                                        <div class="contact-send contact-send-<?php echo $_product->getID(); ?>"><input type="button" class="quote_send-<?php echo $_product->getID(); ?>" data-id="<?php echo $_product->getID(); ?>" name="submit" value="Send"/></div>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php if ($flag && $viewMode == 'grid'): ?>
+                            <!-- <span class="action tocart primary">
+                                <span><?= $escaper->escapeHtml(__('Price on request')) ?></span>
+                            </span> -->
+                        <?php else : ?>
+                            <?php if ($price > 0 && $viewMode == 'grid' && $_product['hideonwebshop'] == 0): ?>
+                                <div class="product-item-inner">
+                                    <div class="product actions product-item-actions">
+                                        <?php if($type!="downloadable") :?>
+                                        <div class="actions-primary">
+                                            <?php if ($_product->isSaleable()):?>
+                                                <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                                <form data-role="tocart-form"
+                                                      data-product-sku="<?= $escaper->escapeHtml($_product->getSku()) ?>"
+                                                      action="<?= $escaper->escapeUrl($postParams['action']) ?>"
+                                                      method="post">
+                                                    <input type="hidden"
+                                                           name="product"
+                                                           value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                                    <input type="hidden"
+                                                           name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>"
+                                                           value="<?=
+                                                           /* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]
+                                                            ?>">
+                                                    <?= $block->getBlockHtml('formkey') ?>
+                                                    <button type="submit"
+                                                            title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
+                                                            class="action tocart primary">
+                                                        <span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+                                                    </button>
+                                                </form>
+                                            <?php else:?>
+                                                <?php if ($_product->isAvailable()):?>
+                                                    <div class="stock available">
+                                                        <span><?= $escaper->escapeHtml(__('In stock')) ?></span></div>
+                                                <?php else:?>
+                                                    <div class="stock unavailable">
+                                                        <span><?= $escaper->escapeHtml(__('Out of stock')) ?></span></div>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                        <?= strpos($pos, $viewMode . '-primary') ?
+                                            /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                                                $position,
+                                                'product-item-info_' . $_product->getId() . ' div.actions-primary'
+                                            ) : '' ?>
+                                        <div data-role="add-to-links" class="actions-secondary">
+                                            <?php if ($addToBlock = $block->getChildBlock('addto')):?>
+                                                <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
+                                            <?php endif; ?>
+                                        </div>
+                                        <?= strpos($pos, $viewMode . '-secondary') ?
+                                            /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                                                $position,
+                                                'product-item-info_' . $_product->getId() . ' div.actions-secondary'
+                                            ) : '' ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>    
+                    </div>
+                </div>
+                <?= strpos($pos, $viewMode . '-actions') ?
+                /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                    $position,
+                    'product-item-info_' . $_product->getId() . ' div.product-item-actions'
+                ) : '' ?>
+            </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?php echo $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
+    <?php if (!$block->isRedirectToCartEnabled()):?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {
+                    "product_sku": "<?= $escaper->escapeJs($_product->getSku()) ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'mage/mage',
+            'mage/validation'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: 'custompopup-continuebtn',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }],
+                opened: function($Event) {
+                    $(".modal-footer").hide();
+                }
+            };
+            $(".open-modal-form").on('click',function(){ 
+                var id = $(this).attr('data-id');
+                var modalId = '.custompopup-'+id;
+                var senclass = '.quote_send-'+id;
+                console.log(modalId+senclass);
+                $(modalId).modal(options).on('modalclosed', function() {
+                    location.reload();
+                    this.closeModal();
+                 }).modal('openModal');
+
+                $(senclass).on("click", function(){
+                    var formid = $(this).attr('data-id');
+                    console.log(formid);
+                    console.log('In');
+                    console.log(id);
+                    var form = '.form-'+formid; 
+                    var dataForm = $(form);
+                    if(dataForm.validation() && !dataForm.validation().valid()){
+                        return false;
+                    }
+                    var formloaderclass = '.formloader-'+formid; 
+                    var formLoader = $(formloaderclass);
+                    var formwrapperclass = '.formwrapper-'+formid; 
+                    var formWrapper = $(formwrapperclass);
+                    var contactSendclass = '.contact-send-'+formid; 
+                    var contactSend = $(contactSendclass);
+                    var contacttxtclass = '.contact-txt-'+formid; 
+                    var contactTxt = $(contacttxtclass);
+                    console.log(formid);
+                    console.log(formWrapper);
+                    console.log(contactSend);
+                    console.log(contactTxt);
+                    console.log(dataForm.serialize());
+                    console.log(formLoader);
+                    $.ajax({
+                        url: dataForm.attr('action'),
+                        data: dataForm.serialize(),
+                        type: 'POST',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            formLoader.html('<b>Processing your request ...</b>');
+                        },
+                        success: function (data, status, xhr) {
+                            formWrapper.hide('slow');
+                            contactSend.hide('slow');
+                            contactTxt.hide('slow');
+                            // $(formLoader).html(data.message).modal('show');
+                            formLoader.html("<b>" + data.message + "</b>");
+                        },
+                        error: function (xhr, status, errorThrown) {
+                            formLoader.html('<b>Error happens. Try again</b>');
+                            console.log(errorThrown);
+                        }
+                    });
+                });
+            });
+        }
+    );
+</script>

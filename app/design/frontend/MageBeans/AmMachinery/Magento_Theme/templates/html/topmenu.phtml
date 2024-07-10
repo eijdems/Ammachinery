@@ -1,0 +1,17 @@
+<?php echo $this->getLayout()->createBlock("Magebees\Navigationmenu\Block\Menucreator")->setGroup_id(1)->setTemplate("menucreator.phtml")->toHtml();
+?>
+<style type="text/css">
+	@media (min-width: 768px) {
+		#cwsMenu-1 .cwsMenu li.Level3, #cwsMenu-1 .cwsMenu li.Level3 li {
+		    border-top: 1px solid #eee;
+		}
+		#cwsMenu-1 .cwsMenu.mega-menu>li.column-1:not(.megamenu) li a {
+		    color: #0d4b7d;
+		    font-size: 16px;
+		    font-weight: normal;
+		    text-transform: inherit;
+		    padding: 5px 15px 5px 15px;
+		    background-color: #fff;
+		}
+	}
+</style>

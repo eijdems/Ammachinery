@@ -1,0 +1,108 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\App\Action\Action;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Template for displaying products list widget
+ *
+ * @var $block \Emthemes\FilterProduct\Block\Product\ProductsList
+ */
+?>
+<?php
+$_productCollection = $block->getProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_productSize = $_productCollection->count();
+$_sliderItem = $block->getData('slider_item');
+if ($_helper->isModuleOutputEnabled('Emthemes_ProductLabels'))
+    $_labelHelper = $this->helper('Emthemes\ProductLabels\Helper\Data');
+
+?>
+
+<?php if (!$_productSize): ?>
+    <div class="message info empty">
+        <div><?php /* @escapeNotVerified */
+            echo __('We can\'t find products matching the selection.') ?></div>
+    </div>
+<?php else: ?>
+    <?php
+    $_quickShopHelper = $this->helper('Emthemes\QuickShop\Helper\Data');
+    $type = 'widget-product-grid';
+
+    $image = 'category_page_grid';
+    $title = $block->getTitle() ? __($block->getTitle()) : '';
+
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+
+    ?>
+    <div class="em-slider em-slider-category"
+         data-mage-init="{&quot;emslider&quot;:{&quot;loop&quot;:true,&quot;lazyLoad&quot;:true,&quot;items&quot;:1,&quot;dots&quot;:true,&quot;nav&quot;:false}}">
+
+        <?php foreach ($_productCollection as $_product): ?>
+
+            <?php
+            $productImage = $block->getImage($_product, $image);
+            $_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+            $product_img = $_imagehelper->init($_product, $image)->resize($productImage->getWidth(), $productImage->getHeight());
+            $desc = $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description');
+            ?>
+            <div class="em-ads-item">
+                <div class="product-photo-wrapper" style="width: 150px; float: left;">
+                    <a href="<?php /* @escapeNotVerified */
+                    echo $_product->getProductUrl() ?>" class="product-photo">
+
+                        <img class="img-responsive "
+                             src="<?php echo $product_img->getUrl() ?>"
+                             width="<?php echo $product_img->getWidth(); ?>"
+                             height="<?php echo $product_img->getHeight(); ?>"
+                             alt="<?php echo $block->stripTags($product_img->getLabel(), null, true) ?>"/>
+
+                    </a>
+                </div>
+                <div class="product-content-wrapper" style="width: 150px; float: right;">
+                    <a class="product-title"
+                       href="<?php /* @escapeNotVerified */
+                       echo $_product->getProductUrl() ?>">
+                        <?php /* @escapeNotVerified */
+                        echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                    </a>
+
+                    <?php if ($desc): ?>
+                        <div class="product-item-description">
+                            <?php
+                            if (strlen($desc) > 80) {
+                                $strCutTitle = substr($desc, 0, 80);
+                                $desc = substr($strCutTitle, 0, strrpos($strCutTitle, ' '));
+                            }
+                            ?>
+                            <?php /* @escapeNotVerified */
+                            echo $desc; ?>
+                            <a title="<?php echo $block->escapeHtml($_product->getName()) ?>"
+                               href="<?php /* @escapeNotVerified */
+                               echo $block->getProductUrl($_product) ?>"
+                               class="action more"><?php /* @escapeNotVerified */
+                                echo __('...') ?></a>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="product-price">
+                        <?php /* @escapeNotVerified */
+                        echo $block->getProductPrice($_product) ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
+    </div>
+<?php endif; ?>

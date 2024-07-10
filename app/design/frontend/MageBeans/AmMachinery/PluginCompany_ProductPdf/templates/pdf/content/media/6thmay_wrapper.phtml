@@ -1,0 +1,364 @@
+<?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $priceHelper = $objectManager->create('Magento\Framework\Pricing\PriceCurrencyInterface');
+?>
+<?php if($this->getGroupConfigFlag('gallery/add_pagebreak')){ ?>
+    <pagebreak />
+<?php } ?>
+<div class="section section-media-gallery">
+    <div class="media-gallery">
+        <h3 class="section-title media-gallery-title"><?php echo __('3) Product Images');?></h3>
+        <?php echo $this->getGalleryImagesHtml(); ?>
+    </div>
+</div>
+<?php
+    $getblock = $objectManager->get('MageBeans\Common\Block\Specification');
+    $_product = $getblock->getProduct();
+    $groupid=$getblock->getAttributeGroupId($_product->getAttributeSetId());
+    $attributesgroups=$getblock->getAttributeGroups($_product->getAttributeSetId());
+    $productAttributes=$_product->getAttributes();
+    $i=0;
+    $countAttributes=$getblock->getCountAttributes($_product,$attributesgroups,$productAttributes); 
+?>
+<?php
+    $arrayFirstGroup = ['Levels', 'Options'];
+    $arraySecoundGroup = ['Blower','Corn cave','Drive train','Electrical','Engine','Feedrolls','Functional test','Header','Header corn','Header pickup','Kernal processor','Knive drum','Machine body','Spout','Transition housing'];
+    $arrayThirdGroup = ['Main drive', 'Operators station','Operational test'];
+?>
+<?php
+$second = true;
+$third = true;
+$inspectionCnt = 1;
+$mainCount = 4;
+foreach ($attributesgroups as $attributesgroup):
+if ($attributesgroup->getAttributeGroupName() == 'Levels' ||
+    $attributesgroup->getAttributeGroupName() == 'Blower' ||
+    $attributesgroup->getAttributeGroupName() == 'Corn cave' ||
+    $attributesgroup->getAttributeGroupName() == 'Drive train' ||
+    $attributesgroup->getAttributeGroupName() == 'Electrical' ||
+    $attributesgroup->getAttributeGroupName() == 'Engine' ||
+    $attributesgroup->getAttributeGroupName() == 'Feedrolls' ||
+    $attributesgroup->getAttributeGroupName() == 'Functional test' ||
+    $attributesgroup->getAttributeGroupName() == 'Header' ||
+    $attributesgroup->getAttributeGroupName() == 'Header corn' ||
+    $attributesgroup->getAttributeGroupName() == 'Header pickup' ||
+    $attributesgroup->getAttributeGroupName() == 'Kernal processor' ||
+    $attributesgroup->getAttributeGroupName() == 'Knive drum' ||
+    $attributesgroup->getAttributeGroupName() == 'Machine body' || 
+    $attributesgroup->getAttributeGroupName() == 'Spout' ||
+    $attributesgroup->getAttributeGroupName() == 'Transition housing' ||
+    $attributesgroup->getAttributeGroupName() == 'Main drive' ||
+    //$attributesgroup->getAttributeGroupName() == 'Recommended repairs' ||
+    //$attributesgroup->getAttributeGroupName() == 'Operational test' || 
+    $attributesgroup->getAttributeGroupName() == 'Operators station') {
+    
+    $attributes = $getblock->getGroupAttributes($_product, $attributesgroup->getAttributeGroupId(), $productAttributes);
+    if($attributes){
+      ?>
+          <?php 
+                if($inspectionCnt == 1){
+                    ?>
+                    <?php if($this->getGroupConfigFlag('gallery/add_pagebreak')){ ?>
+                        <pagebreak />
+                    <?php } ?>
+                    <div class="section section-attributes attribute-options"> 
+                        <h3 class="section-title attributes-section-title">
+                            <?php echo $mainCount . __(') Inspection Report'); $mainCount++; ?>
+                        </h3>
+                        <?php
+                }
+                $inspectionCnt++;
+            ?>
+          <?php 
+              if(in_array($attributesgroup->getAttributeGroupName(), $arrayFirstGroup)){
+
+              } elseif (in_array($attributesgroup->getAttributeGroupName(), $arraySecoundGroup) && $second) {
+                ?>
+                    <?php echo __("<br/><b>Condition</b>") ?> 
+                <?php
+                $second = false;
+              } elseif (in_array($attributesgroup->getAttributeGroupName(), $arrayThirdGroup) && $third) {
+                ?>
+                    <?php echo __("<b>Operational Test</b>") ?>    
+                <?php
+                $third = false;
+              }
+          ?>
+          <?php
+          if ($attributesgroup->getAttributeGroupName()!="Feedrolls") {
+            ?>
+            <br/>
+          <?php
+          }
+          ?>
+            <b><?php echo $attributesgroup->getAttributeGroupName(); ?></b>
+                 <table autosize="1" class="product-options">
+                    <?php $i=0;
+                    foreach ($attributes as $attribute){
+                    $i++; ?>
+                        <?php if($i%2==1): ?>
+                        <tr>
+                        <?php endif; ?>
+                          <td style="width:25%;vertical-align: top;">
+                          <?php 
+                            if ($attribute->getFrontendLabel() != "Recommended repairs") {
+                                ?>
+                                    <?php //echo $attribute->getFrontendLabel() ?>
+                                    <?= $block->escapeHtml(__($attribute->getStoreLabel())) ?>
+                                <?php
+                            }
+                          ?>
+                        </td>
+                        <td style="width:25%;vertical-align: top;">
+                        <?php
+                         if($attribute->getFrontend()->getValue($_product) == '1'){
+                            echo "<img class='img-responsive' src='/media/star_rating_1.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "2") {
+                            echo "<img class='img-responsive' src='/media/star_rating_2.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "3") {
+                            echo "<img class='img-responsive' src='/media/star_rating_3.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "4") {
+                            echo "<img class='img-responsive' src='/media/star_rating_4.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "5") {
+                            echo "<img class='img-responsive' src='/media/star_rating_5.png' height='75' width='75'>";
+                        }else{
+                            echo $attribute->getFrontend()->getValue($_product);
+                        }?>
+                        </td>
+                        <?php if($i%2==1): ?>
+                        </tr>
+                        <?php endif; ?>
+                    <?php } ?>
+                 </table>
+      <?php
+    }
+    ?>
+    <?php
+}
+    endforeach;
+?>
+<?php 
+    if($inspectionCnt > 1){
+        ?>
+            </div>
+        <?php 
+    }
+?>
+<?php
+$second = true;
+$third = true;
+$operationalCnt = 1;
+foreach ($attributesgroups as $attributesgroup):
+if ($attributesgroup->getAttributeGroupName() == 'Main drive' || 
+    $attributesgroup->getAttributeGroupName() == 'Operational test') { 
+    $attributes = $getblock->getGroupAttributes($_product, $attributesgroup->getAttributeGroupId(), $productAttributes);
+    if($attributes){
+      ?>
+        <?php 
+            if($operationalCnt == 1){
+                ?>
+                <?php if($this->getGroupConfigFlag('gallery/add_pagebreak')){ ?>
+                    <pagebreak />
+                <?php } ?>
+                <div class="section section-attributes attribute-options"> 
+                    <h3 class="section-title attributes-section-title">
+                        <?php echo $mainCount . __(') Operational test'); $mainCount++; ?>
+                    </h3>
+                    <?php
+            }
+            $operationalCnt++;
+        ?>
+            <br/>
+            <b><?php echo $attributesgroup->getAttributeGroupName(); ?></b>
+                 <table autosize="1" class="product-options">
+                    <?php $i=0;
+                    foreach ($attributes as $attribute){
+                    $i++; ?>
+                        <?php if($i%2==1): ?>
+                        <tr>
+                        <?php endif; ?>
+                          <td style="width:25%;vertical-align: top;">
+                          <?php 
+                            if ($attribute->getFrontendLabel() != "Recommended repairs") {
+                                ?>
+                                    <?php //echo $attribute->getFrontendLabel() ?>
+                                    <?= $block->escapeHtml(__($attribute->getStoreLabel())) ?>
+                                <?php
+                            }
+                          ?>
+                        </td>
+                        <td style="width:25%;vertical-align: top;">
+                        <?php
+                         if($attribute->getFrontend()->getValue($_product) == '1'){
+                            echo "<img class='img-responsive' src='/media/star_rating_1.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "2") {
+                            echo "<img class='img-responsive' src='/media/star_rating_2.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "3") {
+                            echo "<img class='img-responsive' src='/media/star_rating_3.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "4") {
+                            echo "<img class='img-responsive' src='/media/star_rating_4.png' height='75' width='75'>";
+                        }elseif ($attribute->getFrontend()->getValue($_product) == "5") {
+                            echo "<img class='img-responsive' src='/media/star_rating_5.png' height='75' width='75'>";
+                        }else{
+                            echo $attribute->getFrontend()->getValue($_product);
+                        }?>
+                        </td>
+                        <?php if($i%2==1): ?>
+                        </tr>
+                        <?php endif; ?>
+                    <?php } ?>
+                 </table>
+      <?php
+    }
+    ?>
+    <?php
+}
+    endforeach;
+?>
+<?php 
+    if($operationalCnt > 1){
+        ?>
+            </div>
+        <?php 
+    }
+?>
+<?php
+$second = true;
+$third = true;
+$recomCnt = 1;
+foreach ($attributesgroups as $attributesgroup):
+if ($attributesgroup->getAttributeGroupName() == 'Recommended repairs') {
+    
+    $attributes = $getblock->getGroupAttributes($_product, $attributesgroup->getAttributeGroupId(), $productAttributes);
+    if($attributes){
+      ?>
+        <?php 
+            if($recomCnt == 1){
+                ?>
+                <?php if($this->getGroupConfigFlag('gallery/add_pagebreak')){ ?>
+                    <pagebreak />
+                <?php } ?>
+                <div class="section section-attributes attribute-options"> 
+                    <h3 class="section-title attributes-section-title">
+                        <?php echo $mainCount . __(') Recommended repairs'); $mainCount++; ?>
+                    </h3>
+                    <?php
+            }
+            $recomCnt++;
+        ?>    
+        <b><?php //echo $attributesgroup->getAttributeGroupName(); ?></b>
+                 <table autosize="1" class="product-options">
+                    <?php $i=0;
+                    foreach ($attributes as $attribute){
+                    $i++; ?>
+                        <?php if($i%2==1): ?>
+                        <tr>
+                        <?php endif; ?>
+                          <?php 
+                            if ($attribute->getFrontendLabel() != "Recommended repairs") {
+                                ?>
+                                <td style="width:25%;vertical-align: top;">
+                                    <?php echo $attribute->getFrontendLabel() ?>
+                                </td>
+                                <?php
+                            }
+                          ?>
+                        <td style="width:25%;vertical-align: top;">
+                        <?php
+                            echo $attribute->getFrontend()->getValue($_product);
+                        ?>
+                        </td>
+                        <?php if($i%2==1): ?>
+                        </tr>
+                        <?php endif; ?>
+                    <?php } ?>
+                 </table>
+      <?php
+    }
+    ?>
+    <?php
+}
+    endforeach;
+?>
+<?php 
+    if($recomCnt > 1){
+        ?>
+            </div>
+        <?php 
+    }
+    $options = $_product->getOptions();
+    //echo count($options);
+    if (!empty($options)) { ?>
+    <div class="section section-attributes attribute-options" style="padding: 10px;">
+        <h3 class="section-title attributes-section-title">
+            <?php echo $mainCount.") Recommended Repairs"; $mainCount++; ?>
+        </h3>
+        <?php
+            foreach ($options as $option) {
+                $values = $option->getValues();
+                $gtitle = $option->getTitle();
+                ?>
+                <span class="recommended-repair-attr"><?= $gtitle.'<br>' ?></span>
+                <?php
+            }
+        } ?>
+    </div>
+    <?php 
+    $productId  = $_product->getId();
+    $categories = $_product->getCategoryIds(); /*will return category ids array*/
+    $check117   = in_array(117, $categories);
+    $check119   = in_array(119, $categories);
+    $check123   = in_array(123, $categories);
+    $check125   = in_array(125, $categories);
+    $checked1   = false;
+    if ($productId == 4293) {
+        $checked1 = true;
+    }elseif ($check117 == 1) {
+        $checked1 = true;
+    }elseif ($check119 == 1) {
+        $checked1 = true;
+    }elseif ($check123 == 1) {
+        $checked1 = true;
+    }elseif ($check125 == 1) {
+        $checked1 = true;
+    }else{
+        $checked1   = false;
+    }
+    if ($checked1 == false) { ?>
+        <div class="section section-attributes attribute-options" style="padding:10px 30px;"> 
+            <h3 class="section-title attributes-section-title">
+                <?php echo $mainCount.") A&M PREMIUM Warranty"; $mainCount++; ?>
+            </h3>  
+            <div>
+                <div style="display:flex;">
+                    <div style="width: 70%; float: left;">
+                        <p>All our equipment is inspected with the Harvester-Guard (R) inspection software. This certificate declares that this forage harvester has A&M PREMIUM warranty on:</p>
+                        <p style="text-indent: 50px;">1. All inspected CROP-FLOW components with a 3, 4 or 5 star rating.</p>
+                        <p style="text-indent: 50px;">2. All CROP-FLOW bearings which have status approved.</p>
+                    </div>
+                    <!-- <div style="width: 30%; text-align: center;">
+                        <img class="img-responsive" style="width: 100px;" src="https://www.global-equipment.com/media/wysiwyg/stamp_machine_warranty.png" alt="Stamp Logo" />
+                    </div> -->
+                </div>
+            </div> 
+            <h4>Warranty on repairs:</h4>
+            <p>Components with 1 or 2 star rating are subject for repair and have no warranty. In case A&M Machinery is ordered to repair the 1 and 2 stars components then warranty is in place, as repair implies upgrade to 5 stars or status approved.</p>
+            <p>Eventually repairs are reported in the "A&M PREMIUM or A&M EXCLUSIVE warranty certificate & terms" document.</p>
+        </div>
+   <?php } ?>
+</div>
+
+<style>
+    <?php if(!$this->getConfigFlag('add_gallery_border')){ ?>
+        table.gallery {
+            border-spacing:0px!important;
+        }
+        table.gallery td.centerimage{
+            border:0px solid #fff!important;
+            border-collapse:separate;
+        }
+    <?php } ?>
+    table.gallery td.centerimage {
+        border-color: #<?php echo $this->getConfig('gallery_border_color'); ?> !important;
+    }
+</style>

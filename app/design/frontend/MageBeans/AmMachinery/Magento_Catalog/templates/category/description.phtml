@@ -1,0 +1,42 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+
+/**
+ * Category view template
+ *
+ * @var $block \Magento\Catalog\Block\Category\View
+ */
+?>
+<?php if ($_description = $block->getCurrentCategory()->getDescription()) :?>
+    <div class="category-description">
+        <div class="readmore">
+            <?php echo substr($_description,0, 300); ?><br/><a class="more"> read more</a>
+        </div>
+        <div class="readless">
+            <?php echo $_description; ?><br/><a class="less">read less</a>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){ 
+        $(document).ready(function(){
+            $(".readless").css("display", "none");
+            $(".more").click(function(){
+                $(".readless").css("display", "block");
+                $(".readmore").css("display", "none");
+            });
+            
+            // Set div display to block
+            $(".less").click(function(){
+                $(".readmore").css("display", "block");
+                $(".readless").css("display", "none");
+            });
+        });
+    });
+</script>

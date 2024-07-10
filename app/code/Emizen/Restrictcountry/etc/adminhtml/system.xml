@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="restrict_country" translate="label" sortOrder="999">
+			<label>restrict_country</label>
+		</tab>
+		<section id="restrict" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+			<label>Restrict Country</label>
+			<tab>restrict_country</tab>
+			<resource>Emizen_Restrictcountry::config_emizen_restrictcountry</resource>
+			<group id="countries" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Restrict Countries</label>
+				<field id="codes" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Restrict Country</label>
+					<comment>please enter the Country Code(2 ISO) comma(,) separated.</comment>
+
+				</field>
+			</group>
+			<group id="categories" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Restrict Categories</label>
+				<field id="ids" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Restrict Category</label>
+					<comment>Please enter the category ID comma(,) separated.</comment>
+				</field>
+			</group>
+		</section>
+		<tab id="restrict_category" translate="label" sortOrder="999">
+			<label>restrict_category</label>
+		</tab>
+	</system>
+</config>

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="stocklist" translate="label" sortOrder="401" class="magebeans-extensions">
+            <label>Stock List Cron</label>
+        </tab>
+        <section id="stocklist_section" translate="label" type="text" sortOrder="8888" showInDefault="1"
+                 showInWebsite="0" showInStore="0">
+            <label>Information</label>
+            <tab>stocklist</tab>
+            <resource>MageBeans_Stocklist::stocklist</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>General Configuration</label>
+                <field id="module_enable" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Enable Module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <group id="sender_information" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Sender Information</label>
+                    <depends>
+                        <field id="module_enable">1</field>
+                    </depends>
+                    <field id="sender_name" translate="label" type="text" sortOrder="1" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Sender Name</label>
+                        <validate>validate-emailSender</validate>
+                        <backend_model>Magento\Config\Model\Config\Backend\Email\Sender</backend_model>
+                    </field>
+                    <field id="sender_email" translate="label" type="text" sortOrder="2" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Sender Email</label>
+                        <comment>Comma-separated</comment>
+                    </field>
+                </group>
+                <group id="recipient_information" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Recipient Information</label>
+                    <depends>
+                        <field id="module_enable">1</field>
+                    </depends>
+                    <field id="recipient_name" translate="label" type="text" sortOrder="1" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Recipient Name</label>
+                        <validate>validate-emailSender</validate>
+                    </field>
+                    <field id="recipient_email" translate="label" type="textarea" sortOrder="2" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Recipient Email</label>
+                        <comment>Comma-separated</comment>
+                    </field>
+                </group>
+                <group id="cron_information" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Cron Information</label>
+                    <depends>
+                        <field id="module_enable">1</field>
+                    </depends>
+                    <field id="cron_cycle" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Send Email</label>
+                        <source_model>MageBeans\Stocklist\Model\Config\Source\Cycle</source_model>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

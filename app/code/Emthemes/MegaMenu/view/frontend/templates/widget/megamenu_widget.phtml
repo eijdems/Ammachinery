@@ -1,0 +1,68 @@
+<?php
+    $id=$block->getIdMenu();
+    $type=$block->getTypeMenu();
+    $enable=$block->getEnable();
+    $categoryHelper = $this->helper('MageBeans\Common\Helper\Category');
+
+?>
+
+<div class="em-menu" data-action="navigation">
+    <ul class="em-menu-content">
+        <div class="static-menu">
+            <?php
+                echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('menu_before')->toHtml();
+            ?>
+        </div>
+        <?php
+            $categories = $categoryHelper->getStoreCategories(false, false, true);
+            foreach ($categories as $category) :
+                $category = $subcategory = $categoryHelper->getCategory($category->getEntityId());
+                if ($category->getIsActive() && $category->getIncludeInMenu()):
+        ?>
+                    <li class="level0 nav-1 first level-top submenu ">
+                        <a href="<?php echo $category->getUrl(); ?>" class="level-top ui-corner-all">
+                            <?php echo $category->getName(); ?>
+                        </a>
+
+                        <?php
+
+                                    $subCategories = $subcategory->getChildrenCategories();
+                                    if ($subCategories == null) {
+                                        continue;
+                                    }
+                        ?>
+                        <ul class="dropmenu-template level0 submenu">
+                            <li class="dropmenu-content dropdown-6">
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <div class="widget block block-static-block">
+                                            <ul class="ls-link detail-ul about-us-info">
+                        <?php
+                                                foreach ($subCategories as $sub_Cate):
+                        ?>
+                                                    <li>
+                                                        <a href="<?php echo $sub_Cate->getUrl(); ?>" class="level-top ui-corner-all">
+                                                            <?php echo $sub_Cate->getName(); ?>
+                                                        </a>
+                                                    </li>
+                        <?php
+                                                endforeach;
+                        ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+        <?php
+                endif;
+            endforeach;
+        ?>
+        <div class="static-menu">
+            <?php
+                echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('menu_after')->toHtml();
+            ?>
+        </div>
+    </ul>
+</div>

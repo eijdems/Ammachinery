@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">insert_customer_form.insertcustomer_form_data_source</item>
+            <item name="deps" xsi:type="string">insert_customer_form.insertcustomer_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Form</item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+        </item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Aktiv\Satisfiedcustomer\Block\Adminhtml\Contact\Edit\Back</item>
+            <item name="save" xsi:type="string">Aktiv\Satisfiedcustomer\Block\Adminhtml\Contact\Edit\SaveButton</item>
+        </item>
+    </argument>
+
+    <dataSource name="insertcustomer_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Aktiv\Satisfiedcustomer\Model\Contact\DataProvider</argument>
+            <argument name="name" xsi:type="string">insertcustomer_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="aktivsatisfiedcustomer/contact/save" />
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+
+    <fieldset name="contact">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Customer Information</item>
+            </item>
+        </argument>
+
+        <!-- This field represents form id and is hidden -->
+        <field name="id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">contact</item>
+                </item>
+            </argument>
+        </field>
+        <field name="customer">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="dataType" xsi:type="string">text</item>
+                   <item name="label" xsi:type="string" translate="true">Customer Name</item>
+                   <item name="formElement" xsi:type="string">input</item>
+                   <item name="source" xsi:type="string">contact</item>
+                   <item name="dataScope" xsi:type="string">customer</item>
+                   <!-- <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item> -->
+                </item>
+            </argument>
+        </field>
+        <field name="country">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="dataType" xsi:type="string">text</item>
+                   <item name="label" xsi:type="string" translate="true">Country Name</item>
+                   <item name="formElement" xsi:type="string">input</item>
+                   <item name="source" xsi:type="string">contact</item>
+                   <item name="dataScope" xsi:type="string">country</item>
+                   <!-- <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item> -->
+                </item>
+            </argument>
+        </field>
+        <field name="manufecture">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="dataType" xsi:type="string">text</item>
+                   <item name="label" xsi:type="string" translate="true">Manufetcure Name</item>
+                   <item name="formElement" xsi:type="string">input</item>
+                   <item name="source" xsi:type="string">contact</item>
+                   <item name="dataScope" xsi:type="string">manufecture</item>
+                   <!-- <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item> -->
+                </item>
+            </argument>
+        </field>
+        <field name="year">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="dataType" xsi:type="string">text</item>
+                   <item name="label" xsi:type="string" translate="true">Year</item>
+                   <item name="formElement" xsi:type="string">input</item>
+                   <item name="source" xsi:type="string">contact</item>
+                   <item name="dataScope" xsi:type="string">year</item>
+                   <!-- <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item> -->
+                </item>
+            </argument>
+        </field>
+        <field name="main_field">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Type</item>
+                    <item name="component" xsi:type="string">Aktiv_Satisfiedcustomer/js/form/element/type</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">contact</item>
+                    <item name="dataScope" xsi:type="string">main_field</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="options" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="label" xsi:type="string">Youtube video</item>
+                            <item name="value" xsi:type="string">0</item>
+                        </item>
+                        <item name="1" xsi:type="array">
+                            <item name="label" xsi:type="string">Image</item>
+                            <item name="value" xsi:type="string">1</item>
+                        </item>
+                        <item name="2" xsi:type="array">
+                            <item name="label" xsi:type="string">Review Text</item>
+                            <item name="value" xsi:type="string">2</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="video">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="dataType" xsi:type="string">text</item>
+                   <item name="label" xsi:type="string" translate="true">Youtube video</item>
+                   <item name="formElement" xsi:type="string">input</item>
+                   <item name="source" xsi:type="string">contact</item>
+                   <item name="dataScope" xsi:type="string">video</item>
+                   <!-- <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item> -->
+                </item>
+            </argument>
+        </field>
+        <field name="sourceimage">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="source" xsi:type="string">contact</item>
+                    <item name="label" xsi:type="string" translate="true">Source Image</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Aktiv_Satisfiedcustomer/image-preview</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="aktivsatisfiedcustomer/contact/uploadersourceimg"/>
+                    </item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="source" xsi:type="string">contact</item>
+                    <item name="label" xsi:type="string" translate="true">Image</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Aktiv_Satisfiedcustomer/image-preview</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="aktivsatisfiedcustomer/contact/uploader"/>
+                    </item>
+                    <!-- <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item> -->
+                </item>
+            </argument>
+        </field> 
+        <field name="text">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="dataType" xsi:type="string">text</item>
+                   <item name="label" xsi:type="string" translate="true">Review Text</item>
+                   <item name="formElement" xsi:type="string">input</item>
+                   <item name="source" xsi:type="string">contact</item>
+                   <item name="dataScope" xsi:type="string">text</item>
+                   <!-- <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item> -->
+                </item>
+            </argument>
+        </field>  
+    </fieldset>
+</form>

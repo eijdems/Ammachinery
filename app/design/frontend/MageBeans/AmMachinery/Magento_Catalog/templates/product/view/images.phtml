@@ -1,0 +1,68 @@
+<?php
+$_product = $block->getProduct();
+$productId = $_product->getId();
+// if($_GET['myip'] == 123){
+//   // echo $productId; exit();
+// } 
+$productImages = $block->getProductImages($productId);
+$totalImageCount = count($productImages);
+?>
+<div class="more-views image-gallery-section" id="photos">
+    <h3 class="image-title">
+        <?php echo __('Image gallery'); ?>  
+    </h3>
+
+    <ul id="photo-gallery">
+    <?php $ct = 1; 
+       foreach ($productImages as $_image): 
+          if($ct <= 6) {
+    ?>
+            <li>
+              <a href="<?php echo $_image->getUrl();?>" data-lightbox="image-1" data-title="These are pastel donuts"><img alt="Img Custom Gallery" class="img-custom-gallery" src="<?php echo $_image->getUrl();?>"></a>
+            </li>
+      <?php
+          $ct++;
+      }
+      ?>
+      <?php endforeach;?>
+    </ul>
+    <?php if($totalImageCount > 6){ ?>
+      <div class="actions" id="remove_row">
+          <a id="our_producers_show_more_1" type="button" class="custom_button_review_load"><span class="btn review_btn load-more__btn"><?php echo __('Load more images >>>'); ?></span></a>
+      </div>
+    <?php } ?>
+</div>
+<script type="text/javascript">
+require(['jquery',
+], function ($) {
+    $(document).ready(function () {
+        $(document).on('click', '#our_producers_show_more_1', function () {
+            var pid = "<?php echo $productId ?>";
+            var baseUrl = "<?php echo $block->getBaseUrl() ?>";
+            $.ajax({
+                  url: "ajaxtest/index/index",
+                  method: "POST",
+                  data: {pid: pid},
+                  dataType: "json",
+                  showLoader: true,
+                success: function (data)
+                {
+                    if(data){
+                        var elements = '';
+                        $(data).each(function(key, value){
+                          elements += value;
+                        });
+                        $('#photo-gallery').append(elements);
+                        $('#remove_row').hide();
+                    }
+                }
+            });
+        });
+    });
+});
+</script>
+
+<script type="text/javascript">
+require(['jquery', 'lightbox'], function($, lightbox) {
+});
+</script>

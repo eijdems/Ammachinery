@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<type name="Magento\Catalog\Model\Config">
+    	<plugin name="catalog_config_plugin" type="Custom\Sorting\Plugin\Config"/>
+	</type>
+	<type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
+    	<plugin name="catalog_productlist_toolbar_plugin" type="Custom\Sorting\Plugin\Product\ProductList\Toolbar" />
+	</type>
+	<type name="Magento\Catalog\Model\Config\Source\ListSort">
+        <plugin name="custom_sorting_config_source_listsort" type="Custom\Sorting\Plugin\Catalog\Model\Config\Source\ListSort"/>
+    </type>
+	<type name="Magento\Catalog\Model\Category\Attribute\Source\Sortby">
+        <plugin name="custom_sorting_category_attribute_source_sortby" type="Custom\Sorting\Plugin\Catalog\Model\Category\Attribute\Source\Sortby"/>
+    </type>
+</config>

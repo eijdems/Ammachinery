@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <remove src="Magento_Swatches::css/swatches.css"/>
+    </head>
+    <body>
+        <!-- <container name="home.slider" as="home.slider" label="Home page slider" htmlTag="section" htmlClass="altcon_hero_wrap altcon_hero_bgdiv">
+            <block class="Sparsh\Banner\Block\Banner" name="banner.view" template="Magento_Cms::homepage/banner.phtml" />
+        </container> -->
+         <referenceContainer name="page.wrapper">
+            <container name="contact.list.block" after="main.content">
+                <block class="Magento\Cms\Block\Block" name="list_home">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">homepage_productlist</argument>
+                    </arguments>
+                </block>
+            </container>
+            <container name="contact.custom.block" after="contact.list.block">
+                <block class="Magento\Cms\Block\Block" name="cmspage_home">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">cmspage_home</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <move element="home.slider" destination="page.wrapper" after="main.content"/>
+
+    </body>
+</page>
+

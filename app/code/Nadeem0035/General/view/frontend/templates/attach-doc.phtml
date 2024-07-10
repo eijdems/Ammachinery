@@ -1,0 +1,27 @@
+<?php
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$product = $block->getProduct();
+$class = ($product->getPremium() ? "check_mark" : "not_check_mark");
+?>
+<div class="inspection_section">
+    <?php
+    if (null !== $product->getCustomAttribute('download_link')) {
+        $downloads = $product->getCustomAttribute('download_link')->getValue();
+        $downloads = explode(",", $downloads);
+
+        if (!empty($downloads)) {
+
+            echo "<ul class='download_sections'>";
+            foreach ($downloads as $download) {
+                $file = basename($download, ".pdf");
+                    ?>
+                    <li>
+                        <a href="pub/media/wysiwyg/download/<?php echo $download; ?>"
+                           download="<?=$download?>"><?= $block->escapeHtml(__($file)) ?></a>
+                    </li>
+                <?php }
+            echo "</ul>";
+        }
+    }
+    ?>
+</div>

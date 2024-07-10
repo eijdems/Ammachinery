@@ -1,0 +1,42 @@
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+
+// get categories sorted by category name
+$categories = $block->getCategoryCollection(true, 2, 'name', false,2);
+$manufacturers = $block->getProductAttributeByCode('manufacturer');
+?>
+<form class="form home-search" id="home_search_form" action="<?php echo $block->getResultUrl() ?>" method="get">
+    <div class="row bottom">
+        <div class="col-md-20 looking">
+            <p>I am looking for....</p>
+        </div>
+        <div class="col-md-5">
+            <select id="cat" name="cat">
+                <option value=""><?php echo __('All machines') ?></option>
+                <?php
+                if (!empty($categories)) {
+                    foreach ($categories as $category) {
+                        echo "<option value=" . $category->getId() . ">" . $category->getName() . "</option>";
+                    }
+                }
+                ?>
+            </select></div>
+        <div class="col-md-5">
+            <select id="manufacturer" name="manufacturer">
+                <option value=""><?php echo __('All manufacturers') ?></option>
+                <?php
+                if (!empty($manufacturers)) {
+                    foreach ($manufacturers as $manf_key => $manufacturer) {
+                        echo "<option value=" . $manf_key . ">" . $manufacturer . "</option>";
+                    }
+                }
+                ?>
+            </select>
+        </div>
+        <div class="col-md-5">
+            <input type="text" name="type" id="type" placeholder="<?php echo __('All models / Stock number') ?>"/>
+        </div>
+        <div class="col-md-5"><input class="search_machine" type="submit" value="Search machine"></div>
+    </div>
+</form>

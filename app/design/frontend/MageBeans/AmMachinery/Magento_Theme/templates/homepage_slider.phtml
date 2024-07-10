@@ -1,0 +1,212 @@
+<?php
+
+$helper = $this->helper('MageBeans\Pageimage\Helper\Data');
+$imageHelper  = $this->helper('Magento\Catalog\Helper\Image');
+$productCollection = $helper->getProductCollectionByCategories();
+
+?>
+
+
+<div class="product-slider banner-bottom-product">
+    <div class="container-fluid">
+            <?php $i = 0; ?>
+            <div class="tab-content">
+                <?php foreach ($productCollection as $_key => $_products): ?>
+                    <div class="tab-pane <?= ($i == 0 ) ? 'active' : '' ?> <?php echo $i; ?>">
+                        <div id="owl-example" class="owl-carousel slider">
+                            <?php foreach($_products as $_product): ?>
+                                <div class="item">
+                                    <div class="product">
+                                        <div class="image">
+                                            <div class="box-image">
+                                              <a href="<?php /* @escapeNotVerified */
+                                                 echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                                <img
+                                                  src="<?= $imageHelper->init($_product, 'product_base_image')
+                                                      ->constrainOnly(TRUE)
+                                                      ->keepAspectRatio(TRUE)
+                                                      ->keepTransparency(TRUE)
+                                                      ->keepFrame(FALSE)
+                                                      ->resize(377,250)
+                                                      ->setImageFile($_product->getFile())->getUrl(); ?>"
+                                                  alt="<?= $_product->getName(); ?>"
+                                                  >
+
+                                              </a>
+                                           </div>
+                                        </div>
+                                        <div class="title">
+                                           <a class="product-item-link"  href="<?php /* @escapeNotVerified */
+                                              echo $_product->getProductUrl() ?>">
+                                              <h3><?= $_product->getName(); ?></h3>
+                                           </a>
+                                        </div>
+                                        <?php if ($_product->getData('machine_of_month')): ?>
+                                            <img class='img-sold-lable' src='/media/Sold-label.png' />
+                                        <?php endif;?>
+                                        <?php if ($_product->getAttributeText('machine_status') == "Coming"): ?>
+                                            <img class='img-sold-lable machin-status' src='/media/coming-in-label.png' />
+                                        <?php endif;?>
+                                        <p class="sku">
+                                            #<?= $_product->getSku(); ?>
+                                        </p>
+                                        <div class="price">
+                                            <ul class="products_attributes">
+                                                <?php
+                                                $counter1 = (double) ($_product->getResource()->getAttribute('counter1')->getFrontend()->getValue($_product)) ?: '';
+                                                $build_year = ($_product->getResource()->getAttribute('build_year')->getFrontend()->getValue($_product)) ?: '';
+
+                                                if (isset($build_year) && !empty($build_year)) {
+                                                    echo __("<li><i class=\"far fa-calendar\"></i> ". $build_year."</li>");
+                                                }
+                                                if (isset($counter1) && !empty($counter1)) {
+                                                    echo __("<li><i class=\"fas fa-tachometer-alt\"></i> ". $counter1."</li>");
+                                                }
+
+                                                ?>
+                                            </ul>
+                                            <?php if ($_product->getPrice() == 0): ?>
+                                                <span class="request-price"><?php echo __("Price On Request"); ?>
+                                            <?php else: ?>
+                                                <h3><?= $_product->getFormattedPrice(); ?></h3>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="more-info">
+                                            <a href="<?= $_product->getProductUrl() ?>">
+                                                <?php /* @escapeNotVerified */ echo __('More information') ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div >
+                    
+                            <?php endforeach; ?>
+                        </div>
+
+
+
+                    </div>
+                    <?php $i++; ?>
+                <?php endforeach; ?>
+        </div>
+        <ul class="slider-links">
+            <?php $i = 0; ?>
+            <?php foreach ($productCollection as $_key => $_product): ?>
+                <li class="<?= ($i === 0 ) ? 'active' : '' ?>">
+                    <a href="javascript:void(0)" data-src="<?php echo $i; ?>" >
+                        <?php /* @escapeNotVerified */ echo __($_key) ?>
+                    </a>
+                </li>
+                <?php $i++; ?>
+            <?php endforeach; ?>
+        </ul>
+        <div class="static-link">
+            <?php
+            echo $this->getLayout()
+                ->createBlock('Magento\Cms\Block\Block')
+                ->setBlockId('am-homepage-slider-link')
+                ->toHtml();
+            ?>
+            <div class="product-prgogressbar">
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+               
+            </div>
+             <span class="slider__label"></span>
+         </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'owlcarousel',
+        'bootstrap',
+        'tabs',
+        'jquery/ui',
+        'scroll'
+
+    ], function($){
+        $(document).ready(function() {
+            var $slider = initSlider();
+
+            $('.product-slider.banner-bottom-product').on("click", ".slider-links a", function (e) {
+                if(!$(this).hasClass('active')){
+                    $('.product-slider.banner-bottom-product .owl-carousel').owlCarousel('destroy');
+                    $('.product-slider.banner-bottom-product .slider-links li').removeClass('active')
+                    $('.product-slider.banner-bottom-product .tab-pane.active').removeClass('active')
+                    var id = '.product-slider.banner-bottom-product .tab-pane.'+ $(this).attr('data-src');
+                    $(id).addClass('active')
+                    $(this).parent().addClass('active');
+                    initSlider();
+                    return false;
+                }
+            });
+
+                          var $slider = $('.slider');
+              var $progressBar = $('.banner-bottom-product .progress');
+              var $progressBarLabel = $( '.banner-bottom-product .slider__label' );
+              
+              $slider.on('initialized.owl.carousel', function(event) {
+                // console.log(event);
+                // console.log(event.item.index, event.item.count);
+                var calc = ( (event.item.index+event.page.size) / (event.item.count) ) * 100;
+                // console.log(calc,'test');
+                
+                $progressBar
+                  
+                  .attr('aria-valuenow', calc );
+                
+                $progressBarLabel.css('background-size', calc + '% 100%');
+              });
+
+            function initSlider() {
+                return $('.product-slider.banner-bottom-product .active .owl-carousel').owlCarousel({
+                    loop:false,
+                    nav:true,
+                    dots:false,
+                    autoplay:false,
+                    items: 4,
+                    autoWidth:false,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    // scrollbarType: "scroll",
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        480: {
+                            items: 1
+                        },
+                        768: {
+                            items: 2
+                        },
+                        991: {
+                            items: 3
+                        },
+                        1024: {
+                            items: 3
+                        },
+                        1200: {
+                            items: 4
+                        }
+                    }
+                })
+            }
+
+
+              $slider.on('changed.owl.carousel', function(event) {
+                // console.log(event);
+                // console.log(event.item.index, event.item.count);
+                var calc = ( (event.item.index+event.page.size) / (event.item.count) ) * 100;
+                // console.log(calc,'test');
+                
+                $progressBar
+                  
+                  .attr('aria-valuenow', calc );
+                
+                $progressBarLabel.css('background-size', calc + '% 100%');
+              });
+
+              $slider.trigger('refresh.owl.carousel');
+        });
+    });
+</script>

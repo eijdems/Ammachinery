@@ -1,0 +1,147 @@
+<?php
+$bannerId = $block->getBanner();
+$imageLink = null;
+$banners = null;
+$counter = 0;
+if (!empty($bannerId)):
+    $banners = $block->getBanner($bannerId);
+    ?>
+    <div class="hero_overlay_logodiv">
+        <img src="<?php echo $this->getViewFileUrl('Magento_Theme::images/hero-overlay-logo.png'); ?>" loading="lazy"
+             alt="hero-overlay-logo">
+    </div>
+    <div class="altcon_hero_intro_outer">
+        <div class="container">
+            <div class="row">
+                <div id="homeBigSlider" class="col-lg-12 carousel slide">
+                    <div class="carousel-inner">
+                        <?php foreach ($banners as $banner): ?>
+                        <?php if ($banner->getBannerType() == "Image" && $banner->getIsActive()): ?>
+                            <div class="carousel-item altcon_hero_div <?php if ($counter == 0) {
+        echo ' active';
+    } ?>">
+                                <div
+                                    class="background-image"
+                                    data-image="<?= $block->escapeHtml($block->getMediaPath() . $banner->getBannerImage()) ?>"
+                                >
+                                </div>
+                                <?php if ($banner->getBannerDescription() != "" || $banner->getBannerTitle() != ""): ?>
+                                    <div class="altcon_hero_intro">
+                                        <div class="altcon_cmn_intro">
+                                            <?php if ($banner->getBannerTitle() != ""): ?>
+                                                <div class="altcon_heading_typ1">
+                                                    <h1><?= $block->escapeHtml(__($banner->getBannerTitle())) ?></h1>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($banner->getBannerDescription() != ""): ?>
+                                                <div class="altcon_descp">
+                                                    <?= /* @noEscape */ __($banner->getBannerDescription()) ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($banner->getLabelButtonText() != ""): ?>
+                                    <div class="vmore_cmn_plnk">
+                                        <a href="<?= $block->escapeHtml(($banner->getCallToAction() ? $banner->getCallToAction() : '#')) ?>"
+                                           class="vmore_lnk"><?= $block->escapeHtml($banner->getLabelButtonText()) ?>
+                                            <div class="icon_div sprt_rarrow_white"></div>
+                                        </a>
+                                    </div>
+
+                                <?php endif; ?>
+                                <?php $imageLink = $block->escapeHtml($block->getMediaPath() . $banner->getBannerImage()); ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($banner->getBannerType() == "Youtube" && $banner->getIsActive()): ?>
+                        <div class="carousel-item altcon_hero_div youtubevideo <?php if ($counter == 0) {
+                                                        echo ' active';
+                                                    } ?>">
+                            <?php if ($banner->getBannerDescription() != "" || $banner->getBannerTitle() != ""): ?>
+                                <div class="altcon_hero_intro">
+                                    <div class="altcon_cmn_intro">
+                                        <?php if ($banner->getBannerTitle() != ""): ?>
+                                            <div class="altcon_heading_typ1">
+                                                <h1><?= $block->escapeHtml(__($banner->getBannerTitle())) ?></h1>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if ($banner->getBannerDescription() != ""): ?>
+                                            <div class="altcon_descp">
+                                                <?= /* @noEscape */
+                                                __($banner->getBannerDescription()) ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($banner->getLabelButtonText() != ""): ?>
+                                <div class="vmore_cmn_plnk">
+                                    <a href="<?= $block->escapeHtml(($banner->getCallToAction() ? $banner->getCallToAction() : '#')) ?>"
+                                       class="vmore_lnk">
+                                        <?php echo __($block->escapeHtml($banner->getLabelButtonText())); ?>
+                                        <div class="icon_div sprt_rarrow_white"></div>
+                                    </a>
+                                </div>
+
+                            <?php endif; ?>
+                            <div id="bgndVideo" class="player" data-property="{videoURL:'http://youtu.be/<?= $block->escapeUrl($banner->getBannerYoutube()) ?>'}"></div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php $counter++; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+<?php
+endif;
+?>
+<script>
+    require([
+        'jquery',
+        'bootstrap'
+    ], function ($, bootstrap) {
+        $(document).ready(function () {
+            $('#homeBigSlider').carousel({
+                interval: 5000,
+                pause: false,
+                ride:true
+            });
+            $('#homeBigSlider').on('slid.bs.carousel', function () {
+                if ($('#homeBigSlider .carousel-item.active .background-image').length) {
+                    $('.cms-index-index .altcon_hero_bgdiv').attr('style', 'background:url(' + $('#homeBigSlider .carousel-item.active .background-image').attr("data-image") + ') no-repeat center top !important; background-attachment: fixed !important;background-position: center !important;background-repeat: no-repeat !important;background-size: cover !important');
+                    if($( '.youtubevideo.active' ).length == 0){
+                        $( '#wrapper_bgndVideo' ).css('opacity',0);
+                    }else{
+                        $( '#wrapper_bgndVideo' ).css('opacity',1);
+                    }
+                }
+            });
+
+            var options = {
+                containment:'.altcon_hero_wrap.altcon_hero_bgdiv',
+                playOnlyIfVisible  : false,
+                showControls:false,
+                autoPlay:true,
+                loop:true,
+                mute:true,
+                startAt:0,
+                addRaster:true,
+                quality:'default'
+            };
+            window.addEventListener('load', (event) => {
+                $.when(
+                    $.getScript( "<?php echo $this->helper('\Magento\Cms\Helper\Wysiwyg\Images')->getBaseUrl() . 'js/jquery.mb.YTPlayer.min.js'; ?>" ),
+                    $.Deferred(function( deferred ){
+                        $( deferred.resolve );
+                    })
+                ).done(function(){
+                    myPlayer = jQuery(".player").YTPlayer(options);
+                });
+            });
+        });
+    });
+</script>

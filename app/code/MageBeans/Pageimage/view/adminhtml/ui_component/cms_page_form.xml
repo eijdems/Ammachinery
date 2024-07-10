@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright © 2013-2017 Magento, Inc. All rights reserved.
+* See COPYING.txt for license details.
+*/
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="content">
+        <field name="extra_image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="source" xsi:type="string">category</item>
+                    <item name="label" xsi:type="string" translate="true">Extra Image</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="pageimage/cms_page/upload"/>
+                    </item>
+                </item>
+                
+            </argument>
+        </field>
+        <field name="page_headng">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                 <item name="dataType" xsi:type="string">text</item>
+                 <item name="label" xsi:type="string" translate="true">Page Main Title</item>
+                 <item name="formElement" xsi:type="string">input</item>
+                 <item name="source" xsi:type="string">page</item>
+                 <item name="dataScope" xsi:type="string">page_headng</item>
+                 </item>
+             </argument>
+         </field>
+        <field name="page_subheading">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                 <item name="dataType" xsi:type="string">text</item>
+                 <item name="label" xsi:type="string" translate="true">Page Sub Title</item>
+                 <item name="formElement" xsi:type="string">input</item>
+                 <item name="source" xsi:type="string">page</item>
+                 <item name="dataScope" xsi:type="string">page_subheading</item>
+                 </item>
+             </argument>
+         </field>
+    </fieldset>
+</form>

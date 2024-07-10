@@ -1,0 +1,43 @@
+<?php 
+$product = $block->getProduct();
+?>
+<?php
+$year = $product->getAttributeText('build_year');
+$enginehours = $product->getData('counter1');
+$drumhours = $product->getData('counter2');
+if($year || $enginehours || $drumhours){
+	?>
+	<div class="custominfo">
+			<?php if($year) {
+				?>
+				<span>
+			 		<?php echo __("Year ").$year; ?>
+			 	</span>
+			<?php } ?>
+			<?php if($enginehours) {
+				?>
+				<span>
+			 		<?php echo __("Engine hours ").$enginehours; ?>
+			 	</span>
+			 <?php } ?>
+			<?php if($drumhours) {
+			?>
+				<span>
+					<?php echo __("Drum hours ").$drumhours;?>
+				</span>
+			<?php } ?>
+	</div>
+<?php
+}
+?>
+<?php
+$sku = $product->getSku();
+if($sku){
+	?>
+	<div class="sku">
+		<?php echo "#".$sku; ?>
+	</div>
+<?php
+}
+?>
+

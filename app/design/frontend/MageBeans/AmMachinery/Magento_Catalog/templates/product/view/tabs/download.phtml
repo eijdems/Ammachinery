@@ -1,0 +1,134 @@
+<?php
+$product = $block->getProduct();
+$videoss=($product->getResource()->getAttribute('video')->getFrontend()->getValue($product)) ?: '';
+$videos = explode(",", $videoss);
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$categories = $product->getCategoryIds(); /*will return category ids array*/
+    foreach($categories as $category){
+        $cat = $objectManager->create('Magento\Catalog\Model\Category')->load($category);
+        $catid= $cat->getId();
+    }
+    /*if ($catid!=120) { ?>
+        <div class="button-wrapper">
+            <a href="#inspection-report"><?php echo __('inspection report >>') ?></a>
+        </div>
+        <div class="contact-wrapper">
+            <div class="contactbtn">
+                <a href="javascript:void();"><?php echo __('Contact our salesteam') ?><span class="contactbtninfo"></span></a>
+            </div>
+            <?php
+            echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('contact-sales-team')
+            ->toHtml();
+            ?>
+        </div>
+   <?php }*/
+   
+$downloadss=($product->getResource()->getAttribute('download_link')->getFrontend()->getValue($product)) ?: '';
+
+$inspection = '';
+$downloads = explode(',', $downloadss); ?>
+<?php
+if ($downloadss != '') { ?>
+    <div class="machine-document">
+    <?php if($downloads): ?>
+    
+    <?php 
+    echo "<ul class='download_sections'>";
+    ?>
+
+    <?php 
+    foreach ($downloads as $download) {
+        $file = basename($download, ".pdf");
+        ?>
+        <li>
+            <a href="/media/wysiwyg/download/<?php echo $download; ?>"
+               target="_blank"><img src="<?php echo $this->getViewFileUrl('images/arrow-down.png'); ?>" /><?= $block->escapeHtml(__($file)) ?></a></li>
+    <?php } 
+    echo "</ul>";
+    endif;
+    echo "</div>";
+}
+
+
+
+?>
+<script type="text/javascript">
+require(['jquery', 'jquery/ui'], function($){
+    $(document).ready( function() {
+    $(".product.media .button-wrapper a[href='#photos']").click(function(event) {
+    event.preventDefault();
+    var x = $('#photos').offset().top;
+    $('html,body').animate({ scrollTop: x - 0 }, 1000);
+});
+  });
+});
+</script>
+<div id="popup-modal" style="display:none;">
+<?php 
+if(!function_exists('getYoutubeIdFromUrl')) {
+    function getYoutubeIdFromUrl($url) {
+        $parts = parse_url($url);
+        if(isset($parts['query'])){
+            parse_str($parts['query'], $qs);
+            if(isset($qs['v'])){
+                return $qs['v'];
+            }else if(isset($qs['vi'])){
+                return $qs['vi'];
+            }
+        }
+        if(isset($parts['path'])){
+            $path = explode('/', trim($parts['path'], '/'));
+            return $path[count($path)-1];
+        }
+        return false;
+    }
+}
+if (null !== $product->getCustomAttribute('video')) {
+    if (!empty($videos)) {
+        echo "<ul class='video_sections'>";
+        foreach ($videos as $video) {
+            if ($videoLink = getYoutubeIdFromUrl($video)) {
+                echo "<li><iframe width=\"100%\" height=\"450\" src=\"https://www.youtube.com/embed/" . $videoLink . "\" frameborder=\"0\"></iframe></li>";
+            }
+        }
+        echo "</ul>";
+    }
+}
+?>
+</div>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                buttons: [{
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }],
+                    opened: function($Event) {
+                        $(".modal-footer").hide();
+                    }
+            };
+            var popup = modal(options, $('#popup-modal'));
+            $("#video-popup").on('click',function(){ 
+                $("#popup-modal").modal("openModal");
+            });
+
+        }
+    );
+</script>

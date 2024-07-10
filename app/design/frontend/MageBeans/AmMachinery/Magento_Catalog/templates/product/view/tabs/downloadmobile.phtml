@@ -1,0 +1,28 @@
+<?php
+$product = $block->getProduct();
+$downloadss=($product->getResource()->getAttribute('download_link')->getFrontend()->getValue($product)) ?: '';
+// $inspection=($product->getResource()->getAttribute('inspection_report')->getFrontend()->getValue($product)) ?: '';
+$downloads = explode(',', $downloadss);
+// $file1 = basename($inspection, ".pdf");
+if ($downloadss != '') { ?>
+    <div class="machine-document machine-document-mobile 88">
+    <?php if($downloads): ?>
+    <h3 class="col label" scope="row"><?php echo __('Machine documents') ?></h3>
+    <?php 
+    echo "<ul class='download_sections'>";
+    ?>
+    
+    <?php 
+    foreach ($downloads as $download) {
+        $file = basename($download, ".pdf");
+        ?>
+        <li>
+            <a href="/media/wysiwyg/download/<?php echo $download; ?>"
+               download="<?= $download ?>"><img src="<?php echo $this->getViewFileUrl('images/pdf-icon-new.png'); ?>" /><?= $block->escapeHtml(__($file)) ?></a></li>
+    <?php } 
+    echo "</ul>";
+    endif;
+    echo "</div>";
+}
+
+?>

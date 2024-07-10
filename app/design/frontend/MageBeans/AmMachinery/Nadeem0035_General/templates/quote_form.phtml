@@ -1,0 +1,209 @@
+<?php
+$product            = $block->getProduct();
+$user               = $block->getCurrentUser();
+$price              =  $product->getPrice();
+$objectManager      = \Magento\Framework\App\ObjectManager::getInstance();
+$productId          = $block->getProduct()->getId();
+$categoryCollection = $objectManager->get('Magento\Catalog\Model\ProductCategoryList');
+$categoryIds        = $categoryCollection->getCategoryIds($productId); 
+
+$categoriesSpareparts = array(103,104,105,114,115,113,121,109,116,122,124,126,129,132,133,134,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,130,135,136,137,138,139,140,141,142,143,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,131,144,145,127,128,144,145,146,147,148,149,165,166,150,151,152,153,154,155,156,163,164,161,162,159,160,262,263,264,265,266,267,268,269,270,271,272,273,274,275);
+$flag = false;
+foreach ($categoryIds as $categoryId) {
+    if (in_array($categoryId, $categoriesSpareparts)) {
+        $flag = true;
+        break;
+    }
+}
+//print_r($product->debug());die("2222222222");
+$newData = $product['hideonwebshop'];
+/*var_dump($newData);
+if (!$newData) {
+    $newData = 1;
+} else {
+    $newData = 0;
+}*/
+$category = [];
+        if ($categoryIds) {
+            $category = array_unique($categoryIds);
+        }
+$categories = $product->getCategoryIds(); /*will return category ids array*/
+foreach($categories as $category){
+    $cat    = $objectManager->create('Magento\Catalog\Model\Category')->load($category);
+    $catId[]  = $cat->getId();
+}
+//echo $catId.",";
+
+?>
+<?php if($newData == 1 || $product['price'] == 0): ?>
+<div class="custom_sku">#<?=$block->getProduct()->getSku() ?></div>
+<?php endif; ?>
+<div class="contact_call">
+    <div class="quote_form">
+        <a href="javascript:void(0)" class="action open-modal-form" id="quote-form"><?php echo __('I am interested, contact me') ?></a>
+    </div>
+</div>
+<?php if($flag == false || $product['price'] == 0): ?>
+<?php
+  $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+  ?>
+<div class="view_ins_report">
+    <button type="button">View Inspection report</button>
+</div>
+
+<button type="button" class="view_dekra"><img src="<?php echo $this->getViewFileUrl('images/decrae.png'); ?>" alt="Dekra">Dekra Inspection Available</button>
+
+<div class="dekra_available_show">
+    <div class="head_text">When you enter your E-mail address, we will send you the Dekra report.</div>
+    <div class="d_cross"><i class="fa fa-times"></i></div>
+    <form name="dekra" method="post" id="dekra" class="form_dekra"
+                      action="<?php echo $this->getUrl('dekra/index/index') ?>"
+                      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+                      data-mage-init='{"validation":{}}' enctype="multipart/form-data">
+            <input type="hidden" name="dekra_sku" class="dekra_sku" value="<?= $block->getProduct()->getSku() ?>">
+            <input type="hidden" name="p_url" class="p_url" value="<?= $product->getProductUrl() ?>"> 
+            <div class="second_row">
+                <input type="email" name="d_email" data-validate="{required:true}" value="" placeholder="<?php echo __('Email address') ?> * "/>
+            </div>
+            <button type="submit">Send</button>
+    </form>
+</div>
+<?php endif; ?>
+<div id="quote-form-modal" style="display:none;">
+    <h3>Please contact me about the: <span><?php echo $product->getName(); ?></span></h3>
+    <p class="contact-txt"><?php echo __('Please leave your contactinformation behind. We will contact you as soon as possible.');?></p>
+    <form method="post" name="quote_request" id="quote_request" action="<?php echo $block->getFormAction() ?>" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+        <div class="form_wrapper">
+            <div class="first_row">
+                <input type="text" name="first_name" data-validate="{required:true}" value="<?=$user['first_name']?>" placeholder="<?php echo __('First name') ?> * "/>
+                <input type="text" name="last_name" data-validate="{required:true}" value="<?=$user['last_name']?>" placeholder="<?php echo __('Last name') ?> * "/>
+            </div>
+            <div class="second_row">
+                <input type="text" name="phone" data-validate="{required:true}" placeholder="<?php echo __('Telephone number') ?> * "/>
+                <input type="email" name="email" data-validate="{required:true}" value="<?=$user['email']?>" placeholder="<?php echo __('Email address') ?> * "/>
+            </div>
+            <div class="third_row">
+                <textarea type="text" name="question" data-validate="{required:true}" placeholder="<?php echo __('Here your question ?') ?> * "></textarea> 
+            </div>
+            <div class="term_condition">
+                <div class="first_checkbox"><input type="checkbox" required class="required"  value="1" id="contact_me" data-validate="{required:true}"
+                                                               name="contact_me"  /> <label
+                            for="contact_me"><?php echo __('By sending this form I understand A&M Machinery will contact me.') ?></label>
+                </div>
+                <div class="second_checkbox"><input type="checkbox" required value="1" class="required" name="term_condition" data-validate="{required:true}"
+                                                                id="term_condition"/> <label
+                            for="term_condition"><?php echo __('By sending this form I agree with the terms and conditions') ?></label>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="product_id" value="<?php echo $product->getID(); ?>"/>
+        <input type="hidden" name="product_name" value="<?php echo $product->getName(); ?>"/>
+        <input type="hidden" name="product_sku" value="<?php echo $product->getSku(); ?>"/>
+        <input type="hidden" id="quote_option" name="quote_option" value=""/>
+        <input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+        <div id="form_loader"></div>
+        <div class="contact-send"><input type="submit" class="quote_send" name="submit" value="Send"/></div>
+    </form>
+</div>
+<script type="text/x-magento-init">
+    {
+        ".open-modal-form": {
+            "Nadeem0035_General/js/modal-form": {}
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    require([
+        "jquery",
+        "mage/mage"
+    ], function ($) {
+        $(document).ready(function () {
+
+            var dataForm = $("#quote_request");
+            var formLoader = $("#form_loader");
+            var formWrapper = $(".form_wrapper");
+            var contactSend = $(".contact-send");
+            var contactTxt = $(".contact-txt");
+
+            dataForm.mage(
+                'validation',
+                {
+                    submitHandler: function (form) {
+                        console.log(dataForm.serialize());
+                        $.ajax({
+                            url: dataForm.attr('action'),
+                            data: dataForm.serialize(),
+                            type: 'POST',
+                            dataType: 'json',
+                            beforeSend: function () {
+                                formLoader.html('<b>Processing your request ...</b>');
+                            },
+                            success: function (data, status, xhr) {
+                                formWrapper.hide('slow');
+                                contactSend.hide('slow');
+                                contactTxt.hide('slow');
+                                formLoader.html("<b>" + data.message + "</b>");
+                            },
+                            error: function (xhr, status, errorThrown) {
+                                formLoader.html('<b>Error happens. Try again</b>');
+                                console.log(errorThrown);
+                            }
+                        });
+                    }
+                }
+            );
+        });
+    });
+</script>
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){ 
+        $(".view_ins_report").click(function() {
+            $('html,body').animate({
+                scrollTop: $(".inspection-report-attr").offset().top},'slow');
+        });
+        $("a#click_addtocart").click(function() {
+             $('#product-addtocart-button').trigger('click');
+        });
+    });   
+</script>
+<?php if($newData == 0 && $product['price'] > 0): ?>
+    <script type="text/javascript">
+        require(['jquery', 'jquery/ui'], function($){ 
+           $('body').addClass("hide_category_product");
+        });
+    </script>
+ <?php endif; 
+ ?>
+ <?php if($newData == 1) : ?>
+    <script type="text/javascript">
+        require(['jquery', 'jquery/ui'], function($){ 
+            console.log("ddddddddd11111");
+            //console.log($newData);
+           $('body').addClass("hide_addtocart");
+        });   
+    </script>
+ <?php endif; ?>
+ <?php if($product['price'] == 0 && $newData == 0): ?>
+    <script type="text/javascript">
+        require(['jquery', 'jquery/ui'], function($){ 
+           $('body').addClass("hide_addtocart hide_price_on_request");
+        });
+    </script>
+ <?php endif; ?>
+ <style type="text/css">
+     .hide_addtocart .product-options-bottom{
+        display: none;
+     }.hide_addtocart .box-tocart{
+        display: none;
+     }
+    .product-info-main .product-title-left .products_attributes.replaces_oem {
+        width: 100%;
+    }
+    .hide_price_on_request .view_ins_report{
+        display: none;
+    }
+    .hide_price_on_request button.view_dekra{
+        display: none;
+    }
+ </style>    

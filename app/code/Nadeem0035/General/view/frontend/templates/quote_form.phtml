@@ -1,0 +1,101 @@
+<?php
+$product = $block->getProduct();
+$user = $block->getCurrentUser();
+?>
+<div class="contact_call">
+    <div class="quote_form">
+        <a href="javascript:void(0)" class="action open-modal-form" id="quote-form"><?php echo __('I am interested, contact me') ?></a>
+    </div>
+    <div class="give_call">
+        <a href="tel:+1 712 449 6293"><?php echo __('Any questions? Please give us a call: <span>+1 712 449 6293</span>') ?></a>
+    </div>
+</div>
+
+
+<div id="quote-form-modal" style="display:none;">
+    <h3>Please contact me about the: <span><?php echo $product->getName(); ?></span></h3>
+    <p class="contact-txt"><?php echo __('Please leave your contactinformation behind. We will contact you as soon as possible.');?></p>
+    <form method="post" name="quote_request" id="quote_request" action="<?php echo $block->getFormAction() ?>" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+        <div class="form_wrapper">
+            <div class="first_row">
+                <input type="text" name="first_name" data-validate="{required:true}" value="<?=$user['first_name']?>" placeholder="<?php echo __('First name') ?> * "/>
+                <input type="text" name="last_name" data-validate="{required:true}" value="<?=$user['last_name']?>" placeholder="<?php echo __('Last name') ?> * "/>
+            </div>
+            <div class="second_row">
+                <input type="text" name="phone" data-validate="{required:true}" placeholder="<?php echo __('Telephone number') ?> * "/>
+                <input type="email" name="email" data-validate="{required:true}" value="<?=$user['email']?>" placeholder="<?php echo __('Email address') ?> * "/>
+            </div>
+            <div class="term_condition">
+                <div class="first_checkbox"><input type="checkbox" required class="required"  value="1" id="contact_me" data-validate="{required:true}"
+                                                               name="contact_me"  /> <label
+                            for="contact_me"><?php echo __('By sending this form I understand Global Equipment will contact me.') ?></label>
+                </div>
+                <div class="second_checkbox"><input type="checkbox" required value="1" class="required" name="term_condition" data-validate="{required:true}"
+                                                                id="term_condition"/> <label
+                            for="term_condition"><?php echo __('By sending this form I agree with the terms and conditions') ?></label>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="product_id" value="<?php echo $product->getID(); ?>"/>
+        <input type="hidden" name="product_name" value="<?php echo $product->getName(); ?>"/>
+        <input type="hidden" name="product_sku" value="<?php echo $product->getSku(); ?>"/>
+        <input type="hidden" id="quote_option" name="quote_option" value=""/>
+        <input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+        <div id="form_loader"></div>
+        <div class="contact-send"><input type="submit" class="quote_send" name="submit" value="Send"/></div>
+    </form>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        ".open-modal-form": {
+            "Nadeem0035_General/js/modal-form": {}
+        }
+    }
+
+
+</script>
+
+<script type="text/javascript">
+    require([
+        "jquery",
+        "mage/mage"
+    ], function ($) {
+        $(document).ready(function () {
+
+            var dataForm = $("#quote_request");
+            var formLoader = $("#form_loader");
+            var formWrapper = $(".form_wrapper");
+            var contactSend = $(".contact-send");
+            var contactTxt = $(".contact-txt");
+
+            dataForm.mage(
+                'validation',
+                {
+                    submitHandler: function (form) {
+						console.log(dataForm.serialize());
+                        $.ajax({
+                            url: dataForm.attr('action'),
+                            data: dataForm.serialize(),
+                            type: 'POST',
+                            dataType: 'json',
+                            beforeSend: function () {
+                                formLoader.html('<b>Processing your request ...</b>');
+                            },
+                            success: function (data, status, xhr) {
+                                formWrapper.hide('slow');
+                                contactSend.hide('slow');
+                                contactTxt.hide('slow');
+                                formLoader.html("<b>" + data.message + "</b>");
+                            },
+                            error: function (xhr, status, errorThrown) {
+                                formLoader.html('<b>Error happens. Try again</b>');
+                                console.log(errorThrown);
+                            }
+                        });
+                    }
+                }
+            );
+        });
+    });
+</script>

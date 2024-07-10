@@ -1,0 +1,151 @@
+<?php 
+$_product = $block->getProduct();
+$groupid=$block->getAttributeGroupId($_product->getAttributeSetId());
+$attributesgroups=$block->getAttributeGroups($_product->getAttributeSetId());
+
+$productAttributes=$_product->getAttributes();
+
+$i=0;
+
+$countAttributes=$block->getCountAttributes($_product,$attributesgroups,$productAttributes);
+
+$productCategoryIds = $_product->getCategoryIds();
+//print_r($productCategoryIds);
+$checkcategory=array(108,99,117,119,123);
+
+$match=0;
+  if($productCategoryIds){
+    $match=0;
+    foreach($productCategoryIds as $cat){ 
+      if(in_array($cat,$checkcategory)){
+        $match=1;
+      }
+    }
+  }
+?>
+
+
+<div class="inspection-report-attr" id="inspection-report">
+  <?php
+  foreach ($attributesgroups as $attributesgroupCount); 
+  $attributesCount = $block->getGroupAttributes($_product, $attributesgroupCount->getAttributeGroupId(), $productAttributes);
+   if($match){ ?>
+    <h3 class="col label" scope="row"><span class="harvest_logo"><img src="<?php echo $this->getViewFileUrl('images/harvester-guard-logo.png'); ?>" alt="Harvester Guard">
+</span><span class="harvest_logo_am">AM:</span><?php echo __('Harvester Guard') ?>&reg; <?php echo __('Inspection Report') ?></h3>
+  <div class="inspection-report-row">
+    <div class="inspection-star"> <?php echo $block->getLayout()
+          ->createBlock('Magento\Cms\Block\Block')
+          ->setBlockId('inspection_report_right_block')
+          ->toHtml(); ?>      
+    </div> 
+  <?php } else{ ?>
+    <style type="text/css">
+      body.catalog-product-view .product-details-custom{
+        border-bottom:none;
+      }
+      .catalog-product-view .inspection-report-attr {
+          padding: 0;
+      }
+    </style>
+  <?php }?>
+   
+ <div class="row inspection-content">
+
+<?php
+$arrayFirstGroup = ['Levels', 'Options'];
+$arraySecoundGroup = ['Feedrolls','Knive drum','Corn cave','Kernal processor','Blower','Transition housing','Spout','Engine'];
+$arrayThirdGroup = ['Machine body','Main drive', 'Operational test', 'Operators station'];
+$second = true;
+$third = true;
+$arrayGreenTitle = ['Levels', 'Options', 'Recommended repairs'];
+foreach ($attributesgroups as $attributesgroup):
+if ($attributesgroup->getAttributeGroupName() == 'Levels' ||
+    $attributesgroup->getAttributeGroupName() == 'Blower' ||
+    $attributesgroup->getAttributeGroupName() == 'Corn cave' ||
+    $attributesgroup->getAttributeGroupName() == 'Drive train' ||
+    $attributesgroup->getAttributeGroupName() == 'Electrical' ||
+    $attributesgroup->getAttributeGroupName() == 'Engine' ||
+    $attributesgroup->getAttributeGroupName() == 'Feedrolls' ||
+    $attributesgroup->getAttributeGroupName() == 'Functional test' ||
+    $attributesgroup->getAttributeGroupName() == 'Header' ||
+    $attributesgroup->getAttributeGroupName() == 'Kernal processor' ||
+    $attributesgroup->getAttributeGroupName() == 'Knive drum' ||
+    $attributesgroup->getAttributeGroupName() == 'Machine body' || 
+    $attributesgroup->getAttributeGroupName() == 'Spout' ||
+    $attributesgroup->getAttributeGroupName() == 'Transition housing' ||
+    $attributesgroup->getAttributeGroupName() == 'Main drive' ||
+    $attributesgroup->getAttributeGroupName() == 'Operators station') {
+    
+    $attributes = $block->getGroupAttributes($_product, $attributesgroup->getAttributeGroupId(), $productAttributes);
+    if($attributes){
+      ?>
+        <div class="inspection-report-content col-md-4">
+          <?php 
+              if (in_array($attributesgroup->getAttributeGroupName(), $arraySecoundGroup) && $second) {
+                ?>
+                    <label class="inspectionreport-title green-title"><?php echo __("Condition") ?></label>    
+                <?php
+                $second = false;
+              } elseif (in_array($attributesgroup->getAttributeGroupName(), $arrayThirdGroup) && $third) {
+                ?>
+                    <label class="inspectionreport-title green-title"><?php echo __("Operational test") ?></label>    
+                <?php
+                $third = false;
+              }
+          ?>
+            <label class="inspectionreport-title <?php if(in_array($attributesgroup->getAttributeGroupName(), $arrayGreenTitle)){ echo "green-title"; } ?>"><?php echo __($attributesgroup->getAttributeGroupName()); ?></label>
+                 <ul>
+                    <?php foreach ($attributes as $attribute): ?>
+                        <li >
+                          <?php if ($attribute->getFrontendLabel() != "Recommended repairs") {?>
+                              <label class="label">
+                                <?php //echo $attribute->getFrontendLabel() ?>
+                                <?= $block->escapeHtml(__($attribute->getStoreLabel())) ?>    
+                              </label>
+                          <?php }?>
+                             <?php if ($attribute->getFrontend()->getValue($_product) == '1'):?>
+                            <span class="col data feature star-1 star"><?php /* @escapeNotVerified */ echo $attribute->getFrontend()->getValue($_product) ?></span>
+                            <?php elseif ($attribute->getFrontend()->getValue($_product) == '2'):?>
+                                <span class="col data feature star-2 star"><?php /* @escapeNotVerified */ echo $attribute->getFrontend()->getValue($_product) ?></span>
+
+                            <?php elseif ($attribute->getFrontend()->getValue($_product) == '3'):?>
+                                <span class="col data feature star-3 star"><?php /* @escapeNotVerified */ echo $attribute->getFrontend()->getValue($_product) ?></span>
+
+                            <?php elseif ($attribute->getFrontend()->getValue($_product) == '4'):?>
+                                <span class="col data feature star-4 star"><?php /* @escapeNotVerified */ echo $attribute->getFrontend()->getValue($_product) ?></span>
+
+                            <?php elseif ($attribute->getFrontend()->getValue($_product) == '5'):?>
+                                <span class="col data feature star-5 star"><?php /* @escapeNotVerified */ echo $attribute->getFrontend()->getValue($_product) ?></span>
+
+                            <?php else:?>
+                        <span class="col data feature"><?php /* @escapeNotVerified */ echo $attribute->getFrontend()->getValue($_product) ?></span>
+                        <?php endif; ?>
+
+
+
+                        </li>
+                    <?php endforeach; ?>
+                 </ul>
+        </div>
+      <?php
+    }
+    ?>
+    <?php
+}
+    endforeach;
+?>
+</div>
+</div>
+</div>
+
+
+
+
+<?php echo $this->getLayout()->createBlock("Magento\Catalog\Block\Product\View")->setTemplate("Magento_Catalog::product/view/tabs/downloadmobile.phtml")->toHtml();?>
+
+
+
+<script type="text/javascript">
+require(['jquery', 'lightbox'], function($, lightbox) {
+});
+</script>

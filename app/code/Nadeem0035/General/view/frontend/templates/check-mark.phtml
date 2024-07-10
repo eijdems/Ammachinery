@@ -1,0 +1,8 @@
+<?php
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$product = $block->getProduct();
+$class = ($product->getPremium() ? "check_mark" : "not_check_mark");
+?>
+<div class="<?php echo $class; ?>">
+    <?php echo $_helper->productAttribute($product, $product->getShortDescription(), 'shortDescription'); ?>
+</div>

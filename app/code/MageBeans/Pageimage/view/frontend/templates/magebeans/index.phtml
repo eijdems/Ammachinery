@@ -1,0 +1,22 @@
+<?php  
+$helper = $this->helper('MageBeans\Pageimage\Helper\Data');
+$collections = $this->getPages(); 
+//print_r($this->getHomeProduct());
+//$values = $helper->getHomeproduct();
+//print_r($values);
+//exit;
+?>
+<div class="row products">
+<?php  foreach ($collections as $key => $collection): ?>
+	<div class="col-md-4">
+		<div class="image">
+			<a href="<?php echo $key; ?>"><img src="<?php echo $collection['extra_image']; ?>" src="<?php echo $collection['page_heading']; ?>"/></a>
+		</div>
+		<div class="title">
+			<h3><?php echo $collection['page_heading']; ?></h3>
+			<h4><?php echo $collection['page_subheading']; ?></h4>
+			<a href="<?php echo $key; ?>">More Information</a>
+		</div>
+	</div>
+<?php endforeach; ?>
+</div>

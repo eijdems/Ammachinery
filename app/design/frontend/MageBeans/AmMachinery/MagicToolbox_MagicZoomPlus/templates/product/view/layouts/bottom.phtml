@@ -1,0 +1,56 @@
+<div class="MagicToolboxContainer selectorsBottom minWidth"<?= $thumbSwitcherOptions ?>>
+    <?= $mainHTML; ?>
+<?php
+if (count($selectorsArray)) {
+?>
+
+<div id="sync22" class="custom-sync22 image-gallery-section" style="display: none;">
+	<h3>
+				<?php echo __('Image gallery'); ?>	
+	</h3>
+    <div class="MagicToolboxSelectorsContainer<?php if (count($selectorsArray) == 1) echo ' hidden-container' ?>">
+        <div id="MagicToolboxSelectors<?= $id ?>" class="<?= $additionalClasses ?>"<?= $scrollOptions ?>>
+        <?= join("\n\t\t", $selectorsArray); ?>
+        </div>
+    </div>
+ </div>
+<?php
+}
+?>
+</div>
+<script type="text/javascript">
+require(['jquery', 'jquery/ui'], function($){
+	$(document).ready( function() {
+     if (screen.width >= 320 && screen.width < 768) {
+        $('.product-details-custom.responsive-mobile').before($('div.custom-sync22'));
+        $('div.custom-sync22').show();
+        $('#loading-image-loader').hide();
+        }
+    else{
+        $("div.custom-sync22").detach().appendTo('.inspection-report-attr');
+        $('div.custom-sync22').show();
+        $('#loading-image-loader').hide();
+        }
+  });
+});
+</script>
+<script type="text/javascript">
+        require(['jquery', 'simpleLoadMore'], function($, simpleLoadMore) {
+            if (screen.width >= 320 && screen.width < 768) {
+            $('.catalog-product-view .MagicToolboxSelectorsContainer').simpleLoadMore({
+             item: 'a',
+             count: 6,
+              btnHTML:'<a class="custom_button_review_load" type="button"><span class="btn review_btn load-more__btn">Load more images >></span></a>'
+
+            });
+          }
+          if (screen.width >= 768 && screen.width <= 1199 ) {
+            $('.catalog-product-view .MagicToolboxSelectorsContainer').simpleLoadMore({
+             item: 'a',
+             count: 10,
+              btnHTML:'<a class="custom_button_review_load" type="button"><span class="btn review_btn load-more__btn">Load more images >></span></a>'
+
+            });
+          }
+        });
+</script>

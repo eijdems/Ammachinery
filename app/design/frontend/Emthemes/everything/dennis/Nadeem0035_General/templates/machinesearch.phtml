@@ -1,0 +1,104 @@
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+
+// get categories sorted by category name
+$categories = $block->getCategoryCollection(true, 2, 'name', false,2,2);
+$manufacturers = $block->getProductAttributeByCode('manufacturer');
+
+$cat_Val = "";
+$manufacturer_Val = "";
+$model_Val = "";
+
+if (!empty($_REQUEST["cat"])){
+    $cat_Val = $_REQUEST["cat"];
+}
+if (!empty($_REQUEST["manufacturer"])){
+    $manufacturer_Val = $_REQUEST["manufacturer"];
+}
+if (!empty($_REQUEST["type"])){
+    $model_Val = $_REQUEST["type"];
+}
+
+?>
+<div class="block filter" id="layered-filter-block"
+     data-mage-init='{"collapsible":{"openedState": "active", "collapsible": true, "active": false, "collateral": { "openedState": "filter-active", "element": "body" } }}'>
+    <div class="block-title filter-title" data-count="0" role="tablist">
+        <strong data-role="title" role="tab" aria-selected="false" aria-expanded="false" tabindex="0">
+            <?php echo __('Shop By') ?>
+        </strong>
+    </div>
+    <div class="block-content filter-content">
+
+
+
+
+
+        <strong role="heading" aria-level="2"
+                class="block-subtitle filter-subtitle"> <?php echo __('Shopping Options') ?></strong>
+        <form class="form home-search" id="home_search_form" action="<?php echo $block->getResultUrl() ?>" method="get">
+            <div class="filter-options" id="narrow-by-list" data-role="content"
+                 data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'
+                 role="tablist">
+                <div data-role="collapsible" class="filter-options-item" role="presentation"
+                     data-collapsible="true">
+                    <div data-role="title" class="filter-options-title" role="tab" aria-selected="true"
+                         aria-expanded="true"
+                         tabindex="0"> <?php echo __('All machines') ?>
+                    </div>
+                    <div data-role="content" class="filter-options-content" role="tabpanel">
+                        <select id="cat" name="cat">
+                            <option value=""> <?php echo __('All machines') ?></option>
+                            <?php
+                            if (!empty($categories)) {
+                                foreach ($categories as $category) {
+                                    echo "<option value=" . $category->getId() . " ".(($category->getId() == $cat_Val)?'selected':'')." >". $category->getName()."</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div data-role="collapsible" class="filter-options-item" role="presentation" data-collapsible="true">
+                    <div data-role="title" class="filter-options-title" role="tab" aria-selected="false"
+                         aria-expanded="false" tabindex="0"> <?php echo __('All Manufacturer') ?>
+                    </div>
+                    <div data-role="content" class="filter-options-content">
+                        <select id="manufacturer" name="manufacturer">
+                            <option value=""><?php echo __('All Manufacturer') ?></option>
+                            <?php
+                            if (!empty($manufacturers)) {
+                                foreach ($manufacturers as $manf_key => $manufacturer) {
+                                    if($manufacturer == 'Krohne'){
+                                        $manufacturer = 'Krone';
+                                        $manf_key = 308;
+                                    }
+                                    echo "<option value=" . $manf_key . " ". (($manf_key == $manufacturer_Val)?'selected':'').">" . $manufacturer . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div data-role="collapsible" class="filter-options-item" role="presentation" data-collapsible="true">
+                    <div data-role="title" class="filter-options-title" role="tab" aria-selected="false"
+                         aria-expanded="false" tabindex="0"> <?php echo __('All models / Stock number') ?></div>
+                    <div data-role="content" class="filter-options-content">
+                        <input type="text" name="type" id="type" placeholder="<?php echo __('All models / Stock number') ?>" value="<?php echo __($model_Val); ?>"/>
+                    </div>
+                </div>
+                <div class="search_button"><input class="search_machine" type="submit" value="<?php echo __('Search machine') ?>"></div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        $('#layered-filter-block').addClass('filter-no-options');
+    });
+</script>

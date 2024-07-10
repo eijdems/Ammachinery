@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @var \Nadeem0035\CategoryAttribute\Block\Display $block
+ */
+$content = $block->getCustomSidebarContent();
+?>
+<?php
+if (!empty($content)) { ?>
+    <div class="custom_sidebar_content">
+        <?= $content ?>
+    </div>
+<?php } ?>
