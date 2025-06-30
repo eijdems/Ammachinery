@@ -1326,7 +1326,7 @@ class Index extends Action
 		    $sku 			= $product->getSku();
 		    $prod_id 		= $product->getEntityId();
 		    $productUrl 	= $product->getProductUrl();
-		    $description 	= $product->getShortDescription();
+		    $description 	= $product['advertentietekst_hexon'];
 		    $productData 	= $objectManager->create('Magento\Catalog\Model\Product')->load($prod_id);        
 		    $images 		= $productData->getMediaGalleryImages();
 		    
@@ -1366,6 +1366,7 @@ class Index extends Action
 					if ($responseArray !== null) {
 						if (isset($responseArray['result']['stocknumber'])) {
 					        $stocknumber = $responseArray['result']['stocknumber'];
+					        echo $stocknumber;
 					        //hexonProductUpdate($product,$generalCategory);
 					    } else {
 					    	 $this->imageUpdateHexon($product,$index,$imageUrl,$fileName);
@@ -1386,7 +1387,7 @@ class Index extends Action
 		    global $baseUrl;
 		    $sku = $product->getSku();
 		    $productUrl = $product->getProductUrl();
-		    $description = $product->getShortDescription();
+		    $description = $product['advertentietekst_hexon'];
 		    $url = 'https://api.hexon.nl/spi/api/v4/rest/vehicleimage/' . $sku . ':' . $index;
 
 		    // Define payload data as an associative array
@@ -1429,20 +1430,100 @@ class Index extends Action
 		    curl_close($curl);
 		}
 		public function hexonProductUpdate($product,$generalCategory) {
-			$sku 				= $product->getSku();
-		    $productUrl 		= $product->getProductUrl();
-		    $fileName 			= $product->getImage();
-		    $description 		= $product->getShortDescription();
-		    $brand 				= $product['brand'];
-		    $year_of_manufacture_t = $product['year_of_manufacture_t'];
-		    $title 				= $product['name'];
-		    $engineHours 		= $product['counter1'];
-		    $price 				= $product['price'];
-		    $engine_brand_t 	= $product['engine_brand_t'];
-		    $engine_power_hp 	= $product['engine_power_hp'];
-		    $maximum_speed 		= $product['maximum_speed'];
-		    $warranty_package 	= $product['warranty_package'];
-		    $bodystyle 			= $product->getResource()->getAttribute("bodystyle")->getFrontend()->getValue($product);
+			$sku 						= $product->getSku();
+		    $productUrl 				= $product->getProductUrl();
+		    $fileName 					= $product->getImage();
+		    $description 				= $product['advertentietekst_hexon'];
+		    $brand 						= $product['brand'];
+		    $year_of_manufacture_t 		= $product['year_of_manufacture_t'];
+		    $title 						= $product['name'];
+		    $engineHours 				= $product['counter1'];
+		    //$price 					= $product['price'];
+		    $engine_brand_t 			= $product['engine_brand_t'];
+		    $engine_power_hp 			= $product['engine_power_hp'];
+		    $maximum_speed 				= $product['maximum_speed'];
+		    $warranty_package 			= $product['warranty_package'];
+
+		    $type_hexon 				= $product['type_hexon'];
+		    $applicationMaterial 		= $product['applicationmaterial'];
+		    $aplicationhexon 			= $product['applicationhexon'];
+		    $attachment_fits_to 		= $product['attachment_fits_to'];
+		    $applicationMaterialValues 	= explode(',', $applicationMaterial);
+		    $aplicationhexon_values 	= explode(',', $aplicationhexon);
+		    $attachment_fits_to_values 	= explode(',', $attachment_fits_to);
+
+		    $applicationMaterialLabels 	= [];
+		    if ($applicationMaterial) {
+			    // Get the attribute object (e.g., 'application_material')
+			    $attribute = $product->getResource()->getAttribute('applicationmaterial'); // Replace with your attribute code
+
+			    // Get all options for the attribute
+			    $options = $attribute->getSource()->getAllOptions();
+
+			    // Create a map of option ID to label
+			    $optionsMap = [];
+			    foreach ($options as $option) {
+			        $optionsMap[$option['value']] = $option['label'];
+			    }
+
+			    // Map the selected values (IDs) to their labels
+			    foreach ($applicationMaterialValues as $value) {
+			        if (isset($optionsMap[$value])) {
+			            $applicationMaterialLabels[] = $optionsMap[$value];
+			        }
+			    }
+			}
+			$aplicationhexonLabels = [];
+		    if ($aplicationhexon) {
+			    // Get the attribute object (e.g., 'application_material')
+			    $attribute = $product->getResource()->getAttribute('applicationhexon'); // Replace with your attribute code
+
+			    // Get all options for the attribute
+			    $options = $attribute->getSource()->getAllOptions();
+
+			    // Create a map of option ID to label
+			    $optionsMap = [];
+			    foreach ($options as $option) {
+			        $optionsMap[$option['value']] = $option['label'];
+			    }
+
+			    // Map the selected values (IDs) to their labels
+			    foreach ($aplicationhexon_values as $value) {
+			        if (isset($optionsMap[$value])) {
+			            $aplicationhexonLabels[] = $optionsMap[$value];
+			        }
+			    }
+			}
+			$attachment_fits_toLabels = [];
+		    if ($attachment_fits_to) {
+			    // Get the attribute object (e.g., 'application_material')
+			    $attribute = $product->getResource()->getAttribute('attachment_fits_to'); // Replace with your attribute code
+
+			    // Get all options for the attribute
+			    $options = $attribute->getSource()->getAllOptions();
+
+			    // Create a map of option ID to label
+			    $optionsMap = [];
+			    foreach ($options as $option) {
+			        $optionsMap[$option['value']] = $option['label'];
+			    }
+
+			    // Map the selected values (IDs) to their labels
+			    foreach ($attachment_fits_to_values as $value) {
+			        if (isset($optionsMap[$value])) {
+			            $attachment_fits_toLabels[] = $optionsMap[$value];
+			        }
+			    }
+			}
+
+
+		    //$bodystyle 			= $product->getResource()->getAttribute("bodystyle")->getFrontend()->getValue($product);
+		    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+			$productStore = $objectManager->create('Magento\Catalog\Model\Product')->setStoreId(0)->load($product->getId());
+
+			$price =  $productStore['price'];//die;
+		    $bodystyle 						= $productStore->getResource()->getAttribute("bodystyle")->getFrontend()->getValue($productStore);
+		    $width = isset($productStore['working_width_hcorn']) ? $productStore['working_width_hcorn'] : null;
 		    
 		    if ($warranty_package == 7391) {
 		    	$warranty_package = "AM Premium Warranty package";
@@ -1457,6 +1538,7 @@ class Index extends Action
 			$data 			= array(
 		        "stocknumber" => $sku,
 		        "identification" => array(
+		        	"stocknumber_public"=> true,
 		            "direct_link" => $productUrl
 		        ),
 		        "general" => array(
@@ -1464,7 +1546,14 @@ class Index extends Action
 		            "bodystyle" => $bodystyle,
 		            "make"=> array(
 				      "name"=> $title
-				    )
+				    ),
+				    "type" =>array(
+		            	"name" =>  $type_hexon
+		        	),
+		        	"application" =>array(
+		            	"field" =>  $aplicationhexonLabels,
+		            	"material" =>  $applicationMaterialLabels
+		        	)
 		        ),
 		        "history"=> array(
 				   	"construction_date"=> $year_of_manufacture_t
@@ -1474,6 +1563,10 @@ class Index extends Action
 				      array(
 				        "language"=> "en_GB",
 				        "translation"=> $description
+				      ),
+				      array(
+				        "language" => "nl_NL",
+				        "translation" => $description // Make sure to define the Dutch translation variable here
 				      )
 				    ],
 				    "title"=> [
@@ -1489,16 +1582,39 @@ class Index extends Action
 			  	"sales_conditions"=> array(
 				    "pricing"=> array(
 				      "advertising_preference"=> "regular_price_only",
-				      "type"=> "asking_price",
+				      "type"=> "asking_price", //Asking price
+
+				      "consumer"=> [
+				        array(
+				          "nr"=> 1,
+				          "amount"=> $price,
+				          "decimals"=> 0,
+				          "currency"=> "EUR",
+				          "incl_vat"=> false,
+				          "vat_pct"=> 21,
+				          "incl_dutch_bpm"=> false
+				        )
+				      ],
+				      "procurement"=> [
+				        array(
+				          "nr"=> 1,
+				          "amount"=> $price,
+				          "decimals"=> 0,
+				          "currency"=> "EUR",
+				          "incl_vat"=> false,
+				          "vat_pct"=> 21,
+				          "incl_dutch_bpm"=> false
+				        )
+				      ],
 				      "new"=> [
 				        array(
 				          "nr"=> 1,
 				          "amount"=> $price,
 				          "decimals"=> 0,
 				          "currency"=> "EUR",
-				          "incl_vat"=> true,
+				          "incl_vat"=> false,
 				          "vat_pct"=> 21,
-				          "incl_dutch_bpm"=> true
+				          "incl_dutch_bpm"=> false
 				        )
 				      ]
 				    ),
@@ -1514,6 +1630,14 @@ class Index extends Action
 		      			"model"=> $engine_power_hp
 			  		),
 			  		"topspeed" => $maximum_speed
+			  	),
+			  	"category_specific" =>array(
+			  		"machinery" => array(
+			  			"working_width"=> (float)$width
+			  		),
+			  		"attachments" => array(
+			  			"fits_to"=> $attachment_fits_toLabels
+			  		),
 			  	)
 		    );
 		    $headers = array(
@@ -1542,7 +1666,7 @@ class Index extends Action
 		    echo $response;*/
 		    try {
 		        $response = curl_exec($curl);
-		        //print_r($response);die;
+		        /*echo $response;die;*/
 		        if ($response === false) {
 		            throw new Exception(curl_error($curl), curl_errno($curl));
 		        }
@@ -1554,21 +1678,112 @@ class Index extends Action
 		// SYNC Product in Hexon
 
 		public function hexonSyncProduct($product,$generalCategory) {
+			
 			$sku 							= $product->getSku();
 		    $productUrl 					= $product->getProductUrl();
 		    $fileName 						= $product->getImage();
-		    $description 					= $product->getShortDescription();
+		    $description 					= $product['advertentietekst_hexon'];
 		    
 		    $year_of_manufacture_t 			= $product['year_of_manufacture_t'];
 		    
 		    $title 							= $product['name'];
 		    $engineHours 					= $product['counter1'];
-		    $price 							= $product['price'];
+		    //$price 							= $product['price'];
 		    $engine_brand_t 				= $product['engine_brand_t'];
 		    $engine_power_hp 				= $product['engine_power_hp'];
 		    $maximum_speed 					= $product['maximum_speed'];
 		    $warranty_package 				= $product['warranty_package'];
-		    $bodystyle 						= $product->getResource()->getAttribute("bodystyle")->getFrontend()->getValue($product);
+
+		    $type_hexon 					= $product['type_hexon'];
+		    $applicationMaterial 			= $product['applicationmaterial'];
+		    $aplicationhexon 				= $product['applicationhexon'];
+		    $attachment_fits_to 			= $product['attachment_fits_to'];
+		    $applicationMaterialValues 	    = explode(',', $applicationMaterial);
+		    $aplicationhexon_values 		= explode(',', $aplicationhexon);
+		    $attachment_fits_to_values 		= explode(',', $attachment_fits_to);
+
+		    $applicationMaterialLabels = [];
+		    if ($applicationMaterial) {
+			    // Get the attribute object (e.g., 'application_material')
+			    $attribute = $product->getResource()->getAttribute('applicationmaterial'); // Replace with your attribute code
+
+			    // Get all options for the attribute
+			    $options = $attribute->getSource()->getAllOptions();
+
+			    // Create a map of option ID to label
+			    $optionsMap = [];
+			    foreach ($options as $option) {
+			        $optionsMap[$option['value']] = $option['label'];
+			    }
+
+			    // Map the selected values (IDs) to their labels
+			    foreach ($applicationMaterialValues as $value) {
+			        if (isset($optionsMap[$value])) {
+			            $applicationMaterialLabels[] = $optionsMap[$value];
+			        }
+			    }
+			}
+			$aplicationhexonLabels = [];
+		    if ($aplicationhexon) {
+			    // Get the attribute object (e.g., 'application_material')
+			    $attribute = $product->getResource()->getAttribute('applicationhexon'); // Replace with your attribute code
+
+			    // Get all options for the attribute
+			    $options = $attribute->getSource()->getAllOptions();
+
+			    // Create a map of option ID to label
+			    $optionsMap = [];
+			    foreach ($options as $option) {
+			        $optionsMap[$option['value']] = $option['label'];
+			    }
+
+			    // Map the selected values (IDs) to their labels
+			    foreach ($aplicationhexon_values as $value) {
+			        if (isset($optionsMap[$value])) {
+			            $aplicationhexonLabels[] = $optionsMap[$value];
+			        }
+			    }
+			}
+			$attachment_fits_toLabels = [];
+		    if ($attachment_fits_to) {
+			    // Get the attribute object (e.g., 'application_material')
+			    $attribute = $product->getResource()->getAttribute('attachment_fits_to'); // Replace with your attribute code
+
+			    // Get all options for the attribute
+			    $options = $attribute->getSource()->getAllOptions();
+
+			    // Create a map of option ID to label
+			    $optionsMap = [];
+			    foreach ($options as $option) {
+			        $optionsMap[$option['value']] = $option['label'];
+			    }
+
+			    // Map the selected values (IDs) to their labels
+			    foreach ($attachment_fits_to_values as $value) {
+			        if (isset($optionsMap[$value])) {
+			            $attachment_fits_toLabels[] = $optionsMap[$value];
+			        }
+			    }
+			}
+			//print_r($aplicationhexonLabels);die;
+			$appMat 	=  implode(', ', $applicationMaterialLabels) . '<br>';
+			$apphexon 	=  implode(', ', $aplicationhexonLabels) . '<br>';
+			$attach_fit = implode(', ', $attachment_fits_toLabels);
+
+		    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+			$productStore = $objectManager->create('Magento\Catalog\Model\Product')->setStoreId(0)->load($product->getId());
+			$price =  $productStore['price'];
+			$bodystyle 						= $productStore->getResource()->getAttribute("bodystyle")->getFrontend()->getValue($productStore);
+			$width = isset($product['working_width_hcorn']) ? $product['working_width_hcorn'] : null;
+			
+			/*if ($bodystyle == false) {
+				$bodystyle = $productStore['bodystyle'];
+			}*/
+		    //$bodystyle 						= $product->getResource()->getAttribute("bodystyle")->getFrontend()->getValue($product);
+		    //$bodystyle 						= $product['bodystyle'];
+		    
+
+		    //var_dump($bodystyle);die;
 		    if ($warranty_package == 7391) {
 		    	$warranty_package = "AM Premium Warranty package";
 		    }elseif ($warranty_package == 7392) {
@@ -1580,11 +1795,19 @@ class Index extends Action
 			$data 			= array(
 		        "stocknumber" => $sku,
 		        "identification" => array(
+    				"stocknumber_public"=>true,
 		            "direct_link" => $productUrl
 		        ),
 		        "general" => array(
 		            "category" => $generalCategory,
-		            "bodystyle" => $bodystyle
+		            "bodystyle" => $bodystyle,
+		            "type" =>array(
+		            	"name" =>  $type_hexon
+		        	),
+		        	"application" =>array(
+		            	"field" =>  $aplicationhexonLabels,
+		            	"material" =>  $applicationMaterialLabels
+		        	)	
 		        ),
 		        "history"=> array(
 				   	"construction_date"=> $year_of_manufacture_t
@@ -1610,15 +1833,37 @@ class Index extends Action
 				    "pricing"=> array(
 				      "advertising_preference"=> "regular_price_only",
 				      "type"=> "asking_price",
+				      "consumer"=> [
+				        array(
+				          "nr"=> 1,
+				          "amount"=> $price,
+				          "decimals"=> 0,
+				          "currency"=> "EUR",
+				          "incl_vat"=> false,
+				          "vat_pct"=> 21,
+				          "incl_dutch_bpm"=> false
+				        )
+				      ],
+				      "procurement"=> [
+				        array(
+				          "nr"=> 1,
+				          "amount"=> $price,
+				          "decimals"=> 0,
+				          "currency"=> "EUR",
+				          "incl_vat"=> false,
+				          "vat_pct"=> 21,
+				          "incl_dutch_bpm"=> false
+				        )
+				      ],
 				      "new"=> [
 				        array(
 				          "nr"=> 1,
 				          "amount"=> $price,
 				          "decimals"=> 0,
 				          "currency"=> "EUR",
-				          "incl_vat"=> true,
+				          "incl_vat"=> false,
 				          "vat_pct"=> 21,
-				          "incl_dutch_bpm"=> true
+				          "incl_dutch_bpm"=> false
 				        )
 				      ]
 				    ),
@@ -1634,6 +1879,14 @@ class Index extends Action
 		      			"model"=> $engine_power_hp
 			  		),
 			  		"topspeed" => $maximum_speed
+			  	),
+			  	"category_specific" =>array(
+			  		"machinery" => array(
+			  			"working_width"=> (float)$width
+			  		),
+			  		"attachments" => array(
+			  			"fits_to"=> $attachment_fits_toLabels
+			  		),
 			  	)
 		    );
 		    $headers = array(
@@ -1663,6 +1916,7 @@ class Index extends Action
 
 		    try {
 		        $response = curl_exec($curl);
+		        //var_dump($productStore['bodystyle']);die("zdf");
 		        //echo $response;die;
 		        $responseArray = json_decode($response, true);
 				

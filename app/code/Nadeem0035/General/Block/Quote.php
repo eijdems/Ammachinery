@@ -64,9 +64,9 @@ class Quote extends Template
     {
         if($this->isCustomerLoggedIn()) {
             $customer = $this->authSession->getCustomer();
-            return array('first_name' => $customer->getFirstname(),'last_name' => $customer->getLastname(), 'email' => $customer->getEmail());
+            return array('first_name' => $customer->getFirstname(),'last_name' => $customer->getLastname(), 'email' => $customer->getEmail(),'company_name' => '', 'country_name' => '');
         } else {
-            return array('first_name' => '','last_name' => '', 'email' => '');
+            return array('first_name' => '','last_name' => '', 'email' => '','company_name' => '', 'country_name' => '');
         }
     }
 

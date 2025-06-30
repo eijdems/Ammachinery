@@ -10,7 +10,7 @@ class CustomButton extends GenericButton implements ButtonProviderInterface
         return [
             'label' => __('Sync Channel'),
             'on_click' => sprintf("location.href = '%s';", $this->getButtonUrl()),
-            'sort_order' => 100
+            'sort_order' => 0
         ];
     }
     public function getButtonUrl()

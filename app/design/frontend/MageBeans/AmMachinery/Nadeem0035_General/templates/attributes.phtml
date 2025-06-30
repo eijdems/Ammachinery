@@ -2,8 +2,13 @@
 $product = $block->getProduct();
 ?>
 <div class="product attribute overview custom_description">
-        <div class="value" itemprop="description"><?php echo $product->getDescription(); ?></div>
+        <div class="value" itemprop="description"><?php echo nl2br(str_replace('\n', " ", $product->getDescription())); ?></div>
 </div>
+<style type="text/css">
+    .catalog-product-view .product-info-main .product-title-left .overview.custom_description {
+        width: 100%;
+    }
+</style>
 <?php
 if ($product['hideonwebshop'] == "0") 
 { 

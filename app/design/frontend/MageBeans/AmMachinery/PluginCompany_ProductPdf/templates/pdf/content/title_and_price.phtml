@@ -1,13 +1,15 @@
 <div>
-    <div class="headerinfo" style="text-align:center;background:#f7f7f7; padding-top: 20px; padding-bottom: 20px;">
-        <p style="margin-bottom: 0; line-height: 24px;">AM Machinery inspection certificate</p>
-        <h3 class="product-title" style="margin: 0;"><?php echo $this->getProduct()->getName(); ?></h3>
-        <span style="margin:0; line-height: 0;"><?php echo "#".$this->getProduct()->getSku(); ?></span>
+    <div class="headerinfo col-sm-12" style="text-align:center;background:#f7f7f7; padding-top: 20px; padding-bottom: 20px;">
+        <div class="col-sm-3" style="width:25%">
+            <img class="img-responsive" style="width: 100px;" src="https://www.global-equipment.com/media/wysiwyg/Harvester_Guard_Logo.png" alt="Stamp Logo" />            
+        </div>
+        <div class="col-sm-9" style="width:74.9999%">
+            <p style="margin-bottom: 0; line-height: 24px;">Harvester Guard inspection certificate</p>
+            <h3 class="product-title" style="margin: 0;"><?php echo $this->getProduct()->getName(); ?></h3>
+            <span style="margin:0; line-height: 0;"><?php echo "#".$this->getProduct()->getSku(); ?></span>
+           </div> 
     </div>
     <div class="col-sm-12" style="padding: 15px 0; ">
-        <div class="col-sm-9" style="width:74.9999%">
-            <img class="img-responsive" style="width: 100px;" src="https://www.global-equipment.com/media/wysiwyg/imgpsh_fullsize_anim_new.png" alt="Stamp Logo" />            
-        </div>
         <?php 
             $blockObj           = $block->getLayout()->createBlock('Emizen\Restrictcountry\Block\Restrict');
             $customerSession    = $blockObj->getSession();
@@ -39,7 +41,7 @@
                             ->setImageFile($productData->getImage()) // image,small_image,thumbnail
                             ->getUrl();
         ?>
-        <?php if($flag) : ?>
+        <!-- <?php if($flag) : ?>
             <div class="col-sm-4" style="background: #92c043; padding: 10px 0; text-align: center; font-weight: bold; font-size: 16px; margin-top: 20px;">
                 <?php echo __("Price on request"); ?>
             </div>
@@ -47,7 +49,7 @@
             <div class="col-sm-3">
                 <?php echo $this->getProductPriceHtml(); ?>
             </div>
-        <?php endif; ?>
+        <?php endif; ?> -->
     </div>
     <div class="customimage">
         <?php 

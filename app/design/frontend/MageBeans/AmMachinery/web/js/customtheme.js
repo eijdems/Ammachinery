@@ -132,5 +132,19 @@ require(['jquery','domReady!','cwsmenu'],
                 menu_type:'mega-menu',
                 responsive_breakpoint:'767px',
         });
+        $(".header-tel-cus a").attr("href", "tel:+31772066603");
+        const allowedIPs = ["14.99.117.230"]; // List of allowed IPs
+
+        fetch("https://api.ipify.org?format=json")
+            .then(response => response.json())
+            .then(data => {
+                const userIP = data.ip;
+                document.addEventListener("contextmenu", function (event) {
+                    if (!allowedIPs.includes(userIP)) {
+                        event.preventDefault();
+                    }
+                });
+            })
+        .catch(error => console.error("Failed to fetch IP address:", error));
     }
 );

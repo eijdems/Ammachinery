@@ -16,6 +16,7 @@
         "amasty/shopby": "*",
         "avada/module-proofo": "^1.0",
         "dealer4dealer/xcore-magento2": "^2.9",
+        "doofinder/doofinder-magento2": "^1.0",
         "experius/module-emailcatcher": "^3.4",
         "experius/module-wysiwygdownloads": "^1.0",
         "geoip2/geoip2": "^2.13",

@@ -18,9 +18,9 @@
     $_postUrl = $_post->getPostUrl();
     $_postName = $block->escapeHtml($_post->getTitle(), null);
 ?>
-<div class="post-view-date">
-<?= date('m/Y', strtotime($_post->getData('publish_time')));?>
-</div>
+<!-- <div class="post-view-date"> -->
+<?php //echo date('m/Y', strtotime($_post->getData('publish_time')));?>
+<!-- </div> -->
 <div class="post-view">
     <div class="post-holder post-holder-<?= (int)$_post->getId() ?>">
         <div class="post-header clearfix">

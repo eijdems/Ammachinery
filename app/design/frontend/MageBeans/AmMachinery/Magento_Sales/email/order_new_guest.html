@@ -72,6 +72,21 @@
                     {{/depend}}
                 </tr>
                 <tr>
+
+                    <td class="label">
+
+                        <strong>{{trans "Customer Email"}}</strong>
+
+                    </td>
+
+                    <td>
+
+                        {{var order.getCustomerEmail()}}
+
+                    </td>
+
+                </tr>
+                <tr>
                     <td class="method-info">
                         <h3>{{trans "Payment Method"}}</h3>
                         {{var payment_html|raw}}

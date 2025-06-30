@@ -56,6 +56,8 @@ class Booking extends \Magento\Framework\App\Action\Action
             $firstname = @$post['first_name'];
             $lastname = @$post['last_name'];
             $phone = @$post['phone'];
+            $company_name = @$post['company_name'];
+            $country_name = @$post['country_name'];
             $userEmail = @$post['email'];
             $question = @$post['question'];
             $product_name = @$post['product_name'];
@@ -79,6 +81,8 @@ class Booking extends \Magento\Framework\App\Action\Action
             $body .= "<p>Name:  $nameFrom</p>";
             $body .= "<p>Email:  $userEmail</p>";
             $body .= "<p>Phone:  $phone</p>";
+            $body .= "<p>Company name:  $company_name</p>";
+            $body .= "<p>Country:  $country_name</p>";
             $body .= "<p>Customer Question:  $question</p>";
             $body .= "<p>Product Name:  $product_name</p>";
             $body .= "<p>Product SKU:  $product_sku</p>";
@@ -110,11 +114,11 @@ class Booking extends \Magento\Framework\App\Action\Action
                 $email->setBodyHtml($body);
                 if($storeCode == 'am') {
                     $email->setFrom('quote@ammachinery.nl', 'AM Machinery');
-                    $email->setReplyTo($userEmail, 'AM Machinery');
+                    //$email->setReplyTo($userEmail, 'AM Machinery');
 
                 } else {
                     $email->setFrom('quote@global-equipment.com', 'Global Equipment');
-                    $email->setReplyTo($userEmail, 'Global Equipment');
+                    //$email->setReplyTo($userEmail, 'Global Equipment');
 
                 }
                 $email->addTo($email_recipient, 'Admin');
